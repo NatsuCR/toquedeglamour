@@ -1,0 +1,62 @@
+.checkout-payment-reference,
+.support-policy-note {
+  margin-top: 1rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 16%, transparent);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--surface-strong) 88%, var(--rose-soft));
+  padding: 1rem;
+}
+
+.support-policy-note {
+  max-width: 1080px;
+  margin: 1.1rem auto 0;
+  box-shadow: var(--shadow-soft);
+}
+
+.checkout-payment-reference h3,
+.support-policy-note h2,
+.payment-formats h3 {
+  color: var(--primary-strong);
+  margin-bottom: 0.35rem;
+}
+
+.payment-formats {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.payment-formats p {
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.format-block {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface-strong);
+}
+
+.format-block h4 {
+  color: var(--text-main);
+  margin-bottom: 0.1rem;
+}
+
+.format-block code {
+  display: block;
+  padding: 0.58rem 0.7rem;
+  border-radius: 8px;
+  color: var(--primary-strong);
+  background: var(--rose-soft);
+  font-weight: 800;
+  white-space: normal;
+}
+
+.format-warning {
+  padding: 0.7rem 0.8rem;
+  border-left: 4px solid var(--secondary);
+  background: color-mix(in srgb, var(--secondary) 10%, transparent);
+  font-weight: 700;
+}

@@ -1,0 +1,104 @@
+.catalog-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+.catalog-product-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.catalog-product-card {
+  min-height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-soft);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.catalog-product-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--primary) 34%, transparent);
+  box-shadow: var(--shadow);
+}
+
+.catalog-image-wrap {
+  position: relative;
+  aspect-ratio: 4 / 3.7;
+  overflow: hidden;
+  background: var(--rose-soft);
+}
+
+.catalog-image-wrap img,
+.catalog-image-empty {
+  width: 100%;
+  height: 100%;
+}
+
+.catalog-image-wrap img {
+  object-fit: cover;
+  transition: transform 220ms ease;
+}
+
+.catalog-product-card:hover img {
+  transform: scale(1.04);
+}
+
+.catalog-image-empty {
+  display: grid;
+  place-items: center;
+  color: var(--primary-strong);
+  font-weight: 900;
+}
+
+.catalog-card-badges {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+  display: grid;
+  gap: .35rem;
+  justify-items: end;
+}
+
+.catalog-card-badges span,
+.catalog-product-foot span,
+.catalog-category {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  font-size: .75rem;
+  font-weight: 950;
+}
+
+.catalog-card-badges span {
+  color: #fff;
+  background: var(--primary-strong);
+  padding: .32rem .6rem;
+}
+
+.catalog-card-badges .is-empty {
+  background: var(--danger);
+}
+
+.catalog-card-badges .is-consult {
+  color: var(--primary-strong);
+  background: #ffd4df;
+}
+
+.catalog-product-body {
+  display: grid;
+  gap: .68rem;
+  padding: .95rem;
+}
+
+.catalog-category {
+  width: max-content;
+  color: var(--secondary);
+  background: color-mix(in srgb, var(--secondary) 12%, transparent);
+  padding: .28rem .55rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}

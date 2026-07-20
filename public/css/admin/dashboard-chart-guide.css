@@ -1,0 +1,52 @@
+.chart-head p {
+  max-width: 760px;
+  margin-top: .25rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.chart-guide {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-top: .85rem;
+}
+
+.chart-guide span {
+  display: inline-flex;
+  align-items: center;
+  gap: .42rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  background: var(--surface-soft);
+  padding: .4rem .7rem;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.chart-guide i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.chart-guide .income {
+  background: #7b2446;
+}
+
+.chart-guide .cost {
+  background: #c7964a;
+}
+
+.chart-guide .expense {
+  background: #356d84;
+}
+
+.chart-guide .net {
+  background: #10b981;
+}
+
+.chart-box {
+  overflow: hidden;
+}

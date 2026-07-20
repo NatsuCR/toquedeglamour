@@ -1,0 +1,91 @@
+<%- include('partials/header') %>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<section class="dashboard-page">
+  <header class="dashboard-hero">
+    <div>
+      <span>Operacion</span>
+      <h1>Dashboard administrativo</h1>
+      <p>Resumen general de pedidos, clientes, inventario e IVA para dirigir la tienda con claridad.</p>
+    </div>
+    <a class="finance-export" href="/admin/finanzas">Gestionar finanzas</a>
+  </header>
+
+  <section class="dashboard-mini">
+    <article>
+      <span>Pedidos</span>
+      <strong><%= stats.pedidos %></strong>
+      <small>Ordenes registradas</small>
+    </article>
+    <article>
+      <span>Clientes</span>
+      <strong><%= stats.clientes %></strong>
+      <small>Cuentas creadas</small>
+    </article>
+    <article>
+      <span>Stock bajo</span>
+      <strong><%= stats.stockBajo %></strong>
+      <small>Productos con 5 o menos</small>
+    </article>
+    <article>
+      <span>IVA</span>
+      <strong><%= stats.ivaActivo ? 'Activo' : 'Inactivo' %></strong>
+      <small><%= stats.ivaPorcentaje %>% aplicado a productos</small>
+    </article>
+  </section>
+
+  <form class="dashboard-filter">
+    <label>Desde<input type="date" id="fechaInicio" class="form-control"></label>
+    <label>Hasta<input type="date" id="fechaFin" class="form-control"></label>
+    <button type="button" onclick="cargarEstadisticas()" class="btn" id="btnFiltrar">Filtrar</button>
+    <button type="button" onclick="limpiarFiltros()" class="btn btn-outline">Todo</button>
+  </form>
+
+  <section class="charts-grid">
+    <div class="chart-box chart-main">
+      <div class="chart-head">
+        <span>Finanzas</span>
+        <h2>Ventas, costos y ganancia neta</h2>
+        <p>La barra morada es lo vendido sin IVA. La dorada y la azul son salidas. La linea verde es lo que queda.</p>
+      </div>
+      <div class="chart-frame"><canvas id="evolucionChart"></canvas></div>
+      <div class="chart-guide">
+        <span><i class="income"></i>Ventas</span>
+        <span><i class="cost"></i>Costos</span>
+        <span><i class="expense"></i>Gastos</span>
+        <span><i class="net"></i>Ganancia neta</span>
+      </div>
+    </div>
+    <div class="chart-side">
+      <div class="chart-box">
+        <div class="chart-head">
+          <span>Ventas</span>
+          <h2>Top productos</h2>
+        </div>
+        <div class="chart-frame small"><canvas id="topProductosChart"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-head">
+          <span>Margen</span>
+          <h2>Rentabilidad por categoria</h2>
+        </div>
+        <div class="chart-frame small"><canvas id="topCategoriasChart"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dashboard-shortcuts">
+    <div>
+      <span>Atajos</span>
+      <h2>Gestion rapida</h2>
+    </div>
+    <div class="dashboard-actions">
+      <a href="/admin/pedidos" class="btn">Pedidos</a>
+      <a href="/admin/productos" class="btn btn-outline">Productos</a>
+      <a href="/admin/finanzas" class="btn btn-outline">Gastos e IVA</a>
+    </div>
+  </section>
+</section>
+
+<script src="/js/admin-dashboard.js"></script>
+<%- include('partials/footer') %>

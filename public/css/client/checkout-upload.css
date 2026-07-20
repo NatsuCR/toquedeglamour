@@ -1,0 +1,71 @@
+.checkout-textarea-field {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.35rem;
+}
+
+.checkout-textarea-field textarea {
+  width: min(100%, 520px);
+}
+
+.file-upload-field {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 0.8rem;
+}
+
+.file-upload-box {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  border: 1px solid color-mix(in srgb, var(--primary) 18%, transparent);
+  border-radius: var(--radius-card);
+  background: var(--surface-strong);
+  overflow: hidden;
+}
+
+.file-upload-box input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.file-upload-button {
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 1rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary-strong), var(--primary));
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.file-upload-name {
+  flex: 1;
+  min-width: 0;
+  padding: 0 0.9rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 620px) {
+  .file-upload-box {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .file-upload-button {
+    min-height: 46px;
+    justify-content: center;
+  }
+
+  .file-upload-name {
+    padding: 0.75rem;
+  }
+}

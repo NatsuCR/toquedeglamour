@@ -1,0 +1,50 @@
+<%- include('../partials/header') %>
+
+<section class="legal-page">
+  <header class="legal-hero">
+    <span>Legal</span>
+    <h1>Terminos y condiciones</h1>
+    <p>Condiciones de uso, compra, pagos y comprobantes para Toque de Glamour. Actualizado: julio 2026.</p>
+  </header>
+
+  <div class="legal-shell">
+    <article class="legal-card">
+      <h2>Uso de la tienda</h2>
+      <p>Al crear una cuenta o realizar una compra, aceptas usar la tienda con informacion verdadera y mantener tus datos de contacto actualizados.</p>
+
+      <h2>Productos, precios y disponibilidad</h2>
+      <p>Los precios se muestran en colones costarricenses. La disponibilidad depende del inventario confirmado al procesar cada pedido.</p>
+
+      <h2>Errores de precio en la tienda online</h2>
+      <p>Si por un error tecnico o administrativo la pagina web muestra un precio incorrecto y ese error afecta a un cliente, Toque de Glamour se hara responsable de corregir el caso y devolver el monto que corresponda.</p>
+
+      <h2>Pedidos y pagos</h2>
+      <p>El pedido se confirma cuando envias el comprobante por la web o por WhatsApp. El codigo de pedido debe incluirse como referencia para agilizar la verificacion.</p>
+
+      <h2>Comprobantes incorrectos o incompletos</h2>
+      <p>Si el comprobante enviado es incorrecto, ilegible o no corresponde al pedido, el cliente tiene un plazo minimo de 1 semana desde la compra para contactar a soporte y corregirlo.</p>
+      <p>Pasada esa semana sin resolver la situacion, el pedido se anula y la empresa retiene el monto pagado.</p>
+
+      <h2>Detalle de pago obligatorio</h2>
+      <p>Para identificar rapido cada pago, el detalle o descripcion del SIMPE Movil o transferencia bancaria debe incluir solamente el numero del pedido, sin espacios ni caracteres especiales.</p>
+      <%- include('../partials/payment-formats', { showExtension: true }) %>
+      <p>Este formato nos ayuda a agilizar los pedidos, identificar correctamente a quien pertenece cada producto y entregarlo a la persona correcta.</p>
+
+      <h2>Cuenta del cliente</h2>
+      <p>La cuenta permite consultar pedidos, recibir soporte y reutilizar datos guardados para compras futuras. Puedes solicitar revision o actualizacion de tus datos.</p>
+
+      <h2>Uso no permitido</h2>
+      <p>No esta permitido usar datos falsos, intentar afectar el sistema, duplicar pedidos fraudulentos o usar comprobantes que no correspondan al pago real.</p>
+    </article>
+
+    <aside class="legal-side">
+      <h3>Documentos</h3>
+      <a class="active" href="/terminos-condiciones">Terminos y condiciones</a>
+      <a href="/politica-privacidad">Politica de privacidad</a>
+      <a href="/politica-envios">Politica de envios</a>
+      <a href="/cambios-devoluciones">Cambios y devoluciones</a>
+    </aside>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

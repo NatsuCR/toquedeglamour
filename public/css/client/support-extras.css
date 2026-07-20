@@ -1,0 +1,109 @@
+.support-tabs {
+  display: flex;
+  gap: 0.6rem;
+  margin: 0 0 1rem;
+  flex-wrap: wrap;
+}
+
+.support-tabs a {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: 0.62rem 0.9rem;
+  background: var(--surface-strong);
+  color: var(--text-muted);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.support-tabs a.active {
+  border-color: color-mix(in srgb, var(--primary) 34%, transparent);
+  background: var(--accent-soft);
+  color: var(--primary-strong);
+}
+
+.support-empty[hidden],
+[data-support-closed][hidden] {
+  display: none !important;
+}
+
+.support-back {
+  border-color: color-mix(in srgb, var(--primary) 30%, transparent);
+  background: var(--surface-strong);
+  color: var(--primary-strong);
+  font-weight: 900;
+  box-shadow: var(--shadow-soft);
+}
+
+.support-file-field {
+  margin-top: 0.45rem;
+}
+
+.support-file-field input[type="file"] {
+  width: 100%;
+  border: 1px dashed color-mix(in srgb, var(--primary) 30%, transparent);
+  border-radius: var(--radius-card);
+  padding: 0.8rem;
+  background: color-mix(in srgb, var(--rose-soft) 55%, var(--surface-strong));
+  color: var(--text-main);
+}
+
+.support-file-field input::file-selector-button {
+  margin-right: 0.85rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  padding: 0.58rem 0.9rem;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.support-file-field small,
+.support-error {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.support-error {
+  border: 1px solid color-mix(in srgb, #ef4444 35%, transparent);
+  border-radius: var(--radius-card);
+  padding: 0.75rem;
+  background: color-mix(in srgb, #ef4444 10%, var(--surface));
+  color: #b42342;
+  font-weight: 800;
+}
+
+.support-files {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.65rem 0;
+}
+
+.support-file-item,
+.support-files > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+}
+
+.support-file-item a,
+.support-files > a {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: 0.46rem 0.7rem;
+  color: var(--primary-strong);
+  background: var(--surface-strong);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.support-files img,
+.support-file-item img {
+  width: 128px;
+  max-width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--line);
+}

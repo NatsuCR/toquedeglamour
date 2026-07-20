@@ -1,0 +1,107 @@
+.checkout-page {
+  padding-top: 1.4rem;
+}
+
+.checkout-title {
+  margin-bottom: 1.2rem;
+}
+
+.checkout-title span {
+  color: var(--secondary);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.checkout-title h1 {
+  margin: 0.15rem 0 0.35rem;
+  color: var(--primary-strong);
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  line-height: 0.95;
+}
+
+.checkout-title p {
+  max-width: 620px;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.checkout-grid {
+  grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.75fr);
+  gap: 1.1rem;
+}
+
+.checkout-panel,
+.summary-panel {
+  border-color: color-mix(in srgb, var(--primary) 14%, transparent);
+  background: color-mix(in srgb, var(--surface-strong) 88%, var(--rose-soft));
+  padding: 1.15rem;
+}
+
+.checkout-panel h2,
+.summary-panel h2 {
+  margin-bottom: 0.35rem;
+  color: var(--primary-strong);
+  font-size: 1.05rem;
+}
+
+.checkout-panel label {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.checkout-panel input,
+.checkout-panel select,
+.checkout-panel textarea {
+  min-height: 42px;
+  margin-top: 0.35rem;
+  padding: 0.7rem 0.78rem !important;
+  border-color: color-mix(in srgb, var(--primary) 18%, transparent) !important;
+  background: var(--surface-strong) !important;
+  font-size: 0.92rem;
+}
+
+.checkout-panel textarea {
+  min-height: 84px;
+  resize: vertical;
+}
+
+.choice-card {
+  position: relative;
+  min-height: 88px;
+  border-color: color-mix(in srgb, var(--primary) 16%, transparent);
+  padding: 0.95rem 1rem;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.choice-card:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--primary) 42%, transparent);
+}
+
+.choice-card:has(input:checked) {
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--rose-soft) 70%, var(--surface-strong));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 28%, transparent);
+}
+
+.choice-card input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 0.1rem;
+  accent-color: var(--primary);
+}
+
+.choice-card strong {
+  color: var(--text-main);
+  font-size: 0.9rem;
+}
+
+.choice-card small {
+  display: inline-block;
+  margin-top: 0.25rem;
+  font-size: 0.76rem;
+}

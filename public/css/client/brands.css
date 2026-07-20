@@ -1,0 +1,116 @@
+.brands-page {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.brands-hero,
+.brands-empty,
+.brand-collab-card {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--rose) 22%, transparent), transparent 36%),
+    var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.brands-hero {
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.brands-hero span,
+.brand-collab-copy span {
+  color: var(--secondary);
+  font-size: .76rem;
+  font-weight: 950;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.brands-hero h1 {
+  max-width: 760px;
+  margin: .35rem 0 .5rem;
+  color: var(--primary-strong);
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: .98;
+}
+
+.brands-hero p,
+.brands-empty p,
+.brand-collab-copy p {
+  color: var(--text-muted);
+}
+
+.brand-collab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 420px));
+  justify-content: start;
+  gap: 1rem;
+}
+
+.brand-collab-card {
+  display: grid;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.brand-collab-media {
+  background: var(--rose-soft);
+}
+
+.brand-collab-media img {
+  display: block;
+  width: 100%;
+  height: clamp(128px, 12vw, 150px);
+  object-fit: cover;
+}
+
+.brand-collab-copy {
+  display: grid;
+  align-content: start;
+  gap: .45rem;
+  padding: .9rem;
+}
+
+.brand-collab-copy h2,
+.brands-empty h2 {
+  color: var(--primary-strong);
+  font-family: var(--font-serif);
+  font-size: clamp(1.35rem, 2vw, 1.65rem);
+  line-height: 1;
+}
+
+.brand-collab-copy p {
+  display: -webkit-box;
+  overflow: hidden;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.brand-collab-copy .nav-btn {
+  justify-self: start;
+  min-height: 38px;
+  margin-top: .2rem;
+  padding: .62rem 1rem !important;
+}
+
+.brands-empty {
+  padding: 2rem;
+  text-align: center;
+}
+
+[data-theme="dark"] .brand-collab-card,
+[data-theme="dark"] .brands-hero,
+[data-theme="dark"] .brands-empty {
+  background:
+    radial-gradient(circle at top right, rgba(240, 169, 192, .14), transparent 38%),
+    var(--surface);
+}
+
+@media (max-width: 720px) {
+  .brand-collab-media img {
+    height: 145px;
+  }
+}

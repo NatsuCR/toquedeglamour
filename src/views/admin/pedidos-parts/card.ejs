@@ -1,0 +1,98 @@
+<% const nombre = pedido.nombreCliente || pedido.cliente.nombre; %>
+<% const apellidos = pedido.apellidosCliente || pedido.cliente.apellidos; %>
+<% const correo = pedido.correoCliente || pedido.cliente.correo; %>
+<% const cedula = pedido.cedulaCliente || pedido.cliente.cedula; %>
+<% const celular1 = pedido.celular1Cliente || pedido.cliente.celular1; %>
+<% const celular2 = pedido.celular2Cliente || pedido.cliente.celular2; %>
+<% const proof = pedido.comprobantePago?.rutaArchivo || ''; %>
+<% const proofIsPdf = proof.toLowerCase().endsWith('.pdf'); %>
+
+<article class="admin-order-card">
+  <div class="admin-order-head">
+    <div>
+      <h2>Pedido <%= pedido.codigo || `#${pedido.id}` %></h2>
+      <p style="color:var(--text-muted);"><%= pedido.creadoEn.toLocaleString() %></p>
+    </div>
+    <span class="admin-badge"><%= pedido.fase || 'PREPARACION' %></span>
+  </div>
+
+  <div class="admin-order-columns">
+    <div>
+      <h3>Cliente</h3>
+      <p><strong><%= nombre %> <%= apellidos %></strong></p>
+      <p><%= correo %></p>
+      <p>Cedula: <%= cedula %></p>
+      <p>Celular 1: <%= celular1 %></p>
+      <p>Celular 2: <%= celular2 || 'No indicado' %></p>
+    </div>
+
+    <div>
+      <h3>Entrega</h3>
+      <% if (pedido.tipoEntrega === 'DOMICILIO' && pedido.direccionEnvio) { %>
+        <p>Domicilio por Correos de Costa Rica</p>
+        <p><%= pedido.direccionEnvio.provincia %>, <%= pedido.direccionEnvio.canton %>, <%= pedido.direccionEnvio.distrito %></p>
+        <p><%= pedido.direccionEnvio.direccionExacta %></p>
+        <% if (pedido.direccionEnvio.descripcionCasa) { %>
+          <p>Casa: <%= pedido.direccionEnvio.descripcionCasa %></p>
+        <% } %>
+      <% } else { %>
+        <p>Retiro en local</p>
+      <% } %>
+    </div>
+
+    <div>
+      <h3>Pago</h3>
+      <p>Metodo: <strong><%= pedido.metodoPago %></strong></p>
+      <p>Subtotal: <%= formatMoney(pedido.subtotal) %></p>
+      <p>Envio: <%= formatMoney(pedido.costoEnvio) %></p>
+      <p>Total: <strong><%= formatMoney(pedido.total) %></strong></p>
+    </div>
+  </div>
+
+  <h3>Productos</h3>
+  <ul class="admin-list">
+    <% pedido.items.forEach((item) => { %>
+      <li><%= item.cantidad %> x <%= item.producto.nombre %> - <%= formatMoney(Number(item.precioUnitario) * item.cantidad) %></li>
+    <% }) %>
+  </ul>
+
+  <h3>Comprobante</h3>
+  <% if (pedido.comprobantePago?.enviadoPorWhatsapp) { %>
+    <p class="admin-badge">Comprobante enviado por WhatsApp</p>
+  <% } else if (proof) { %>
+    <% if (proofIsPdf) { %>
+      <a class="proof-link" href="<%= proof %>" target="_blank" rel="noopener">Abrir PDF adjunto</a>
+    <% } else { %>
+      <a href="<%= proof %>" target="_blank" rel="noopener">
+        <img class="proof-img" src="<%= proof %>" alt="Comprobante de pago">
+      </a>
+    <% } %>
+  <% } else { %>
+    <p style="color:var(--text-muted);">Sin comprobante adjunto.</p>
+  <% } %>
+
+  <div class="admin-order-actions">
+    <form action="/admin/pedidos/<%= pedido.id %>/estado" method="POST">
+      <label>Estado de pago/pedido</label>
+      <select name="estado" class="form-control" onchange="this.form.submit()">
+        <% const estados = pedido.tipoEntrega === 'LOCAL'
+          ? ['PENDIENTE_VERIFICACION','PAGO_CONFIRMADO','EN_PREPARACION','ENTREGADO','RECHAZADO']
+          : ['PENDIENTE_VERIFICACION','PAGO_CONFIRMADO','EN_PREPARACION','ENVIADO','ENTREGADO','RECHAZADO']; %>
+        <% estados.forEach((estado) => { %>
+          <option value="<%= estado %>" <%= pedido.estado === estado ? 'selected' : '' %>><%= estado %></option>
+        <% }) %>
+      </select>
+    </form>
+    <form action="/admin/pedidos/<%= pedido.id %>/fase" method="POST">
+      <label>Fase visible al cliente</label>
+      <select name="fase" class="form-control" onchange="this.form.submit()">
+        <% const fases = pedido.tipoEntrega === 'LOCAL'
+          ? [['PREPARACION','Preparacion'], ['LISTO','Listo para retirar'], ['COMPLETADO','Completado']]
+          : [['PREPARACION','Preparacion'], ['LISTO','Listo para entregar'], ['ENVIADO','Pedido enviado'], ['COMPLETADO','Completado']]; %>
+        <% fases.forEach(([value, label]) => { %>
+          <option value="<%= value %>" <%= pedido.fase === value ? 'selected' : '' %>><%= label %></option>
+        <% }) %>
+      </select>
+    </form>
+  </div>
+</article>

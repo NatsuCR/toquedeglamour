@@ -1,0 +1,62 @@
+<%- include('partials/header') %>
+
+<section class="settings-page">
+  <header class="settings-hero">
+    <span>Mi cuenta</span>
+    <h1>Configuraciones</h1>
+    <p>Actualiza tus datos de contacto y seguridad de forma ordenada.</p>
+  </header>
+
+  <% if (error) { %><div class="checkout-alert"><%= error %></div><% } %>
+  <% if (success) { %><div class="settings-success"><%= success %></div><% } %>
+
+  <div class="settings-grid">
+    <form class="settings-panel" method="POST" action="/perfil/configuracion/celulares">
+      <h2>Celulares</h2>
+      <p class="muted">Estos numeros se usan para coordinar pedidos y soporte.</p>
+      <label>Celular 1
+        <input type="tel" name="celular1" required value="<%= user.celular1 || '' %>">
+      </label>
+      <label>Celular 2
+        <input type="tel" name="celular2" value="<%= user.celular2 || '' %>">
+      </label>
+      <button class="nav-btn" type="submit">Guardar celulares</button>
+    </form>
+
+    <form class="settings-panel" method="POST" action="/perfil/configuracion/correo">
+      <h2>Correo</h2>
+      <p class="muted">Correo actual: <strong><%= user.correo %></strong></p>
+      <label>Nuevo correo
+        <input type="email" name="correo" required placeholder="nuevo@correo.com">
+      </label>
+      <button class="nav-btn" type="submit">Enviar codigo</button>
+    </form>
+
+    <% if (pendingEmail) { %>
+      <form class="settings-panel" method="POST" action="/perfil/configuracion/correo/confirmar">
+        <h2>Confirmar correo</h2>
+        <p class="muted">Enviamos un codigo a <strong><%= pendingEmail.correo %></strong>.</p>
+        <label>Codigo recibido
+          <input type="text" name="codigo" required inputmode="numeric" maxlength="6">
+        </label>
+        <button class="nav-btn" type="submit">Verificar correo</button>
+      </form>
+    <% } %>
+
+    <form class="settings-panel" method="POST" action="/perfil/configuracion/password">
+      <h2>Contraseña</h2>
+      <p class="muted">Al cambiarla se cerrara tu sesion por seguridad.</p>
+      <label>Contraseña actual
+        <input type="password" name="actual" required>
+      </label>
+      <label>Nueva contraseña
+        <input type="password" name="nueva" required minlength="6">
+      </label>
+      <button class="nav-btn" type="submit">Cambiar contraseña</button>
+    </form>
+  </div>
+
+  <a class="btn-outline settings-back" href="/perfil">Volver a mi cuenta</a>
+</section>
+
+<%- include('partials/footer') %>

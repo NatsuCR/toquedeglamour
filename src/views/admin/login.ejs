@@ -1,0 +1,29 @@
+<!-- src/views/admin/login.ejs -->
+<%- include('partials/header') %>
+
+<div class="glass-panel" style="width: 100%; max-width: 400px;">
+  <h2 style="text-align:center;">Acceso Seguro</h2>
+  <p style="text-align:center; color: var(--text-muted); margin-bottom: 1.5rem;">Toque de Glamour Panel</p>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div style="background: rgba(239, 68, 68, 0.2); border: 1px solid var(--danger); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; color: #fca5a5; font-size: 0.9rem;">
+      <%= error %>
+    </div>
+  <% } %>
+
+  <form method="POST" action="/admin/login">
+    <div class="form-group">
+      <label for="correo">Correo Electrónico</label>
+      <input type="email" id="correo" name="correo" class="form-control" placeholder="admin@toquedeglamour.com" required autocomplete="email">
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+    </div>
+
+    <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">Ingresar al Sistema</button>
+  </form>
+</div>
+
+<%- include('partials/footer') %>

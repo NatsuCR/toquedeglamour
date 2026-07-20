@@ -1,0 +1,47 @@
+.glass-table,
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.glass-table th,
+.glass-table td,
+.data-table th,
+.data-table td {
+  padding: 0.9rem;
+  border-bottom: 1px solid var(--glass-border);
+  color: var(--text-light) !important;
+  text-align: left;
+}
+
+.glass-table th,
+.data-table th {
+  color: var(--text-muted) !important;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.glass-table tr:hover,
+.data-table tr:hover {
+  background: color-mix(in srgb, var(--primary) 7%, transparent);
+}
+
+.img-thumbnail {
+  width: 58px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+}
+
+.table-container {
+  overflow-x: auto;
+  padding: 0.2rem;
+}
+
+.badge {
+  border-radius: 999px !important;
+  background: var(--primary-strong) !important;
+}

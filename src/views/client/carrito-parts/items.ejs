@@ -1,0 +1,37 @@
+<section class="cart-items" aria-label="Productos en carrito">
+  <% carrito.forEach((item) => { %>
+    <% const lineaTotal = Number(item.precio || 0) * Number(item.cantidad || 0); %>
+    <article class="cart-item">
+      <a class="cart-item-media" href="/producto/<%= item.productoId %>">
+        <% if (item.imagenUrl) { %>
+          <img src="<%= item.imagenUrl %>" alt="<%= item.nombre %>" loading="lazy">
+        <% } else { %>
+          <span>Sin imagen</span>
+        <% } %>
+      </a>
+
+      <div class="cart-item-info">
+        <span>Producto</span>
+        <h2><a href="/producto/<%= item.productoId %>"><%= item.nombre %></a></h2>
+        <p><%= formatMoney(item.precio) %> por unidad</p>
+      </div>
+
+      <form class="cart-quantity" action="/carrito/actualizar" method="POST">
+        <input type="hidden" name="productoId" value="<%= item.productoId %>">
+        <label>Cantidad
+          <input type="number" name="cantidad" value="<%= item.cantidad %>" min="1" onchange="this.form.submit()">
+        </label>
+      </form>
+
+      <div class="cart-line-total">
+        <span>Total</span>
+        <strong><%= formatMoney(lineaTotal) %></strong>
+      </div>
+
+      <form action="/carrito/eliminar" method="POST">
+        <input type="hidden" name="productoId" value="<%= item.productoId %>">
+        <button class="cart-remove" type="submit" title="Eliminar producto">Quitar</button>
+      </form>
+    </article>
+  <% }) %>
+</section>

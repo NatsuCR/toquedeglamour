@@ -1,0 +1,41 @@
+.account-detail-list p {
+  display: grid;
+  gap: .15rem;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: .5rem;
+}
+
+.account-detail-list span {
+  color: var(--text-muted);
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.account-detail-list strong {
+  word-break: break-word;
+}
+
+.account-actions {
+  display: grid;
+  gap: .65rem;
+  margin-top: 1rem;
+}
+
+.support-card {
+  display: grid;
+  gap: .85rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 860px) {
+  .account-hero,
+  .account-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .account-hero-stats {
+    grid-template-columns: 1fr;
+  }
+}

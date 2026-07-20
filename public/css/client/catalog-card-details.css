@@ -1,0 +1,81 @@
+.catalog-product-body h3 {
+  color: var(--text-main);
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.catalog-product-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .7rem;
+}
+
+.catalog-product-foot strong {
+  color: var(--primary-strong);
+  font-size: 1.22rem;
+}
+
+.catalog-product-foot span {
+  padding: .28rem .55rem;
+}
+
+.stock-ok {
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 12%, transparent);
+}
+
+.stock-low {
+  color: var(--secondary);
+  background: color-mix(in srgb, var(--secondary) 14%, transparent);
+}
+
+.stock-empty {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+}
+
+.stock-consult {
+  color: var(--secondary);
+  background: color-mix(in srgb, var(--secondary) 16%, transparent);
+}
+
+.catalog-card-action {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--primary) 36%, transparent);
+  border-radius: var(--radius-pill);
+  color: var(--primary-strong);
+  font-weight: 950;
+}
+
+.catalog-empty {
+  display: grid;
+  gap: .55rem;
+  min-height: 260px;
+  place-items: center;
+  border: 1px dashed color-mix(in srgb, var(--primary) 32%, var(--line));
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--surface-strong) 86%, transparent);
+  padding: 2rem;
+  text-align: center;
+}
+
+.catalog-empty span {
+  color: var(--secondary);
+  font-size: .75rem;
+  font-weight: 950;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.catalog-empty h3 {
+  color: var(--primary-strong);
+  font-size: 1.35rem;
+}
+
+.catalog-empty p {
+  color: var(--text-muted);
+}

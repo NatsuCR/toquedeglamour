@@ -1,0 +1,39 @@
+<%- include('partials/header') %>
+<% const abiertos = tickets.filter((ticket) => ticket.estado !== 'CERRADO'); %>
+<% const cerrados = tickets.filter((ticket) => ticket.estado === 'CERRADO'); %>
+<% const visibles = activeTab === 'cerrados' ? cerrados : abiertos; %>
+
+<section class="glass-panel animate__animated animate__fadeInUp">
+  <div class="admin-section-head">
+    <span>Soporte</span>
+    <h1>Tickets de clientes</h1>
+    <p>Conversaciones organizadas por estado para dar seguimiento sin amontonar casos.</p>
+  </div>
+
+  <nav class="admin-support-tabs" aria-label="Estados de tickets">
+    <a class="<%= activeTab === 'abiertos' ? 'active' : '' %>" href="/admin/soporte">Abiertos <%= abiertos.length %></a>
+    <a class="<%= activeTab === 'cerrados' ? 'active' : '' %>" href="/admin/soporte?estado=cerrados">Cerrados <%= cerrados.length %></a>
+  </nav>
+
+  <% if (visibles.length === 0) { %>
+    <div class="admin-ticket-card">No hay tickets <%= activeTab === 'cerrados' ? 'cerrados' : 'abiertos' %>.</div>
+  <% } else { %>
+    <div class="admin-ticket-list">
+      <% visibles.forEach((ticket) => { %>
+        <article class="admin-ticket-card">
+          <div>
+            <h2><%= ticket.asunto %></h2>
+            <p><%= ticket.cliente.nombre %> <%= ticket.cliente.apellidos %> - <%= ticket.cliente.correo %></p>
+            <p class="muted"><%= ticket.mensajes.length %> mensajes</p>
+          </div>
+          <div class="admin-ticket-actions">
+            <span class="admin-badge"><%= ticket.estado %></span>
+            <a class="btn" href="/admin/soporte/<%= ticket.id %>">Abrir</a>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>

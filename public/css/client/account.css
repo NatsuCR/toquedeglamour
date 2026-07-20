@@ -1,0 +1,117 @@
+.account-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 1.4rem 0 3rem;
+}
+
+.account-hero,
+.account-card,
+.support-card {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--primary) 7%, transparent), transparent 58%),
+    var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.account-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, .75fr);
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 1.1rem;
+  padding: clamp(1.1rem, 3vw, 1.6rem);
+}
+
+.account-hero span,
+.account-section-head span,
+.support-card-head span,
+.order-card > span,
+.order-head span {
+  color: var(--secondary);
+  font-size: .75rem;
+  font-weight: 950;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.account-hero h1,
+.account-section-head h2 {
+  margin: .2rem 0;
+  color: var(--primary-strong);
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+}
+
+.account-hero p,
+.support-card-head p,
+.account-status,
+.order-head p {
+  color: var(--text-muted);
+}
+
+.account-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .7rem;
+}
+
+.account-hero-stats article {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
+  padding: .85rem;
+}
+
+.account-hero-stats strong {
+  display: block;
+  margin-top: .25rem;
+  color: var(--primary-strong);
+  font-size: 1.45rem;
+}
+
+.account-grid {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 1.1rem;
+  align-items: start;
+}
+
+.account-card,
+.support-card {
+  padding: 1.05rem;
+}
+
+.account-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: .8rem;
+}
+
+.avatar {
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary-strong), var(--rose));
+  box-shadow: var(--shadow-soft);
+  font-size: 1.85rem;
+  font-weight: 950;
+}
+
+.account-card h2,
+.support-card h2 {
+  color: var(--primary-strong);
+  font-size: 1.45rem;
+}
+
+.account-detail-list {
+  display: grid;
+  gap: .55rem;
+  margin: .9rem 0;
+}

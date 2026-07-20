@@ -1,0 +1,120 @@
+.nav-item,
+.nav-btn,
+.nav-btn-outline,
+.ver-mas-btn,
+.btn-outline {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-item,
+#themeSelector {
+  border: 1px solid var(--line) !important;
+  color: var(--text-main) !important;
+  background: var(--surface-strong) !important;
+  padding: 0.48rem 0.82rem !important;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  color: var(--primary-strong) !important;
+  border-color: color-mix(in srgb, var(--primary) 42%, transparent) !important;
+  background: var(--rose-soft) !important;
+}
+
+.nav-btn,
+.ver-mas-btn {
+  border: 0;
+  color: #fff !important;
+  background: linear-gradient(135deg, var(--primary-strong), var(--primary)) !important;
+  box-shadow: var(--shadow-soft);
+  padding: 0.58rem 1.2rem;
+}
+
+.nav-btn-outline,
+.btn-outline {
+  border: 1px solid color-mix(in srgb, var(--primary) 52%, transparent) !important;
+  color: var(--primary-strong) !important;
+  background: transparent !important;
+  padding: 0.5rem 1rem;
+}
+
+.cart-icon {
+  position: relative;
+}
+
+.cart-count {
+  min-width: 20px;
+  height: 20px;
+  display: inline-grid;
+  place-items: center;
+  margin-left: 0.45rem;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--primary-strong);
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.glass-card {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card) !important;
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-soft);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.1rem;
+}
+
+.card-img,
+.img-thumbnail {
+  width: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-card) !important;
+  background: var(--rose-soft);
+}
+
+.card-img {
+  height: 220px;
+}
+
+.card-category {
+  color: var(--secondary);
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.card-title {
+  color: var(--text-main);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.card-price {
+  margin-top: auto;
+  color: var(--primary-strong);
+  font-size: 1.22rem;
+  font-weight: 900;
+}

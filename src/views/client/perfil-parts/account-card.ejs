@@ -1,0 +1,29 @@
+<div class="account-card account-profile-card">
+  <div class="account-card-top">
+    <div class="avatar"><%= (user?.nombre || 'T').charAt(0) %><%= (user?.apellidos || 'G').charAt(0) %></div>
+    <% if (user?.cuentaVerificada) { %>
+      <span class="badge-soft">Verificada</span>
+    <% } else { %>
+      <span class="badge-soft">Pendiente</span>
+    <% } %>
+  </div>
+
+  <h2><%= user?.nombre %> <%= user?.apellidos %></h2>
+  <div class="account-detail-list">
+    <p><span>Correo</span><strong><%= user?.correo %></strong></p>
+    <p><span>Cedula</span><strong><%= user?.cedula || 'No definida' %></strong></p>
+    <p><span>Celular 1</span><strong><%= user?.celular1 || 'No definido' %></strong></p>
+    <p><span>Celular 2</span><strong><%= user?.celular2 || 'Opcional' %></strong></p>
+  </div>
+
+  <% if (user?.cuentaVerificada) { %>
+    <p class="account-status">Cuenta verificada y lista para comprar.</p>
+  <% } else { %>
+    <p class="account-status">Verificacion pendiente de correo.</p>
+  <% } %>
+
+  <div class="account-actions">
+    <a class="btn-outline" href="/perfil/configuracion">Configuraciones</a>
+    <a class="btn-outline" href="/logout">Cerrar sesion</a>
+  </div>
+</div>

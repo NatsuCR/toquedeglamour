@@ -1,0 +1,60 @@
+<% if (!productos || productos.length === 0) { %>
+  <div class="catalog-empty">
+    <span>Sin resultados</span>
+    <h3>No se encontraron productos</h3>
+    <p>Intenta cambiar los filtros de b&uacute;squeda o vuelve al cat&aacute;logo completo.</p>
+    <a href="/catalogo" class="nav-btn">Ver todo</a>
+  </div>
+<% } else { %>
+  <div class="catalog-product-grid" data-catalog-grid data-page-size="6">
+    <% productos.forEach((p, index) => { %>
+      <% const stock = Number(p.stock || 0); %>
+      <% const consulta = p.tipoVenta === 'CONSULTA'; %>
+      <% const lowStock = stock > 0 && stock <= 5; %>
+      <a
+        href="/producto/<%= p.id %>"
+        class="catalog-product-link <%= index >= 6 ? 'is-catalog-hidden' : '' %>"
+        data-catalog-item>
+        <article class="catalog-product-card">
+          <div class="catalog-image-wrap">
+            <% if (p.imagenUrl) { %>
+              <img src="<%= p.imagenUrl %>" alt="<%= p.nombre %>" loading="lazy">
+            <% } else { %>
+              <div class="catalog-image-empty">Sin imagen</div>
+            <% } %>
+
+            <div class="catalog-card-badges">
+              <% if (p.esNuevo) { %><span>Nuevo</span><% } %>
+              <% if (consulta) { %><span class="is-consult">Por consulta</span><% } %>
+              <% if (!consulta && stock <= 0) { %><span class="is-empty">Agotado</span><% } %>
+            </div>
+          </div>
+
+          <div class="catalog-product-body">
+            <span class="catalog-category"><%= p.subcategoria?.nombre || p.categoria?.nombre || 'General' %></span>
+            <h3><%= p.nombre %></h3>
+            <div class="catalog-product-foot">
+              <strong><%= consulta ? 'Precio a consultar' : formatMoney(Number(p.precio || 0)) %></strong>
+              <% if (consulta) { %>
+                <span class="stock-consult">Cita</span>
+              <% } else if (stock > 0) { %>
+                <span class="<%= lowStock ? 'stock-low' : 'stock-ok' %>"><%= stock %> uds</span>
+              <% } else { %>
+                <span class="stock-empty">Sin stock</span>
+              <% } %>
+            </div>
+            <span class="catalog-card-action"><%= consulta ? 'Consultar' : 'Ver detalle' %></span>
+          </div>
+        </article>
+      </a>
+    <% }) %>
+  </div>
+  <% if (productos.length > 6) { %>
+    <div class="catalog-load-more">
+      <button type="button" class="catalog-more-btn" data-load-more>
+        Cargar mas productos
+      </button>
+      <p data-catalog-count>Mostrando 6 de <%= productos.length %></p>
+    </div>
+  <% } %>
+<% } %>

@@ -1,0 +1,48 @@
+<section class="checkout-panel">
+  <h2>Metodo de pago</h2>
+  <p class="muted">Codigo de pedido: <span class="order-code"><%= codigoPedido %></span></p>
+
+  <div class="choice-grid">
+    <label class="choice-card">
+      <input type="radio" name="metodoPago" value="SINPE" checked>
+      <span><strong>SINPE Movil</strong><br><small>Transferencia rapida.</small></span>
+    </label>
+    <label class="choice-card">
+      <input type="radio" name="metodoPago" value="DEPOSITO">
+      <span><strong>Transaccion bancaria</strong><br><small>Banco BCR.</small></span>
+    </label>
+  </div>
+
+  <div class="payment-box" data-method="SINPE">
+    <strong>SINPE Movil: 8987-2622</strong>
+    <p>En la descripcion escribe unicamente el numero indicado abajo.</p>
+  </div>
+  <div class="payment-box" data-method="DEPOSITO" hidden>
+    <strong>BCR - Banco de Costa Rica</strong>
+    <p>IBAN: <strong>CR50015202001318715267</strong></p>
+    <p>Titular: <strong>Carlos Andres Jara</strong></p>
+    <p>Usa unicamente el numero indicado abajo como referencia.</p>
+  </div>
+
+  <%- include('payment-detail', { codigoPedido }) %>
+
+  <h2>Comprobante</h2>
+  <div class="choice-grid">
+    <label class="choice-card">
+      <input type="radio" name="canalComprobante" value="WEB" checked>
+      <span><strong>Subir aqui</strong><br><small>Imagen o PDF.</small></span>
+    </label>
+    <label class="choice-card">
+      <input type="radio" name="canalComprobante" value="WHATSAPP">
+      <span><strong>Enviar por WhatsApp</strong><br><small>Se abrira el chat al finalizar.</small></span>
+    </label>
+  </div>
+  <label id="proofUpload" class="file-upload-field">
+    <span>Archivo del comprobante</span>
+    <span class="file-upload-box">
+      <input id="comprobante" type="file" name="comprobante" accept="image/*,.pdf" required>
+      <span class="file-upload-button">Elegir archivo</span>
+      <span id="fileName" class="file-upload-name">Ningun archivo seleccionado</span>
+    </span>
+  </label>
+</section>

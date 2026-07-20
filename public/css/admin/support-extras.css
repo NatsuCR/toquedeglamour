@@ -1,0 +1,71 @@
+.admin-section-head span,
+.admin-ticket-head span {
+  color: var(--secondary);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.admin-section-head h1,
+.admin-ticket-head h1 {
+  margin: 0.2rem 0;
+}
+
+.admin-support-tabs {
+  display: flex;
+  gap: 0.7rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.admin-support-tabs a {
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.admin-support-tabs a.active {
+  border-color: color-mix(in srgb, var(--primary) 38%, transparent);
+  background: color-mix(in srgb, var(--primary) 12%, var(--surface));
+  color: var(--primary-strong);
+}
+
+.admin-ticket-actions {
+  display: grid;
+  justify-items: end;
+  gap: 0.55rem;
+}
+
+.admin-ticket-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 1rem;
+}
+
+.close-ticket-form {
+  margin-top: 0.8rem;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.admin-chat-panel [data-support-form] {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (max-width: 760px) {
+  .admin-ticket-head,
+  .admin-ticket-actions {
+    display: grid;
+    justify-items: start;
+  }
+}

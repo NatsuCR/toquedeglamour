@@ -1,0 +1,67 @@
+<aside class="catalog-filter">
+  <div class="catalog-filter-head">
+    <span>B&uacute;squeda</span>
+    <h2>Filtros</h2>
+    <p>Refina el catalogo por nombre, categoria, subcategoria, precio o disponibilidad.</p>
+  </div>
+
+  <form action="/catalogo" method="GET">
+    <label class="catalog-field">Buscar
+      <input
+        class="catalog-control"
+        type="text"
+        name="q"
+        value="<%= filtros.q || '' %>"
+        placeholder="Nombre del producto..."
+      >
+    </label>
+
+    <label class="catalog-field">Categor&iacute;a
+      <select class="catalog-control" name="cat">
+        <option value="">Todas</option>
+        <% categorias.forEach((c) => { %>
+          <option value="<%= c.slug %>" <%= filtros.cat === c.slug ? 'selected' : '' %>><%= c.nombre %></option>
+        <% }) %>
+      </select>
+    </label>
+
+    <label class="catalog-field">Subcategoria
+      <select class="catalog-control" name="subcat">
+        <option value="">Todas</option>
+        <% categorias.forEach((c) => { if ((c.subcategorias || []).length) { %>
+          <optgroup label="<%= c.nombre %>">
+            <% c.subcategorias.forEach((s) => { %>
+              <option value="<%= s.slug %>" <%= filtros.subcat === s.slug ? 'selected' : '' %>><%= s.nombre %></option>
+            <% }) %>
+          </optgroup>
+        <% } }) %>
+      </select>
+    </label>
+
+    <div class="catalog-field">
+      <span>Rango de precio</span>
+      <div class="catalog-price-row">
+        <input class="catalog-control" type="number" name="minPrecio" value="<%= filtros.minPrecio || '' %>" placeholder="Min" min="0" step="5">
+        <input class="catalog-control" type="number" name="maxPrecio" value="<%= filtros.maxPrecio || '' %>" placeholder="Max" min="0" step="5">
+      </div>
+    </div>
+
+    <label class="catalog-field">Ordenar
+      <select class="catalog-control" name="sort">
+        <option value="">Relevancia</option>
+        <option value="asc" <%= filtros.sort === 'asc' ? 'selected' : '' %>>Precio: menor a mayor</option>
+        <option value="desc" <%= filtros.sort === 'desc' ? 'selected' : '' %>>Precio: mayor a menor</option>
+      </select>
+    </label>
+
+    <label class="catalog-stock-toggle">
+      <input type="checkbox" name="disponible" value="true" <%= filtros.disponible ? 'checked' : '' %>>
+      <span>Solo productos en stock</span>
+    </label>
+
+    <div class="catalog-filter-actions">
+      <button type="submit" class="nav-btn">Aplicar filtros</button>
+      <a href="/catalogo" class="btn-outline">Limpiar</a>
+    </div>
+  </form>
+</aside>

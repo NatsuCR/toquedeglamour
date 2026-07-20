@@ -1,0 +1,23 @@
+<div class="users-card">
+  <div class="form-panel-head"><h2>Clientes registrados</h2><p>Contactos y estado de verificacion.</p></div>
+  <div class="table-container"><table class="data-table">
+    <thead><tr><th>Cliente</th><th>Correo</th><th>Cedula</th><th>Celulares</th><th>Estado</th><th>Acciones</th></tr></thead>
+    <tbody>
+      <% if (!clientes.length) { %><tr><td colspan="6">No hay clientes registrados.</td></tr><% } %>
+      <% clientes.forEach((cliente) => { %>
+        <tr>
+          <td><strong><%= cliente.nombre %> <%= cliente.apellidos %></strong></td>
+          <td><%= cliente.correo %></td>
+          <td><%= cliente.cedula %></td>
+          <td><%= cliente.celular1 %><br><small><%= cliente.celular2 || 'Sin celular 2' %></small></td>
+          <td><span class="admin-badge"><%= cliente.cuentaVerificada ? 'Verificado' : 'Pendiente' %></span></td>
+          <td>
+            <form action="/admin/usuarios/clientes/<%= cliente.id %>/eliminar" method="POST">
+              <button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('Eliminar este cliente y su historial asociado?');">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table></div>
+</div>

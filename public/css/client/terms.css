@@ -1,0 +1,29 @@
+.terms-check {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.8rem;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 28%, var(--line));
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--rose-soft) 72%, var(--surface-strong));
+  color: var(--text-main);
+  line-height: 1.45;
+}
+
+.terms-check input {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.15rem;
+  accent-color: var(--primary);
+}
+
+.terms-check a {
+  color: var(--primary-strong);
+  font-weight: 900;
+}
+
+.terms-check small {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+}

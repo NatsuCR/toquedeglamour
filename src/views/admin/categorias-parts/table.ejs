@@ -1,0 +1,54 @@
+<section class="admin-list-panel">
+  <div class="form-panel-head">
+    <div><h2>Categorias</h2><p><%= categorias.length %> grupos registrados.</p></div>
+  </div>
+
+  <div class="category-admin-grid">
+    <% categorias.forEach((c) => { %>
+      <article class="category-admin-card">
+        <header>
+          <div>
+            <span class="admin-badge">#<%= c.id %></span>
+            <h3><%= c.nombre %></h3>
+            <p><%= c.descripcion || 'Sin descripcion.' %></p>
+          </div>
+          <div class="row-actions">
+            <button type="button" class="btn btn-outline btn-sm"
+              data-id="<%= c.id %>" data-nombre="<%= c.nombre %>" data-desc="<%= c.descripcion || '' %>"
+              onclick="abrirCategoriaEditar(this)">Editar</button>
+            <form method="POST" action="/admin/categorias/<%= c.id %>?_method=DELETE">
+              <% if (c._count?.productos > 0) { %>
+                <button type="button" class="btn btn-danger btn-sm is-disabled">Con productos</button>
+              <% } else { %>
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Eliminar categoria?');">Eliminar</button>
+              <% } %>
+            </form>
+          </div>
+        </header>
+
+        <div class="subcategory-stack">
+          <strong>Subcategorias</strong>
+          <% if (c.subcategorias.length === 0) { %><p class="muted">Aun no tiene subcategorias.</p><% } %>
+          <% c.subcategorias.forEach((sub) => { %>
+            <div class="subcategory-pill">
+              <span><%= sub.nombre %> <small><%= sub._count?.productos || 0 %> productos</small></span>
+              <form method="POST" action="/admin/subcategorias/<%= sub.id %>/eliminar">
+                <% if (sub._count?.productos > 0) { %>
+                  <button type="button" class="is-disabled" title="Tiene productos">&times;</button>
+                <% } else { %>
+                  <button type="submit" title="Eliminar" onclick="return confirm('Eliminar subcategoria?');">&times;</button>
+                <% } %>
+              </form>
+            </div>
+          <% }) %>
+        </div>
+
+        <form class="subcategory-mini-form" method="POST" action="/admin/categorias/<%= c.id %>/subcategorias">
+          <input type="text" name="nombre" placeholder="Nueva subcategoria" required>
+          <button type="submit" class="btn btn-outline btn-sm">Agregar</button>
+        </form>
+      </article>
+    <% }) %>
+    <% if (categorias.length === 0) { %><div class="empty-cell">No hay categorias registradas.</div><% } %>
+  </div>
+</section>

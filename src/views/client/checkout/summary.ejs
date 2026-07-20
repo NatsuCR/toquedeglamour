@@ -1,0 +1,31 @@
+<aside class="summary-panel">
+  <h2>Resumen</h2>
+  <% carrito.forEach((item) => { %>
+    <div class="summary-line">
+      <span><%= item.cantidad %> x <%= item.nombre %></span>
+      <strong><%= formatMoney(item.precio * item.cantidad) %></strong>
+    </div>
+  <% }) %>
+
+  <div class="summary-line">
+    <span>Subtotal</span>
+    <strong><%= formatMoney(subtotal) %></strong>
+  </div>
+  <div class="summary-line">
+    <span>Envio por Correos de Costa Rica</span>
+    <strong id="shippingAmount">Gratis</strong>
+  </div>
+  <div id="ivaLine" class="summary-line" hidden>
+    <span>IVA</span>
+    <strong id="ivaAmount">₡0</strong>
+  </div>
+  <div class="summary-line summary-total">
+    <span>Total</span>
+    <span id="totalAmount"><%= formatMoney(subtotal) %></span>
+  </div>
+
+  <button type="submit" class="nav-btn checkout-submit">
+    Confirmar pedido
+  </button>
+  <p class="muted">Al confirmar se guarda el pedido para seguimiento y alisto.</p>
+</aside>

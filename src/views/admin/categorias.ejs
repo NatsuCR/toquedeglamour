@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+
+<section class="catalog-admin-page animate__animated animate__fadeInUp">
+  <header class="admin-page-hero">
+    <div>
+      <span>Catálogo</span>
+      <h1>Gestión de categorías</h1>
+      <p>Organiza el catálogo por líneas de producto y experiencia de compra.</p>
+    </div>
+    <button class="btn" type="button" onclick="abrirCategoriaCrear()">Nueva categoría</button>
+  </header>
+
+  <% if (typeof error !== 'undefined' && error) { %><div class="admin-alert is-error"><%= error %></div><% } %>
+  <% if (typeof success !== 'undefined' && success) { %><div class="admin-alert is-success"><%= success %></div><% } %>
+
+  <%- include('categorias-parts/form') %>
+  <%- include('categorias-parts/table', { categorias }) %>
+</section>
+
+<script src="/js/admin-categories.js" defer></script>
+<%- include('partials/footer') %>

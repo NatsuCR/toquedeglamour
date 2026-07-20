@@ -1,0 +1,50 @@
+.finance-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+  gap: 1rem;
+}
+
+.finance-kpi {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 1rem;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--primary) 9%, transparent), transparent 62%),
+    color-mix(in srgb, var(--surface) 94%, var(--surface-soft));
+  box-shadow: var(--shadow);
+}
+
+.finance-kpi span {
+  color: var(--text-muted);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.finance-kpi strong {
+  display: block;
+  margin-top: .4rem;
+  color: var(--primary-strong);
+  font-size: 1.55rem;
+}
+
+.finance-kpi::before {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 4px;
+  border-radius: 999px;
+  margin-bottom: .75rem;
+  background: var(--primary);
+}
+
+.finance-kpi.profit::before,
+.finance-kpi.net::before {
+  background: var(--success);
+}
+
+.finance-kpi.cost::before,
+.finance-kpi.expense::before {
+  background: var(--warning);
+}

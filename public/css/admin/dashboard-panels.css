@@ -1,0 +1,42 @@
+.chart-head h2,
+.dashboard-shortcuts h2 {
+  margin: .2rem 0 0;
+  color: var(--primary-strong);
+  font-size: 1.15rem;
+}
+
+.chart-frame {
+  position: relative;
+  height: 340px;
+  margin-top: .8rem;
+}
+
+.chart-frame.small {
+  height: 175px;
+}
+
+.dashboard-shortcuts {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.dashboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+
+@media (max-width: 900px) {
+  .dashboard-hero,
+  .dashboard-shortcuts {
+    display: grid;
+  }
+
+  .dashboard-filter,
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}

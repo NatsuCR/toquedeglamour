@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<section class="catalog-admin-page animate__animated animate__fadeInUp">
+  <header class="admin-page-hero">
+    <div>
+      <span>Inventario</span>
+      <h1>Catálogo de productos</h1>
+      <p>Administra productos, subcategorias, venta directa y articulos por consulta.</p>
+    </div>
+    <button class="btn" type="button" onclick="abrirProductoCrear()">Nuevo producto</button>
+  </header>
+
+  <% if (typeof error !== 'undefined' && error) { %><div class="admin-alert is-error"><%= error %></div><% } %>
+  <% if (typeof success !== 'undefined' && success) { %><div class="admin-alert is-success"><%= success %></div><% } %>
+
+  <%- include('productos-parts/form', { categorias }) %>
+  <form class="admin-product-search" method="GET" action="/admin/productos">
+    <% if (categoriaSeleccionada !== 'todos') { %>
+      <input type="hidden" name="categoria" value="<%= categoriaSeleccionada %>">
+    <% } %>
+    <label>
+      Buscar producto
+      <input type="search" name="q" value="<%= busquedaProducto || '' %>" placeholder="Nombre, SKU, categoria o subcategoria">
+    </label>
+    <button type="submit" class="btn">Buscar</button>
+    <a class="btn btn-outline" href="/admin/productos<%= categoriaSeleccionada !== 'todos' ? `?categoria=${categoriaSeleccionada}` : '' %>">Limpiar</a>
+  </form>
+  <%- include('productos-parts/category-tabs', { categorias, categoriaSeleccionada, conteos, totalProductos, busquedaProducto }) %>
+  <%- include('productos-parts/table', { productos, categoriaSeleccionada }) %>
+</section>
+
+<script src="/js/admin-products.js" defer></script>
+<%- include('partials/footer') %>

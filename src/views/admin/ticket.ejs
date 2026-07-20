@@ -1,0 +1,56 @@
+<%- include('partials/header') %>
+
+<section class="glass-panel animate__animated animate__fadeInUp">
+  <a class="btn-outline admin-ticket-back" href="/admin/soporte">Volver</a>
+  <div class="admin-chat-panel" data-support-chat
+    data-api="/admin/soporte/<%= ticket.id %>/mensajes" data-own-author="ADMIN">
+    <header class="admin-ticket-head">
+      <div>
+        <span>Ticket #<%= ticket.id %></span>
+        <h1><%= ticket.asunto %></h1>
+        <p><%= ticket.cliente.nombre %> <%= ticket.cliente.apellidos %> - <%= ticket.cliente.correo %></p>
+      </div>
+      <span class="admin-badge" data-support-status><%= ticket.estado %></span>
+    </header>
+
+    <div class="admin-chat-thread" data-support-thread>
+      <% ticket.mensajes.forEach((mensaje) => { %>
+        <div class="admin-chat-message <%= mensaje.autor === 'ADMIN' ? 'admin' : '' %>">
+          <strong><%= mensaje.autor === 'ADMIN' ? 'Administracion' : 'Cliente' %></strong>
+          <p><%= mensaje.mensaje %></p>
+          <% if (mensaje.adjuntos && mensaje.adjuntos.length) { %>
+            <div class="support-files">
+              <% mensaje.adjuntos.forEach((adjunto) => { %>
+                <% if (adjunto.mimeType.startsWith('image/')) { %>
+                  <img src="<%= adjunto.rutaArchivo %>" alt="<%= adjunto.nombreOriginal %>">
+                <% } %>
+                <a href="<%= adjunto.rutaArchivo %>" target="_blank" rel="noopener"><%= adjunto.nombreOriginal %></a>
+              <% }) %>
+            </div>
+          <% } %>
+          <small><%= mensaje.creadoEn.toLocaleString() %></small>
+        </div>
+      <% }) %>
+    </div>
+
+    <% if (ticket.estado !== 'CERRADO') { %>
+      <form action="/admin/soporte/<%= ticket.id %>/responder" method="POST" enctype="multipart/form-data"
+        data-support-form>
+        <label>Responder</label>
+        <textarea class="form-control" name="mensaje" rows="4"></textarea>
+        <label class="support-file-field">Adjuntos
+          <input type="file" name="adjuntos" accept="image/*,.pdf" multiple>
+        </label>
+        <p class="support-error" data-support-error hidden></p>
+        <button class="btn" type="submit">Enviar respuesta</button>
+      </form>
+      <form action="/admin/soporte/<%= ticket.id %>/cerrar" method="POST" class="close-ticket-form" data-support-close-form>
+        <button class="btn btn-danger" type="submit">Cerrar ticket</button>
+      </form>
+    <% } %>
+    <p class="muted" data-support-closed <%= ticket.estado !== 'CERRADO' ? 'hidden' : '' %>>Ticket cerrado.</p>
+  </div>
+</section>
+
+<script src="/js/support-chat.js" defer></script>
+<%- include('partials/footer') %>

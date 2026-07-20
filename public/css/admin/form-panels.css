@@ -1,0 +1,116 @@
+.catalog-admin-page,
+.admin-form-panel,
+.admin-list-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-form-panel,
+.admin-list-panel {
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface) 94%, var(--surface-soft));
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.admin-form-panel.is-hidden {
+  display: none;
+}
+
+.form-panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 0.8rem;
+}
+
+.form-panel-head span {
+  color: var(--secondary);
+  font-size: 0.76rem;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.form-panel-head h2 {
+  margin-bottom: 0.2rem;
+}
+
+.form-panel-head p,
+.muted {
+  color: var(--text-muted);
+}
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.admin-form-grid.one-column {
+  grid-template-columns: 1fr;
+}
+
+.admin-form-grid label,
+.admin-form-panel > form > label,
+.users-card label {
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.admin-form-grid input,
+.admin-form-grid select,
+.admin-form-grid textarea,
+.users-card input {
+  margin-top: 0.38rem;
+}
+
+.admin-file-field {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+  padding: 0.95rem;
+  border: 1px dashed color-mix(in srgb, var(--primary) 35%, var(--glass-border));
+  border-radius: var(--radius-card);
+  background: var(--surface-soft);
+}
+
+.admin-file-field input::file-selector-button {
+  border: 0;
+  border-radius: var(--radius-card);
+  margin-right: 0.7rem;
+  padding: 0.55rem 0.8rem;
+  color: #fff;
+  background: var(--primary-strong);
+  font-weight: 900;
+}
+
+.form-actions,
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.form-actions {
+  margin-top: 1rem;
+}
+
+.product-consult-notice {
+  margin-top: 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--secondary) 42%, transparent);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--secondary) 10%, var(--surface));
+  color: var(--text-light);
+  padding: 0.82rem 0.95rem;
+  font-weight: 900;
+}
+
+.block-text {
+  display: block;
+  margin-top: 0.25rem;
+}

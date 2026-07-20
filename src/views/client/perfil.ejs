@@ -1,0 +1,39 @@
+<%- include('partials/header') %>
+
+<% const totalPedidos = pedidos?.length || 0; %>
+<% const ticketsAbiertos = (tickets || []).filter((ticket) => ticket.estado !== 'CERRADO').length; %>
+<% const ticketsCerrados = (tickets || []).filter((ticket) => ticket.estado === 'CERRADO').length; %>
+<% const pedidosCompletados = (pedidos || []).filter((pedido) => pedido.fase === 'COMPLETADO' || pedido.estado === 'ENTREGADO').length; %>
+
+<div class="account-page">
+  <header class="account-hero">
+    <div>
+      <span>Cuenta de cliente</span>
+      <h1>Mi cuenta</h1>
+      <p>Consulta tus pedidos, datos de contacto y conversaciones de soporte en un solo lugar.</p>
+    </div>
+    <div class="account-hero-stats">
+      <article><span>Pedidos</span><strong><%= totalPedidos %></strong></article>
+      <article><span>Completados</span><strong><%= pedidosCompletados %></strong></article>
+      <article><span>Tickets abiertos</span><strong><%= ticketsAbiertos %></strong></article>
+      <article><span>Cerrados</span><strong><%= ticketsCerrados %></strong></article>
+    </div>
+  </header>
+
+  <div class="account-grid">
+    <aside>
+      <%- include('perfil-parts/account-card', { user }) %>
+      <%- include('perfil-parts/support-card', { tickets }) %>
+    </aside>
+
+    <section>
+      <div class="account-section-head">
+        <span>Historial</span>
+        <h2>Mis pedidos</h2>
+      </div>
+      <%- include('perfil-parts/orders-list', { pedidos }) %>
+    </section>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

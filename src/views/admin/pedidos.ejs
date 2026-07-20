@@ -1,0 +1,59 @@
+<%- include('partials/header') %>
+
+<% const fases = [
+  { id: 'PREPARACION', title: 'Preparación', hint: 'Pedidos por alistar' },
+  { id: 'LISTO', title: 'Listos', hint: 'Retiro local o despacho pendiente' },
+  { id: 'ENVIADO', title: 'Enviados', hint: 'Domicilio en Correos de Costa Rica' },
+  { id: 'COMPLETADO', title: 'Completados', hint: 'Pedidos cerrados y entregados' }
+]; %>
+<% const total = pedidos.reduce((sum, item) => sum + Number(item.total || 0), 0); %>
+
+<section class="orders-admin-page animate__animated animate__fadeInUp">
+  <header class="admin-page-hero">
+    <div>
+      <span>Operación</span>
+      <h1>Gestión de pedidos</h1>
+      <p>Ordena, verifica y da seguimiento sin tener todos los pedidos amontonados.</p>
+    </div>
+    <div class="orders-kpis">
+      <strong><%= pedidos.length %></strong>
+      <span>pedidos · <%= formatMoney(total) %></span>
+    </div>
+  </header>
+
+  <% if (!pedidos || pedidos.length === 0) { %>
+    <div class="glass-card orders-empty">Aún no hay pedidos registrados.</div>
+  <% } else { %>
+    <div class="orders-tabs" role="tablist" aria-label="Fases de pedidos">
+      <% fases.forEach((fase, index) => { const items = pedidos.filter((p) => (p.faseAgrupada || p.fase) === fase.id); %>
+        <button type="button" class="<%= index === 0 ? 'active' : '' %>" data-order-tab="<%= fase.id %>">
+          <%= fase.title %> <span><%= items.length %></span>
+        </button>
+      <% }) %>
+    </div>
+
+    <% fases.forEach((fase, index) => { const items = pedidos.filter((p) => (p.faseAgrupada || p.fase) === fase.id); %>
+      <section class="orders-panel <%= index === 0 ? 'active' : '' %>" data-order-panel="<%= fase.id %>">
+        <div class="orders-panel-head">
+          <div><h2><%= fase.title %></h2><p><%= fase.hint %></p></div>
+        </div>
+        <% if (items.length === 0) { %>
+          <div class="orders-empty">No hay pedidos en esta fase.</div>
+        <% } else { %>
+          <div class="orders-scroll">
+            <% items.forEach((pedido) => { %>
+              <%- include('pedidos-parts/summary', { pedido }) %>
+            <% }) %>
+          </div>
+        <% } %>
+      </section>
+    <% }) %>
+
+    <% pedidos.forEach((pedido) => { %>
+      <%- include('pedidos-parts/modal', { pedido }) %>
+    <% }) %>
+  <% } %>
+</section>
+
+<script src="/js/admin-orders.js" defer></script>
+<%- include('partials/footer') %>

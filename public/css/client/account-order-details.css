@@ -1,0 +1,35 @@
+.order-meta p,
+.order-address {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
+  padding: .75rem;
+  flex: 1;
+}
+
+.order-meta span,
+.order-address span {
+  display: block;
+  color: var(--text-muted);
+  font-size: .76rem;
+  font-weight: 900;
+}
+
+.order-address {
+  display: grid;
+  gap: .25rem;
+  margin-top: .8rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 680px) {
+  .order-head,
+  .mini-item,
+  .order-meta {
+    display: grid;
+  }
+
+  .order-head strong {
+    text-align: left;
+  }
+}

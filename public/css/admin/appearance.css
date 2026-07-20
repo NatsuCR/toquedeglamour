@@ -1,0 +1,132 @@
+.appearance-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.appearance-head p {
+  color: var(--text-muted);
+}
+
+.appearance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.appearance-card,
+.mini-card {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background: var(--surface-soft);
+  padding: 1rem;
+}
+
+.appearance-card label,
+.mini-card label {
+  display: block;
+  margin-top: 0.8rem;
+  margin-bottom: 0.35rem;
+  color: var(--text-muted);
+  font-weight: 800;
+}
+
+.brand-preview,
+.hero-preview {
+  width: 100%;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  object-fit: cover;
+  background: white;
+}
+
+.brand-preview {
+  height: 100px;
+}
+
+.hero-preview {
+  height: 220px;
+}
+
+.hero-gallery-preview {
+  display: grid;
+  gap: .75rem;
+  margin-bottom: .8rem;
+}
+
+.hero-image-tile {
+  display: grid;
+  grid-template-columns: 112px 1fr;
+  gap: .75rem;
+  align-items: center;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  padding: .65rem;
+}
+
+.hero-image-tile img {
+  width: 112px;
+  height: 74px;
+  border-radius: calc(var(--radius-card) - 4px);
+  object-fit: cover;
+  background: white;
+}
+
+.hero-image-tile strong {
+  display: block;
+  color: var(--text-color);
+}
+
+.remove-hero-image {
+  display: inline-flex !important;
+  align-items: center;
+  gap: .45rem;
+  margin-top: .45rem !important;
+  color: var(--danger) !important;
+}
+
+.appearance-hint {
+  display: block;
+  margin-top: .4rem;
+  color: var(--text-muted);
+}
+
+.mini-card + .mini-card {
+  margin-top: 1rem;
+}
+
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.color-grid input {
+  min-height: 44px;
+  padding: 0.2rem;
+}
+
+.admin-alert {
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-card);
+  margin-bottom: 1rem;
+  font-weight: 800;
+}
+
+.is-error {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 13%, transparent);
+}
+
+.is-success {
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 13%, transparent);
+}
+
+.save-appearance {
+  margin-top: 1.2rem;
+}

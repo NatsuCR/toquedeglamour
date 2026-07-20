@@ -1,0 +1,16 @@
+input,
+select,
+textarea,
+.form-control {
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius-card) !important;
+  background: var(--surface-strong) !important;
+  color: var(--text-main) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid color-mix(in srgb, var(--primary) 25%, transparent);
+  border-color: var(--primary) !important;
+}

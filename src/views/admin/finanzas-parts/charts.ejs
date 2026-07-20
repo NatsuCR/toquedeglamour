@@ -1,0 +1,61 @@
+<%
+  const k = resumen.kpis;
+  const flow = [
+    ['Ventas sin IVA', k.totalSinIva, 'money'],
+    ['Costos productos', k.costosProductos, 'money'],
+    ['Gastos adicionales', k.gastosAdicionales, 'money'],
+    ['Ganancia neta', k.gananciaNeta, 'money']
+  ];
+  const products = (resumen.graficos.topProductos || []).map((item) => [item.nombre, item.cantidad, 'units']);
+  const categories = (resumen.graficos.topCategorias || []).map((item) => [item.nombre, item.ganancia, 'money']);
+  const maxValue = (rows) => Math.max(...rows.map((row) => Math.abs(Number(row[1]) || 0)), 1);
+  const width = (value, max) => Math.max(4, Math.round(Math.abs(Number(value) || 0) / max * 100));
+  const labelValue = (value, type) => type === 'units' ? `${value} uds` : formatMoney(value);
+%>
+
+<section class="finance-charts">
+  <article class="finance-chart-card finance-chart-wide">
+    <div class="finance-chart-head">
+      <span>Lectura rapida</span>
+      <h2>Flujo del dinero</h2>
+      <p>Lo que entro por ventas comparado contra costos, gastos y ganancia neta.</p>
+    </div>
+    <div class="finance-chart-frame">
+      <div class="finance-bars">
+        <% const flowMax = maxValue(flow); %>
+        <% flow.forEach(([label, value, type]) => { %>
+          <div class="finance-bar-row <%= Number(value) < 0 ? 'is-negative' : '' %>">
+            <span><%= label %></span>
+            <div><i style="--bar-width:<%= width(value, flowMax) %>%"></i></div>
+            <strong><%= labelValue(value, type) %></strong>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </article>
+
+  <article class="finance-chart-card">
+    <div class="finance-chart-head">
+      <span>Ventas</span>
+      <h2>Productos mas vendidos</h2>
+      <p>Cantidad vendida por producto.</p>
+    </div>
+    <%- include('charts-bars', { rows: products, empty: 'Sin ventas', maxValue, width, labelValue }) %>
+  </article>
+
+  <article class="finance-chart-card">
+    <div class="finance-chart-head">
+      <span>Ganancia</span>
+      <h2>Categorias rentables</h2>
+      <p>Ganancia aproximada por linea.</p>
+    </div>
+    <%- include('charts-bars', { rows: categories, empty: 'Sin datos', maxValue, width, labelValue }) %>
+  </article>
+
+  <article class="finance-reading-card">
+    <span>Como leerlo</span>
+    <p><strong>Ventas sin IVA</strong> es el dinero base de productos y envio.</p>
+    <p><strong>Costos</strong> es lo que costo comprar o producir esos productos.</p>
+    <p><strong>Ganancia neta</strong> es ventas menos costos y gastos adicionales.</p>
+  </article>
+</section>

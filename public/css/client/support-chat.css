@@ -1,0 +1,115 @@
+.support-empty {
+  display: grid;
+  gap: 0.35rem;
+  border-radius: var(--radius-card);
+  padding: 1.2rem;
+  background: color-mix(in srgb, var(--accent-soft) 72%, var(--surface-strong));
+}
+
+.support-empty span {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.support-back {
+  display: inline-flex;
+  margin-bottom: 1rem;
+  padding: 0.65rem 1rem;
+  text-decoration: none;
+}
+
+.support-chat-head span {
+  color: var(--secondary);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.support-chat-shell {
+  max-width: 840px;
+}
+
+.support-chat-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1rem;
+}
+
+.support-chat-head h1 {
+  margin: 0.2rem 0 0;
+  color: var(--primary-strong);
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+}
+
+.chat-thread {
+  display: grid;
+  gap: 0.8rem;
+  margin: 1.1rem 0;
+}
+
+.chat-message {
+  max-width: min(78%, 560px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 0.9rem;
+  background: var(--surface-strong);
+}
+
+.chat-message.mine {
+  justify-self: end;
+  background: var(--rose-soft);
+}
+
+.chat-message.admin {
+  background: color-mix(in srgb, var(--accent-soft) 75%, var(--surface-strong));
+}
+
+.chat-message strong {
+  color: var(--primary-strong);
+}
+
+.chat-message p {
+  margin: 0.35rem 0;
+  color: var(--text-main);
+}
+
+.chat-message small {
+  color: var(--text-muted);
+}
+
+.support-reply label {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.support-reply textarea {
+  min-height: 132px;
+  padding: 0.75rem 0.85rem !important;
+  border-color: color-mix(in srgb, var(--primary) 18%, transparent) !important;
+  background: var(--surface-strong) !important;
+  color: var(--text-main) !important;
+  font-size: 0.95rem;
+  resize: vertical;
+}
+
+@media (max-width: 760px) {
+  .support-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .support-chat-head {
+    display: grid;
+  }
+
+  .chat-message {
+    max-width: 100%;
+  }
+}

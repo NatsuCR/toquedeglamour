@@ -1,0 +1,69 @@
+<%- include('partials/header') %>
+<% const abiertos = tickets.filter((ticket) => ticket.estado !== 'CERRADO'); %>
+<% const cerrados = tickets.filter((ticket) => ticket.estado === 'CERRADO'); %>
+<% const visibles = activeTab === 'cerrados' ? cerrados : abiertos; %>
+
+<section class="support-page">
+  <header class="support-hero">
+    <span>Centro de ayuda</span>
+    <h1>Soporte</h1>
+    <p>Escribenos sobre tu pedido, pago o entrega. Puedes adjuntar imagenes o PDF.</p>
+  </header>
+
+  <div class="support-grid">
+    <form action="/soporte" method="POST" enctype="multipart/form-data" class="ticket-form">
+      <div class="support-card-head">
+        <h2>Abrir ticket</h2>
+        <p>Recibiras un correo confirmando que recibimos tu solicitud.</p>
+      </div>
+      <% if (error) { %><div class="checkout-alert"><%= error %></div><% } %>
+      <label>
+        Asunto
+        <input type="text" name="asunto" value="<%= prefill?.asunto || '' %>" placeholder="Ej. Duda sobre mi comprobante" required>
+      </label>
+      <label>
+        Mensaje
+        <textarea name="mensaje" rows="6" placeholder="Cuentanos que necesitas revisar..." required><%= prefill?.mensaje || '' %></textarea>
+      </label>
+      <label class="support-file-field">
+        Adjuntos
+        <input type="file" name="adjuntos" accept="image/*,.pdf" multiple>
+        <small>JPG, PNG, WEBP o PDF. Maximo 4 archivos de 6MB.</small>
+      </label>
+      <button class="nav-btn support-submit" type="submit">Crear ticket</button>
+    </form>
+
+    <div class="chat-panel">
+      <div class="support-card-head">
+        <h2>Mis tickets</h2>
+        <p>Historial de conversaciones con la tienda.</p>
+      </div>
+      <nav class="support-tabs" aria-label="Estados de tickets">
+        <a class="<%= activeTab === 'abiertos' ? 'active' : '' %>" href="/soporte">Abiertos <%= abiertos.length %></a>
+        <a class="<%= activeTab === 'cerrados' ? 'active' : '' %>" href="/soporte?estado=cerrados">Cerrados <%= cerrados.length %></a>
+      </nav>
+      <% if (visibles.length === 0) { %>
+        <div class="support-empty">
+          <strong>No hay tickets <%= activeTab === 'cerrados' ? 'cerrados' : 'abiertos' %></strong>
+          <span>Los tickets apareceran aqui segun su estado.</span>
+        </div>
+      <% } else { %>
+        <div class="ticket-list">
+          <% visibles.forEach((ticket) => { %>
+            <a class="ticket-row" href="/soporte/<%= ticket.id %>">
+              <span>
+                <strong><%= ticket.asunto %></strong>
+                <small><%= ticket.mensajes.length %> mensajes · <%= ticket.actualizadoEn.toLocaleDateString() %></small>
+              </span>
+              <span class="ticket-status"><%= ticket.estado %></span>
+            </a>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+  <%- include('partials/support-payment-note') %>
+</section>
+
+<%- include('partials/footer') %>

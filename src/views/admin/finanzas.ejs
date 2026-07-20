@@ -1,0 +1,113 @@
+<%- include('partials/header') %>
+
+<% const k = resumen.kpis; %>
+<% const metrics = [
+  ['Total con IVA', k.totalConIva, 'income'],
+  ['Total sin IVA', k.totalSinIva, 'income'],
+  ['Ganancia total', k.gananciaTotal, 'profit'],
+  ['Ganancia neta', k.gananciaNeta, 'net'],
+  ['Costos de productos', k.costosProductos, 'cost'],
+  ['Gastos adicionales', k.gastosAdicionales, 'expense']
+]; %>
+
+<div class="finance-page">
+  <section class="finance-hero">
+    <div>
+      <span>Control financiero</span>
+      <h1>Finanzas</h1>
+      <p>Ventas, costos, IVA y gastos adicionales reunidos en una vista clara para administrar mejor la tienda.</p>
+    </div>
+    <a class="finance-export" href="/admin/finanzas/exportar?fechaInicio=<%= filtros.fechaInicio %>&fechaFin=<%= filtros.fechaFin %>">Exportar Excel</a>
+  </section>
+
+  <% if (flash) { %>
+    <div class="finance-flash <%= flash.type %>"><%= flash.text %></div>
+  <% } %>
+
+  <form class="finance-filter" method="GET" action="/admin/finanzas">
+    <label>Desde<input class="form-control" type="date" name="fechaInicio" value="<%= filtros.fechaInicio %>"></label>
+    <label>Hasta<input class="form-control" type="date" name="fechaFin" value="<%= filtros.fechaFin %>"></label>
+    <button class="btn" type="submit">Filtrar</button>
+    <a class="btn btn-outline" href="/admin/finanzas">Todo</a>
+  </form>
+
+  <section class="finance-kpis">
+    <% metrics.forEach(([label, value, tone]) => { %>
+      <article class="finance-kpi <%= tone %>">
+        <span><%= label %></span>
+        <strong><%= formatMoney(value) %></strong>
+      </article>
+    <% }) %>
+  </section>
+
+  <%- include('finanzas-parts/charts', { resumen }) %>
+
+  <section class="finance-grid">
+    <form class="finance-card finance-card-compact" method="POST" action="/admin/finanzas/iva">
+      <div class="finance-card-head">
+        <span>Impuestos</span>
+        <h2>IVA</h2>
+        <p>Activalo cuando quieras que los pedidos nuevos incluyan el porcentaje configurado.</p>
+      </div>
+      <label class="finance-switch">
+        <input type="checkbox" name="ivaActivo" <%= settings.ivaActivo ? 'checked' : '' %>>
+        <span>Aplicar IVA en checkout y estadisticas</span>
+      </label>
+      <label class="finance-field">Porcentaje
+        <input class="form-control" type="number" name="ivaPorcentaje" min="0" max="100" step="0.01" value="<%= settings.ivaPorcentaje %>">
+      </label>
+      <p class="finance-note">IVA registrado actual: <strong><%= formatMoney(k.ivaEstimado) %></strong></p>
+      <button class="btn" type="submit">Guardar IVA</button>
+    </form>
+
+    <form class="finance-card" method="POST" action="/admin/finanzas/gastos" enctype="multipart/form-data">
+      <div class="finance-card-head">
+        <span>Control de caja</span>
+        <h2>Nuevo gasto adicional</h2>
+        <p>Registra pagos operativos, servicios, compras menores o cualquier gasto del negocio.</p>
+      </div>
+      <div class="finance-form-grid">
+        <label>Fecha<input class="form-control" type="date" name="fecha"></label>
+        <label>Categoría<input class="form-control" name="categoria" placeholder="Ej. Servicios"></label>
+        <label>Monto<input class="form-control" type="number" name="monto" min="1" step="1" required></label>
+        <label>Descripción<textarea class="form-control" name="descripcion" rows="3" required></textarea></label>
+      </div>
+      <label class="finance-file">Comprobante
+        <input type="file" name="comprobante" accept="image/*,.pdf">
+        <span>Imagen o PDF, máximo 6MB</span>
+      </label>
+      <button class="btn" type="submit">Guardar gasto</button>
+    </form>
+  </section>
+
+  <section class="finance-card finance-table-card">
+    <div class="finance-table-head">
+      <div><span>Historial</span><h2>Gastos adicionales</h2></div>
+      <p><%= gastos.length %> registros en el periodo seleccionado.</p>
+    </div>
+    <div class="finance-table-wrap">
+      <table>
+        <thead><tr><th>Fecha</th><th>Categoría</th><th>Descripción</th><th>Monto</th><th>Comprobante</th><th></th></tr></thead>
+        <tbody>
+          <% if (!gastos.length) { %><tr><td colspan="6" class="finance-empty">No hay gastos registrados.</td></tr><% } %>
+          <% gastos.forEach((gasto) => { %>
+            <tr>
+              <td><%= gasto.fecha.toLocaleDateString('es-CR') %></td>
+              <td><span class="finance-pill"><%= gasto.categoria %></span></td>
+              <td><%= gasto.descripcion %></td>
+              <td><strong><%= formatMoney(gasto.monto) %></strong></td>
+              <td>
+                <% if (gasto.comprobanteRuta) { %>
+                  <a class="finance-proof" href="<%= gasto.comprobanteRuta %>" target="_blank" rel="noopener"><%= gasto.comprobanteMime === 'application/pdf' ? 'Abrir PDF' : 'Ver imagen' %></a>
+                <% } else { %><span class="finance-muted">Sin adjunto</span><% } %>
+              </td>
+              <td><form method="POST" action="/admin/finanzas/gastos/<%= gasto.id %>/eliminar"><button class="btn-danger" type="submit">Eliminar</button></form></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<%- include('partials/footer') %>

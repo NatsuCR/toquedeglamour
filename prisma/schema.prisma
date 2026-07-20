@@ -1,0 +1,301 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model UsuarioAdmin {
+  id           Int      @id @default(autoincrement())
+  correo       String   @unique
+  passwordHash String   @map("password_hash")
+  creadoEn     DateTime @default(now()) @map("creado_en")
+
+  @@map("usuario_admin")
+}
+
+model Cliente {
+  id                  Int                @id @default(autoincrement())
+  correo              String             @unique
+  passwordHash        String             @map("password_hash")
+  nombre              String
+  apellidos           String
+  cedula              String             @unique
+  celular1            String             @map("celular_1")
+  celular2            String?            @map("celular_2")
+  aceptoTerminos      Boolean            @default(false) @map("acepto_terminos")
+  terminosAceptadosEn DateTime?          @map("terminos_aceptados_en")
+  versionTerminos     String?            @map("version_terminos")
+  cuentaVerificada    Boolean            @default(false) @map("cuenta_verificada")
+  codigoVerificacion  String?            @map("codigo_verificacion")
+  codigoExpiracion    DateTime?          @map("codigo_expiracion")
+  codigoRecuperacion  String?            @map("codigo_recuperacion")
+  recuperacionExpira  DateTime?          @map("recuperacion_expira")
+  creadoEn            DateTime           @default(now()) @map("creado_en")
+  pedidos             Pedido[]
+  direcciones         DireccionCliente[]
+  tickets             TicketSoporte[]
+
+  @@map("clientes")
+}
+
+model Categoria {
+  id            Int            @id @default(autoincrement())
+  nombre        String
+  slug          String         @unique
+  descripcion   String?        @db.Text
+  creadoEn      DateTime       @default(now()) @map("creado_en")
+  productos     Producto[]
+  subcategorias Subcategoria[]
+
+  @@map("categorias")
+}
+
+model Subcategoria {
+  id          Int        @id @default(autoincrement())
+  categoriaId Int        @map("categoria_id")
+  categoria   Categoria  @relation(fields: [categoriaId], references: [id], onDelete: Cascade)
+  nombre      String
+  slug        String     @unique
+  descripcion String?    @db.Text
+  creadoEn    DateTime   @default(now()) @map("creado_en")
+  productos   Producto[]
+
+  @@map("subcategorias")
+}
+
+enum TipoVentaProducto {
+  DIRECTA  @map("directa")
+  CONSULTA @map("consulta")
+}
+
+model Producto {
+  id                  Int               @id @default(autoincrement())
+  categoriaId         Int               @map("categoria_id")
+  categoria           Categoria         @relation(fields: [categoriaId], references: [id])
+  subcategoriaId      Int?              @map("subcategoria_id")
+  subcategoria        Subcategoria?     @relation(fields: [subcategoriaId], references: [id], onDelete: SetNull)
+  nombre              String
+  slug                String           @unique
+  descripcion         String           @db.Text
+  precio              Decimal?         @db.Decimal(10, 2)
+  costo               Decimal          @default(0.00) @db.Decimal(10, 2)
+  stock               Int              @default(0)
+  tipoVenta           TipoVentaProducto @default(DIRECTA) @map("tipo_venta")
+  textoAlternativoImg String           @map("texto_alternativo_img")
+  creadoEn            DateTime         @default(now()) @map("creado_en")
+  esNuevo             Boolean          @default(false) @map("es_nuevo")
+  fechaNuevo          DateTime?        @map("fecha_nuevo")
+  imagenes            ImagenProducto[]
+  itemsPedido         ItemPedido[]
+  vistas              VistaProducto[]
+
+  @@map("productos")
+}
+
+model ImagenProducto {
+  id         Int      @id @default(autoincrement())
+  productoId Int      @map("producto_id")
+  producto   Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+  ruta       String
+  principal  Boolean  @default(false)
+
+  @@map("imagenes_producto")
+}
+
+enum EstadoPedido {
+  PENDIENTE_VERIFICACION @map("pendiente_verificacion")
+  PAGO_CONFIRMADO        @map("pago_confirmado")
+  EN_PREPARACION         @map("en_preparacion")
+  ENVIADO                @map("enviado")
+  ENTREGADO              @map("entregado")
+  RECHAZADO              @map("rechazado")
+}
+
+enum MetodoPago {
+  DEPOSITO @map("deposito")
+  SINPE    @map("sinpe")
+}
+
+enum CanalComprobante {
+  WEB      @map("web")
+  WHATSAPP @map("whatsapp")
+}
+
+enum TipoEntrega {
+  LOCAL     @map("local")
+  DOMICILIO @map("domicilio")
+}
+
+enum FasePedido {
+  PREPARACION @map("preparacion")
+  LISTO       @map("listo")
+  ENVIADO     @map("enviado")
+  COMPLETADO  @map("completado")
+}
+
+model Pedido {
+  id               Int              @id @default(autoincrement())
+  codigo           String?          @unique
+  clienteId        Int              @map("cliente_id")
+  cliente          Cliente          @relation(fields: [clienteId], references: [id])
+  nombreCliente    String?          @map("nombre_cliente")
+  apellidosCliente String?          @map("apellidos_cliente")
+  correoCliente    String?          @map("correo_cliente")
+  cedulaCliente    String?          @map("cedula_cliente")
+  celular1Cliente  String?          @map("celular_1_cliente")
+  celular2Cliente  String?          @map("celular_2_cliente")
+  subtotal         Decimal          @default(0.00) @db.Decimal(10, 2)
+  costoEnvio       Decimal          @default(0.00) @map("costo_envio") @db.Decimal(10, 2)
+  total            Decimal          @db.Decimal(10, 2)
+  estado           EstadoPedido
+  fase             FasePedido       @default(PREPARACION)
+  tipoEntrega      TipoEntrega      @default(LOCAL) @map("tipo_entrega")
+  metodoPago       MetodoPago       @map("metodo_pago")
+  canalComprobante CanalComprobante @map("canal_comprobante")
+  creadoEn         DateTime         @default(now()) @map("creado_en")
+  actualizadoEn    DateTime         @updatedAt @map("actualizado_en")
+  items            ItemPedido[]
+  direccionEnvio   DireccionEnvio?
+  comprobantePago  ComprobantePago?
+
+  @@map("pedidos")
+}
+
+model ItemPedido {
+  id             Int      @id @default(autoincrement())
+  pedidoId       Int      @map("pedido_id")
+  pedido         Pedido   @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  productoId     Int      @map("producto_id")
+  producto       Producto @relation(fields: [productoId], references: [id])
+  cantidad       Int
+  precioUnitario Decimal  @map("precio_unitario") @db.Decimal(10, 2)
+  costoUnitario  Decimal  @default(0.00) @map("costo_unitario") @db.Decimal(10, 2)
+
+  @@map("items_pedido")
+}
+
+model DireccionEnvio {
+  id              Int     @id @default(autoincrement())
+  pedidoId        Int     @unique @map("pedido_id")
+  pedido          Pedido  @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  provincia       String
+  canton          String
+  distrito        String
+  codigoPostal    String  @map("codigo_postal")
+  direccionExacta String  @map("direccion_exacta") @db.Text
+  descripcionCasa String? @map("descripcion_casa") @db.Text
+  linkGoogleMaps  String? @map("link_google_maps")
+
+  @@map("direcciones_envio")
+}
+
+model ComprobantePago {
+  id                 Int     @id @default(autoincrement())
+  pedidoId           Int     @unique @map("pedido_id")
+  pedido             Pedido  @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  rutaArchivo        String? @map("ruta_archivo")
+  enviadoPorWhatsapp Boolean @default(false) @map("enviado_por_whatsapp")
+
+  @@map("comprobantes_pago")
+}
+
+model DireccionCliente {
+  id              Int      @id @default(autoincrement())
+  clienteId       Int      @map("cliente_id")
+  cliente         Cliente  @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  provincia       String
+  canton          String
+  distrito        String
+  direccionExacta String   @map("direccion_exacta") @db.Text
+  descripcionCasa String?  @map("descripcion_casa") @db.Text
+  celular1        String   @map("celular_1")
+  celular2        String?  @map("celular_2")
+  creadoEn        DateTime @default(now()) @map("creado_en")
+
+  @@map("direcciones_cliente")
+}
+
+enum EstadoTicket {
+  ABIERTO @map("abierto")
+  CERRADO @map("cerrado")
+}
+
+enum AutorMensajeTicket {
+  CLIENTE @map("cliente")
+  ADMIN   @map("admin")
+}
+
+model TicketSoporte {
+  id            Int             @id @default(autoincrement())
+  clienteId     Int             @map("cliente_id")
+  cliente       Cliente         @relation(fields: [clienteId], references: [id])
+  asunto        String
+  estado        EstadoTicket    @default(ABIERTO)
+  creadoEn      DateTime        @default(now()) @map("creado_en")
+  actualizadoEn DateTime        @updatedAt @map("actualizado_en")
+  mensajes      MensajeTicket[]
+
+  @@map("tickets_soporte")
+}
+
+model MensajeTicket {
+  id       Int             @id @default(autoincrement())
+  ticketId Int             @map("ticket_id")
+  ticket   TicketSoporte   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  autor    AutorMensajeTicket
+  mensaje  String          @db.Text
+  creadoEn DateTime        @default(now()) @map("creado_en")
+  adjuntos AdjuntoTicket[]
+
+  @@map("mensajes_ticket")
+}
+
+model AdjuntoTicket {
+  id             Int           @id @default(autoincrement())
+  mensajeId      Int           @map("mensaje_id")
+  mensaje        MensajeTicket @relation(fields: [mensajeId], references: [id], onDelete: Cascade)
+  rutaArchivo    String        @map("ruta_archivo")
+  nombreOriginal String        @map("nombre_original")
+  mimeType       String        @map("mime_type")
+  tamanoBytes    Int           @map("tamano_bytes")
+  creadoEn       DateTime      @default(now()) @map("creado_en")
+
+  @@map("adjuntos_ticket")
+}
+
+model VistaProducto {
+  id         Int      @id @default(autoincrement())
+  productoId Int      @map("producto_id")
+  producto   Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+  fecha      DateTime @default(now())
+  clienteId  Int?     @map("cliente_id")
+  ipHash     String?  @map("ip_hash")
+
+  @@map("vistas_producto")
+}
+
+model AjusteSitio {
+  id            Int      @id @default(autoincrement())
+  clave         String   @unique
+  valor         String   @db.Text
+  actualizadoEn DateTime @updatedAt @map("actualizado_en")
+
+  @@map("ajustes_sitio")
+}
+
+model GastoAdicional {
+  id          Int      @id @default(autoincrement())
+  fecha       DateTime @default(now())
+  categoria   String   @default("General")
+  descripcion String   @db.Text
+  monto       Decimal  @db.Decimal(10, 2)
+  comprobanteRuta   String? @map("comprobante_ruta")
+  comprobanteNombre String? @map("comprobante_nombre")
+  comprobanteMime   String? @map("comprobante_mime")
+  creadoEn    DateTime @default(now()) @map("creado_en")
+
+  @@map("gastos_adicionales")
+}

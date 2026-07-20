@@ -1,0 +1,14 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+/generated/prisma
+scratch/
+tmp/
+*.log
+pnpm-lock.yaml.*
+assets/facturas/
+public/uploads/comprobantes/
+public/uploads/soporte/
+public/uploads/gastos/
+public/uploads/expenses/

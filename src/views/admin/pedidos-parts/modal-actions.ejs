@@ -1,0 +1,21 @@
+<div class="admin-order-actions">
+  <form action="/admin/pedidos/<%= pedido.id %>/estado" method="POST">
+    <label>Estado de pago/pedido</label>
+    <select name="estado" class="form-control" onchange="this.form.submit()">
+      <% const estados = pedido.tipoEntrega === 'LOCAL'
+        ? ['PENDIENTE_VERIFICACION','PAGO_CONFIRMADO','EN_PREPARACION','ENTREGADO','RECHAZADO']
+        : ['PENDIENTE_VERIFICACION','PAGO_CONFIRMADO','EN_PREPARACION','ENVIADO','ENTREGADO','RECHAZADO']; %>
+      <% estados.forEach((estado) => { %>
+        <option value="<%= estado %>" <%= pedido.estado === estado ? 'selected' : '' %>><%= estado %></option>
+      <% }) %>
+    </select>
+  </form>
+  <form action="/admin/pedidos/<%= pedido.id %>/fase" method="POST">
+    <label>Fase visible al cliente</label>
+    <select name="fase" class="form-control" onchange="this.form.submit()">
+      <% phaseOptions.forEach(([value, label]) => { %>
+        <option value="<%= value %>" <%= fase === value ? 'selected' : '' %>><%= label %></option>
+      <% }) %>
+    </select>
+  </form>
+</div>

@@ -1,0 +1,12 @@
+<nav class="product-category-tabs" aria-label="Categorias de productos">
+  <% const qParam = busquedaProducto ? `q=${encodeURIComponent(busquedaProducto)}` : ''; %>
+  <a class="<%= categoriaSeleccionada === 'todos' ? 'active' : '' %>" href="/admin/productos<%= qParam ? `?${qParam}` : '' %>">
+    Todos <span><%= totalProductos %></span>
+  </a>
+  <% categorias.forEach((categoria) => { %>
+    <% const href = `/admin/productos?categoria=${categoria.slug}${qParam ? `&${qParam}` : ''}`; %>
+    <a class="<%= categoriaSeleccionada === categoria.slug ? 'active' : '' %>" href="<%= href %>">
+      <%= categoria.nombre %> <span><%= conteos[categoria.slug] || 0 %></span>
+    </a>
+  <% }) %>
+</nav>

@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+
+<section class="checkout-page">
+  <div class="checkout-panel">
+    <h1>Pedido recibido</h1>
+    <p>Tu codigo de pedido es <span class="order-code"><%= pedido.codigo %></span>.</p>
+    <p>El pedido quedo en fase <strong>Preparacion del pedido</strong>.</p>
+    <p>Total: <strong><%= formatMoney(pedido.total) %></strong></p>
+    <div class="success-products">
+      <h2>Resumen del pedido</h2>
+      <ul>
+        <% pedido.items.forEach((item) => { %>
+          <li>
+            <span><%= item.cantidad %> x <%= item.producto.nombre %></span>
+            <strong><%= formatMoney(Number(item.precioUnitario) * item.cantidad) %></strong>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <% if (pedido.canalComprobante === 'WHATSAPP') { %>
+      <p>Marcamos el pedido como comprobante enviado por WhatsApp. El mensaje se abrira con el detalle completo del pedido.</p>
+      <a class="nav-btn" href="<%= whatsappLink %>" target="_blank" rel="noopener">Abrir WhatsApp</a>
+    <% } else { %>
+      <p>Recibimos el comprobante adjunto en el sistema.</p>
+      <a class="nav-btn" href="/perfil">Ver mis pedidos</a>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

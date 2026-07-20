@@ -1,0 +1,74 @@
+<%- include('partials/header') %>
+
+<section class="brand-admin-page animate__animated animate__fadeInUp">
+  <header class="admin-page-hero">
+    <div>
+      <span>Alianzas</span>
+      <h1>Colaboraciones con marcas</h1>
+      <p>Agrega banners y datos de las marcas que colaboran con Toque de Glamour.</p>
+    </div>
+    <a class="btn btn-outline" href="/marcas" target="_blank">Ver pagina</a>
+  </header>
+
+  <% if (typeof error !== 'undefined' && error) { %><div class="admin-alert is-error"><%= error %></div><% } %>
+  <% if (typeof success !== 'undefined' && success) { %><div class="admin-alert is-success"><%= success %></div><% } %>
+
+  <div class="brand-admin-grid">
+    <section class="admin-form-panel">
+      <div class="form-panel-head">
+        <div>
+          <span>Nueva colaboracion</span>
+          <h2>Agregar marca</h2>
+          <p>Usa una imagen horizontal para que se vea elegante en la tienda.</p>
+        </div>
+      </div>
+
+      <form method="POST" action="/admin/marcas" enctype="multipart/form-data">
+        <div class="admin-form-grid one-column">
+          <label>Marca<input name="marca" required placeholder="Farmasi"></label>
+          <label>Titulo<input name="titulo" placeholder="Farmasi x Toque de Glamour"></label>
+          <label>Enlace<input name="enlace" placeholder="/catalogo"></label>
+          <label>Descripcion<textarea name="descripcion" rows="4" required></textarea></label>
+        </div>
+        <label class="admin-file-field">
+          Imagen de colaboracion
+          <input type="file" name="imagen" accept="image/jpeg,image/png,image/webp" required>
+        </label>
+        <label class="brand-active-toggle">
+          <input type="checkbox" name="activa" checked>
+          Mostrar en la tienda
+        </label>
+        <div class="form-actions">
+          <button class="btn" type="submit">Guardar colaboracion</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="admin-list-panel">
+      <div class="form-panel-head">
+        <div>
+          <span>Actuales</span>
+          <h2>Marcas registradas</h2>
+        </div>
+      </div>
+
+      <div class="brand-admin-list">
+        <% colaboraciones.forEach((colab) => { %>
+          <article class="brand-admin-card">
+            <img src="<%= colab.imagenUrl %>" alt="<%= colab.titulo %>">
+            <div>
+              <span><%= colab.activa ? 'Visible' : 'Oculta' %></span>
+              <h3><%= colab.titulo %></h3>
+              <p><%= colab.descripcion %></p>
+              <form method="POST" action="/admin/marcas/<%= colab.id %>/eliminar">
+                <button class="btn btn-danger" type="submit">Eliminar</button>
+              </form>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    </section>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

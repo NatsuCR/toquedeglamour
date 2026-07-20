@@ -1,0 +1,76 @@
+.admin-ticket-back {
+  display: inline-flex;
+  margin-bottom: 1rem;
+  padding: 0.65rem 1rem;
+  background: var(--surface);
+  color: var(--primary-strong);
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+
+.admin-chat-panel [hidden] {
+  display: none !important;
+}
+
+.admin-chat-panel .support-files {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.7rem 0;
+}
+
+.admin-chat-panel .support-file-item {
+  display: inline-grid;
+  gap: 0.45rem;
+  width: fit-content;
+}
+
+.admin-chat-panel .support-files img,
+.admin-chat-panel .support-file-item img {
+  width: 160px;
+  max-width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+}
+
+.admin-chat-panel .support-files a,
+.admin-chat-panel .support-file-item a {
+  color: var(--secondary);
+  font-weight: 900;
+  word-break: break-word;
+}
+
+.admin-chat-panel [data-support-form] button[type="submit"],
+.admin-chat-panel .close-ticket-form .btn {
+  justify-self: start;
+  min-width: 160px;
+  max-width: 240px;
+}
+
+.admin-chat-panel .support-file-field {
+  display: grid;
+  gap: 0.45rem;
+  color: var(--text-muted);
+  font-weight: 900;
+}
+
+.admin-chat-panel input[type="file"] {
+  width: 100%;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  padding: 0.75rem;
+  background: var(--surface);
+  color: var(--text-light);
+}
+
+.admin-chat-panel input::file-selector-button {
+  margin-right: 0.75rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.5rem 0.8rem;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 900;
+}

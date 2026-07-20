@@ -1,0 +1,56 @@
+<%- include('partials/header') %>
+
+<%
+  const consulta = producto.tipoVenta === 'CONSULTA';
+  const categoria = producto.subcategoria?.nombre || producto.categoria?.nombre || 'General';
+  const sku = `PRD-${producto.id.toString().padStart(4, '0')}`;
+  const consultaTexto = `Hola, quiero consultar precio y detalles del producto ${producto.nombre} (${sku}).`;
+  const consultaWhatsapp = `https://wa.me/50685203998?text=${encodeURIComponent(consultaTexto)}`;
+%>
+
+<section class="product-detail animate__animated animate__fadeIn">
+  <div class="product-detail-media">
+    <% if (producto.imagenUrl) { %>
+      <img src="<%= producto.imagenUrl %>" alt="<%= producto.nombre %>">
+    <% } else { %>
+      <div class="product-detail-empty">Sin imagen</div>
+    <% } %>
+  </div>
+
+  <article class="product-detail-info">
+    <span class="card-category"><%= categoria %></span>
+    <p class="product-sku">SKU: <%= sku %></p>
+    <h1><%= producto.nombre %></h1>
+
+    <div class="product-detail-price">
+      <%= consulta ? 'Precio a consultar' : formatMoney(Number(producto.precio || 0)) %>
+    </div>
+
+    <div class="product-detail-copy">
+      <h2>Descripcion del producto</h2>
+      <p><%= producto.descripcion || 'Sin descripcion detallada.' %></p>
+    </div>
+
+    <div class="product-detail-action">
+      <% if (consulta) { %>
+        <div class="consult-box">
+          Este articulo se coordina por consulta para definir detalles, medidas, tiempo de entrega y precio final.
+        </div>
+        <a class="nav-btn" href="<%= consultaWhatsapp %>" target="_blank" rel="noopener">
+          Solicitar consulta
+        </a>
+      <% } else if (producto.stock > 0) { %>
+        <p class="stock-ok-text">En stock (<%= producto.stock %> disponibles)</p>
+        <form method="POST" action="/carrito/agregar" class="product-cart-form">
+          <input type="hidden" name="productoId" value="<%= producto.id %>">
+          <input type="number" name="cantidad" value="1" min="1" max="<%= producto.stock %>" class="form-control" required>
+          <button type="submit" class="nav-btn">Anadir al carrito</button>
+        </form>
+      <% } else { %>
+        <div class="product-unavailable">Producto agotado temporalmente</div>
+      <% } %>
+    </div>
+  </article>
+</section>
+
+<%- include('partials/footer') %>

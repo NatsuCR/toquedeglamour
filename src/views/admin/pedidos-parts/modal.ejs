@@ -1,0 +1,68 @@
+<% const nombre = pedido.nombreCliente || pedido.cliente.nombre; %>
+<% const apellidos = pedido.apellidosCliente || pedido.cliente.apellidos; %>
+<% const correo = pedido.correoCliente || pedido.cliente.correo; %>
+<% const cedula = pedido.cedulaCliente || pedido.cliente.cedula; %>
+<% const celular1 = pedido.celular1Cliente || pedido.cliente.celular1; %>
+<% const celular2 = pedido.celular2Cliente || pedido.cliente.celular2; %>
+<% const proof = pedido.comprobantePago?.rutaArchivo || ''; %>
+<% const proofIsPdf = proof.toLowerCase().endsWith('.pdf'); %>
+<% const isHome = pedido.tipoEntrega === 'DOMICILIO'; %>
+<% const fase = pedido.faseAgrupada || pedido.fase || 'PREPARACION'; %>
+<% const phaseOptions = isHome
+  ? [['PREPARACION','Preparación'], ['LISTO','Listo para entregar'], ['ENVIADO','Pedido enviado'], ['COMPLETADO','Completado']]
+  : [['PREPARACION','Preparación'], ['LISTO','Listo para retirar'], ['COMPLETADO','Completado']]; %>
+
+<dialog class="order-modal" data-order-modal="<%= pedido.id %>">
+  <div class="order-modal-shell">
+    <header class="order-modal-head">
+      <div>
+        <span>Pedido <%= pedido.codigo || `#${pedido.id}` %></span>
+        <h2><%= nombre %> <%= apellidos %></h2>
+        <p><%= pedido.creadoEn.toLocaleString() %></p>
+      </div>
+      <button type="button" class="modal-close" data-order-close aria-label="Cerrar">×</button>
+    </header>
+
+    <div class="order-detail-grid">
+      <section>
+        <h3>Cliente</h3>
+        <p><%= correo %></p>
+        <p>Cedula: <%= cedula %></p>
+        <p>Celular 1: <%= celular1 %></p>
+        <p>Celular 2: <%= celular2 || 'No indicado' %></p>
+      </section>
+      <section>
+        <h3>Entrega</h3>
+        <% if (isHome && pedido.direccionEnvio) { %>
+          <p>Domicilio por Correos de Costa Rica</p>
+          <p><%= pedido.direccionEnvio.provincia %>, <%= pedido.direccionEnvio.canton %>, <%= pedido.direccionEnvio.distrito %></p>
+          <p><%= pedido.direccionEnvio.direccionExacta %></p>
+          <% if (pedido.direccionEnvio.descripcionCasa) { %>
+            <p>Casa: <%= pedido.direccionEnvio.descripcionCasa %></p>
+          <% } %>
+        <% } else { %>
+          <p>Retiro en local</p>
+        <% } %>
+      </section>
+      <section>
+        <h3>Pago</h3>
+        <p>Método: <strong><%= pedido.metodoPago %></strong></p>
+        <p>Subtotal: <%= formatMoney(pedido.subtotal) %></p>
+        <p>Envío: <%= formatMoney(pedido.costoEnvio) %></p>
+        <p>Total: <strong><%= formatMoney(pedido.total) %></strong></p>
+      </section>
+    </div>
+
+    <section class="order-modal-section">
+      <h3>Productos</h3>
+      <ul class="admin-list">
+        <% pedido.items.forEach((item) => { %>
+          <li><%= item.cantidad %> x <%= item.producto.nombre %> - <%= formatMoney(Number(item.precioUnitario) * item.cantidad) %></li>
+        <% }) %>
+      </ul>
+    </section>
+
+    <%- include('proof', { pedido, proof, proofIsPdf }) %>
+    <%- include('modal-actions', { pedido, fase, phaseOptions }) %>
+  </div>
+</dialog>

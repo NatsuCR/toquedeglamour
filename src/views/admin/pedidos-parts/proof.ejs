@@ -1,0 +1,16 @@
+<section class="order-modal-section">
+  <h3>Comprobante</h3>
+  <% if (pedido.comprobantePago?.enviadoPorWhatsapp) { %>
+    <p class="admin-badge">Comprobante enviado por WhatsApp</p>
+  <% } else if (proof) { %>
+    <% if (proofIsPdf) { %>
+      <a class="proof-link" href="<%= proof %>" target="_blank" rel="noopener">Abrir PDF adjunto</a>
+    <% } else { %>
+      <a href="<%= proof %>" target="_blank" rel="noopener">
+        <img class="proof-img" src="<%= proof %>" alt="Comprobante de pago">
+      </a>
+    <% } %>
+  <% } else { %>
+    <p style="color:var(--text-muted);">Sin comprobante adjunto.</p>
+  <% } %>
+</section>

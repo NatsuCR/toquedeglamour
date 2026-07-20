@@ -1,0 +1,87 @@
+<% const visual = typeof siteSettings !== 'undefined' ? siteSettings : {}; %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title + ' - Toque de Glamour' : 'Toque de Glamour | Cosmeticos y belleza' %></title>
+  <meta name="description" content="Cosmeticos, maquillaje, cuidado personal y bienestar con envios en Costa Rica.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="/favicon.ico">
+  <script>
+    (function () {
+      var theme = localStorage.getItem('theme');
+      if (theme === 'dark' || theme === 'light') document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/public.css">
+  <style>
+    html:not([data-theme="dark"]) {
+      --primary: <%= visual.primaryColor || '#7b2446' %>;
+      --primary-strong: <%= visual.primaryStrongColor || '#54172d' %>;
+      --secondary: <%= visual.secondaryColor || '#c7964a' %>;
+      --accent: <%= visual.accentColor || '#6f8f78' %>;
+    }
+  </style>
+  <script src="/js/theme.js" defer></script>
+</head>
+<body>
+  <nav class="public-nav animate__animated animate__fadeInDown">
+    <div class="nav-container">
+      <a href="/" class="logo" aria-label="Toque de Glamour">
+        <% if (visual.logoUrl) { %>
+          <img src="<%= visual.logoUrl %>" alt="Toque de Glamour" class="logo-img">
+        <% } else { %>
+          <span class="logo-mark">T</span>
+          <span><strong>Toque</strong><em>de Glamour</em></span>
+        <% } %>
+      </a>
+
+      <div class="nav-links" aria-label="Navegacion principal">
+        <a href="/" class="nav-item">Inicio</a>
+        <div class="nav-dropdown">
+          <a href="/catalogo" class="nav-item">Catalogo</a>
+          <div class="nav-dropdown-menu" aria-label="Categorias del catalogo">
+            <a href="/catalogo">Todo el catalogo</a>
+            <% (typeof catalogoMenu !== 'undefined' ? catalogoMenu : []).forEach((c) => { %>
+              <a href="/catalogo?cat=<%= c.slug %>">Catalogo de <%= c.nombre %></a>
+            <% }) %>
+          </div>
+        </div>
+        <a href="/marcas" class="nav-item">Marcas</a>
+        <a href="/carrito" class="nav-item cart-icon">
+          Carrito
+          <% if (typeof carrito !== 'undefined' && carrito && carrito.length > 0) { %>
+            <span class="cart-count"><%= carrito.reduce((sum, item) => sum + item.cantidad, 0) %></span>
+          <% } %>
+        </a>
+        <a href="/quienes-somos" class="nav-item">Quienes Somos</a>
+      </div>
+
+      <div class="nav-actions">
+        <select id="themeSelector" class="theme-select nav-item" aria-label="Tema visual">
+          <option value="light">Claro</option>
+          <option value="dark">Oscuro</option>
+        </select>
+
+        <% if (typeof cliente !== 'undefined' && cliente) { %>
+          <a href="/perfil" class="nav-item">Mi Cuenta</a>
+          <a href="/logout" class="nav-btn-outline">Salir</a>
+        <% } else { %>
+          <a href="/login" class="nav-item">Iniciar Sesion</a>
+          <a href="/registro" class="nav-btn">Registrarse</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentPath = window.location.pathname;
+      document.querySelectorAll('.nav-item').forEach((item) => {
+        if (item.tagName === 'A' && item.getAttribute('href') === currentPath) item.classList.add('active');
+      });
+    });
+  </script>
+
+  <main class="public-main">

@@ -1,0 +1,43 @@
+<!-- src/views/client/partials/footer.ejs -->
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <section class="footer-brand">
+        <h2>Toque de Glamour</h2>
+        <p>Cosméticos, cuidado personal, salud y belleza con atención cercana en Costa Rica.</p>
+        <a href="https://wa.me/50685203998" target="_blank" rel="noopener">WhatsApp: 8520-3998</a>
+      </section>
+
+      <section class="footer-group">
+        <h3>Tienda</h3>
+        <a href="/">Inicio</a>
+        <a href="/catalogo">Catálogo</a>
+        <a href="/marcas">Marcas</a>
+        <a href="/carrito">Carrito</a>
+        <a href="<%= typeof cliente !== 'undefined' && cliente ? '/perfil' : '/login' %>">Mi cuenta</a>
+      </section>
+
+      <section class="footer-group">
+        <h3>Ayuda</h3>
+        <a href="/soporte">Soporte</a>
+        <a href="/politica-envios">Envíos</a>
+        <a href="/cambios-devoluciones">Cambios y devoluciones</a>
+        <a href="/ubicacion">Ubicación</a>
+      </section>
+
+      <section class="footer-group">
+        <h3>Legal</h3>
+        <a href="/terminos-condiciones">Términos y condiciones</a>
+        <a href="/politica-privacidad">Política de privacidad</a>
+        <a href="/quienes-somos">Quiénes somos</a>
+      </section>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; <%= new Date().getFullYear() %> Toque de Glamour. Todos los derechos reservados.</span>
+      <span>Pagos por SINPE Móvil y transferencia bancaria.</span>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,45 @@
+.admin-ticket-list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.admin-ticket-card,
+.admin-chat-panel {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.admin-ticket-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.admin-chat-thread {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.admin-chat-message {
+  max-width: 80%;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  padding: 0.75rem;
+  background: var(--surface-soft);
+}
+
+.admin-chat-message.admin {
+  justify-self: end;
+  background: color-mix(in srgb, var(--primary) 18%, var(--surface));
+}
+
+@media (max-width: 760px) {
+  .admin-ticket-card {
+    grid-template-columns: 1fr;
+  }
+}

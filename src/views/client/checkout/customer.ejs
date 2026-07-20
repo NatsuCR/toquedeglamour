@@ -1,0 +1,30 @@
+<section class="checkout-panel">
+  <h2>Datos del cliente</h2>
+  <p class="muted">Usamos estos datos solo para preparar y coordinar tu pedido.</p>
+  <div class="form-grid">
+    <label>
+      Nombre
+      <input type="text" name="nombre" required value="<%= cliente?.nombre || '' %>">
+    </label>
+    <label>
+      Apellidos
+      <input type="text" name="apellidos" required value="<%= cliente?.apellidos || '' %>">
+    </label>
+    <label>
+      Cedula
+      <input type="text" name="cedula" required value="<%= cliente?.cedula || '' %>">
+    </label>
+    <label>
+      Correo
+      <input type="email" name="correo" required value="<%= cliente?.correo || '' %>">
+    </label>
+    <label>
+      Celular 1
+      <input type="tel" name="celular1" required value="<%= cliente?.celular1 || '' %>">
+    </label>
+    <label>
+      Celular 2
+      <input type="tel" name="celular2" value="<%= cliente?.celular2 || '' %>">
+    </label>
+  </div>
+</section>

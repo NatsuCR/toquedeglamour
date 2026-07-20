@@ -1,0 +1,37 @@
+.brand-description {
+  margin: 0;
+}
+
+.brand-description.is-expanded {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+}
+
+.brand-description-toggle {
+  justify-self: start;
+  border: 0;
+  border-radius: var(--radius-pill);
+  color: var(--primary-strong);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  padding: .42rem .8rem;
+  font-family: var(--font-sans);
+  font-size: .84rem;
+  font-weight: 950;
+  cursor: pointer;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.brand-description-toggle:hover {
+  background: color-mix(in srgb, var(--primary) 16%, transparent);
+  transform: translateY(-1px);
+}
+
+.brand-description-toggle[hidden] {
+  display: none;
+}
+
+[data-theme="dark"] .brand-description-toggle {
+  color: #ffd4df;
+  background: rgba(240, 169, 192, .12);
+}

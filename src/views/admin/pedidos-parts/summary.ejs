@@ -1,0 +1,42 @@
+<% const fase = pedido.faseAgrupada || pedido.fase || 'PREPARACION'; %>
+<% const nombre = pedido.nombreCliente || pedido.cliente.nombre; %>
+<% const apellidos = pedido.apellidosCliente || pedido.cliente.apellidos; %>
+<% const isHome = pedido.tipoEntrega === 'DOMICILIO'; %>
+<% const mainItem = pedido.items[0]; %>
+<% const phaseOptions = isHome
+  ? [['PREPARACION','Preparación'], ['LISTO','Listo para entregar'], ['ENVIADO','Pedido enviado'], ['COMPLETADO','Completado']]
+  : [['PREPARACION','Preparación'], ['LISTO','Listo para retirar'], ['COMPLETADO','Completado']]; %>
+
+<article class="order-summary-card">
+  <div class="order-summary-top">
+    <div>
+      <span class="order-code">Pedido <%= pedido.codigo || `#${pedido.id}` %></span>
+      <h2><%= nombre %> <%= apellidos %></h2>
+    </div>
+    <span class="admin-badge"><%= isHome ? 'Correos' : 'Local' %></span>
+  </div>
+
+  <div class="order-summary-meta">
+    <span><strong>Total</strong><%= formatMoney(pedido.total) %></span>
+    <span><strong>Pago</strong><%= pedido.metodoPago %></span>
+    <span><strong>Fecha</strong><%= pedido.creadoEn.toLocaleDateString() %></span>
+  </div>
+
+  <% if (mainItem) { %>
+    <p class="order-mini-products">
+      <%= mainItem.cantidad %> x <%= mainItem.producto.nombre %>
+      <% if (pedido.items.length > 1) { %> + <%= pedido.items.length - 1 %> más<% } %>
+    </p>
+  <% } %>
+
+  <div class="order-summary-actions">
+    <button class="btn" type="button" data-order-open="<%= pedido.id %>">Ver detalle</button>
+    <form action="/admin/pedidos/<%= pedido.id %>/fase" method="POST">
+      <select name="fase" class="form-control" onchange="this.form.submit()">
+        <% phaseOptions.forEach(([value, label]) => { %>
+          <option value="<%= value %>" <%= fase === value ? 'selected' : '' %>><%= label %></option>
+        <% }) %>
+      </select>
+    </form>
+  </div>
+</article>

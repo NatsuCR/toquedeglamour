@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+
+<div id="checkoutApp" class="checkout-page" data-subtotal="<%= subtotal %>"
+  data-shipping="<%= costoEnvioDomicilio %>"
+  data-iva-active="<%= finance?.ivaActivo ? 'true' : 'false' %>"
+  data-iva-rate="<%= finance?.ivaPorcentaje || 13 %>">
+  <header class="checkout-title">
+    <span>Compra segura</span>
+    <h1>Pago final</h1>
+    <p>Confirma tus datos, entrega y comprobante para preparar tu pedido.</p>
+  </header>
+  <% if (error) { %>
+    <div class="checkout-alert"><%= error %></div>
+  <% } %>
+
+  <form action="/checkout" method="POST" enctype="multipart/form-data" class="checkout-grid">
+    <input type="hidden" name="codigoPedido" value="<%= codigoPedido %>">
+
+    <div>
+      <%- include('checkout/customer', { cliente }) %>
+      <%- include('checkout/delivery', { ultimaDireccion }) %>
+      <%- include('checkout/payment', { codigoPedido }) %>
+    </div>
+
+    <%- include('checkout/summary', { carrito, subtotal, costoEnvioDomicilio }) %>
+  </form>
+</div>
+
+<script src="/js/checkout.js" defer></script>
+<script src="/js/checkout-policy.js" defer></script>
+<%- include('partials/footer') %>

@@ -1,0 +1,49 @@
+<% const abiertos = (tickets || []).filter((ticket) => ticket.estado !== 'CERRADO'); %>
+<% const cerrados = (tickets || []).filter((ticket) => ticket.estado === 'CERRADO'); %>
+
+<div class="support-card">
+  <div class="support-card-head">
+    <span>Atencion</span>
+    <h2>Soporte</h2>
+    <p>Consulta tickets abiertos y conversaciones cerradas de forma ordenada.</p>
+  </div>
+  <a class="nav-btn support-primary" href="/soporte">Ir a soporte</a>
+
+  <% if (tickets && tickets.length) { %>
+    <div class="profile-support-tabs">
+      <input id="profileTicketsOpen" name="profileTicketsTab" type="radio" checked>
+      <label class="tab-open-label" for="profileTicketsOpen">Abiertos <%= abiertos.length %></label>
+      <input id="profileTicketsClosed" name="profileTicketsTab" type="radio">
+      <label class="tab-closed-label" for="profileTicketsClosed">Cerrados <%= cerrados.length %></label>
+
+      <div class="ticket-list profile-ticket-pane profile-ticket-open">
+        <% if (!abiertos.length) { %>
+          <p class="muted">No tienes tickets abiertos.</p>
+        <% } %>
+        <% abiertos.slice(0, 3).forEach((ticket) => { %>
+          <a href="/soporte/<%= ticket.id %>" class="ticket-row">
+            <span><%= ticket.asunto %></span>
+            <span class="badge-soft"><%= ticket.estado %></span>
+          </a>
+        <% }) %>
+      </div>
+
+      <div class="ticket-list profile-ticket-pane profile-ticket-closed">
+        <% if (!cerrados.length) { %>
+          <p class="muted">No tienes tickets cerrados.</p>
+        <% } %>
+        <% cerrados.slice(0, 3).forEach((ticket) => { %>
+          <a href="/soporte/<%= ticket.id %>" class="ticket-row">
+            <span><%= ticket.asunto %></span>
+            <span class="badge-soft"><%= ticket.estado %></span>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+  <% } else { %>
+    <div class="support-empty">
+      <strong>Sin tickets por ahora</strong>
+      <span>Cuando abras una consulta, aparecera aqui.</span>
+    </div>
+  <% } %>
+</div>

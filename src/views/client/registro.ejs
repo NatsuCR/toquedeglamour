@@ -1,0 +1,88 @@
+<%- include('partials/header') %>
+
+<div class="animate__animated animate__fadeIn" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+  <div class="glass-card" style="width: 100%; max-width: 550px; padding: 3rem 2rem;">
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem;">Crea tu Cuenta</h1>
+      <p style="color: var(--text-muted);">Únete a Toque de Glamour</p>
+    </div>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; font-weight: 600;">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <form method="POST" action="/registro" style="display: flex; flex-direction: column; gap: 1.2rem;">
+      
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 200px;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Nombre</label>
+          <input type="text" name="nombre" required placeholder="Tu nombre"
+            style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
+            onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
+        </div>
+        <div style="flex: 1; min-width: 200px;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Apellidos</label>
+          <input type="text" name="apellidos" required placeholder="Tus apellidos"
+            style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
+            onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
+        </div>
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Cédula</label>
+        <input type="text" name="cedula" required placeholder="Número de identificación"
+          style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
+          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Celular</label>
+        <input type="tel" name="celular1" required placeholder="Tu número de teléfono"
+          style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
+          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Celular 2 (opcional)</label>
+        <input type="tel" name="celular2" placeholder="Otro numero de contacto"
+          style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
+          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Correo Electrónico</label>
+        <input type="email" name="correo" required placeholder="tu@correo.com"
+          style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
+          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Contraseña</label>
+        <input type="password" name="password" required placeholder="Crea una contraseña segura"
+          style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
+          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
+      </div>
+
+      <label class="terms-check">
+        <input type="checkbox" name="aceptoTerminos" required>
+        <span>
+          Acepto los <a href="/terminos-condiciones" target="_blank" rel="noopener">Términos y condiciones</a>
+          y la <a href="/politica-privacidad" target="_blank" rel="noopener">Política de privacidad</a>.
+          <small>Usaremos tus datos para gestionar tu cuenta, pedidos, entregas y soporte.</small>
+        </span>
+      </label>
+
+      <button type="submit" class="nav-btn" style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem; border: none; cursor: pointer; text-align: center;">
+        Completar Registro
+      </button>
+    </form>
+
+    <div style="text-align: center; margin-top: 2rem; border-top: 1px solid var(--glass-border); padding-top: 1.5rem;">
+      <p style="color: var(--text-muted);">¿Ya tienes una cuenta? <a href="/login" style="color: var(--primary); font-weight: 600; text-decoration: none;">Inicia sesión aquí</a></p>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,48 @@
+<%- include('partials/header') %>
+
+<section class="users-page animate__animated animate__fadeInUp">
+  <header class="admin-page-hero">
+    <div>
+      <span>Accesos</span>
+      <h1>Usuarios y administradores</h1>
+      <p>Gestiona clientes registrados, nuevos accesos y cuentas administrativas.</p>
+    </div>
+    <div class="users-stats">
+      <strong><%= clientes.length %></strong><span>clientes</span>
+      <strong><%= administradores.length %></strong><span>admins</span>
+    </div>
+  </header>
+
+  <% if (flashMsg) { %>
+    <div class="admin-flash <%= flashMsg.type === 'ok' ? 'ok' : 'error' %>"><%= flashMsg.message %></div>
+  <% } %>
+
+  <div class="users-grid">
+    <form action="/admin/usuarios/clientes" method="POST" class="users-card admin-form-panel">
+      <div class="form-panel-head"><h2>Crear cliente</h2><p>Alta manual para compras y seguimiento.</p></div>
+      <div class="users-form-grid">
+        <label>Nombre<input name="nombre" class="form-control" required></label>
+        <label>Apellidos<input name="apellidos" class="form-control" required></label>
+        <label>Correo<input type="email" name="correo" class="form-control" required></label>
+        <label>Cedula<input name="cedula" class="form-control" required></label>
+        <label>Celular 1<input name="celular1" class="form-control" required></label>
+        <label>Celular 2<input name="celular2" class="form-control"></label>
+        <label class="field-full">Contrasena<input type="password" name="password" class="form-control" required></label>
+      </div>
+      <label class="check-row"><input type="checkbox" name="cuentaVerificada" checked><span>Cuenta verificada</span></label>
+      <button class="btn" type="submit">Crear cliente</button>
+    </form>
+
+    <form action="/admin/usuarios/admins" method="POST" class="users-card admin-form-panel">
+      <div class="form-panel-head"><h2>Crear administrador</h2><p>Acceso al panel interno.</p></div>
+      <label>Correo<input type="email" name="correo" class="form-control" required></label>
+      <label>Contrasena<input type="password" name="password" class="form-control" required></label>
+      <button class="btn" type="submit">Crear administrador</button>
+    </form>
+  </div>
+
+  <%- include('usuarios-parts/clientes-table', { clientes }) %>
+  <%- include('usuarios-parts/admins-list', { administradores, admin }) %>
+</section>
+
+<%- include('partials/footer') %>

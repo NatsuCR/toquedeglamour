@@ -1,0 +1,54 @@
+<!-- src/views/client/catalogo.ejs -->
+<%- include('partials/header') %>
+
+<%
+  const totalProductos = productos?.length || 0;
+  const filtrosActivos = [
+    filtros.q,
+    filtros.cat,
+    filtros.subcat,
+    filtros.minPrecio,
+    filtros.maxPrecio,
+    filtros.sort,
+    filtros.disponible
+  ].filter(Boolean).length;
+  const categoriaActual = categorias.find((c) => c.slug === filtros.cat);
+  const subcategoriaActual = categorias
+    .flatMap((c) => c.subcategorias || [])
+    .find((s) => s.slug === filtros.subcat);
+%>
+
+<section class="catalog-page animate__animated animate__fadeIn">
+  <header class="catalog-hero">
+    <div>
+      <span>Tienda online</span>
+      <h1>Cat&aacute;logo de productos</h1>
+      <p>Explora maquillaje, cuidado personal y bienestar seleccionado para comprar con calma y claridad.</p>
+    </div>
+    <div class="catalog-summary">
+      <article><span>Productos</span><strong><%= totalProductos %></strong></article>
+      <article><span>Categor&iacute;a</span><strong><%= categoriaActual?.nombre || 'Todas' %></strong></article>
+      <article><span>Subcategor&iacute;a</span><strong><%= subcategoriaActual?.nombre || 'Todas' %></strong></article>
+    </div>
+  </header>
+
+  <div class="catalog-layout">
+    <%- include('catalogo-parts/filter', { categorias, filtros }) %>
+
+    <section class="catalog-results">
+      <div class="catalog-results-head">
+        <div>
+          <span>Inventario</span>
+          <h2>Productos disponibles</h2>
+        </div>
+        <p><%= totalProductos %> resultado<%= totalProductos === 1 ? '' : 's' %></p>
+      </div>
+
+      <%- include('catalogo-parts/product-grid', { productos }) %>
+    </section>
+  </div>
+</section>
+
+<script src="/js/catalog-load-more.js"></script>
+
+<%- include('partials/footer') %>

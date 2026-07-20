@@ -1,0 +1,17 @@
+[data-theme="dark"] .nav-btn,
+[data-theme="dark"] .ver-mas-btn {
+  color: #3a1423 !important;
+  background: linear-gradient(135deg, #ffd4df, #f0a9c0) !important;
+}
+
+[data-theme="dark"] .nav-btn-outline,
+[data-theme="dark"] .btn-outline {
+  color: #ffd4df !important;
+  border-color: rgba(255, 212, 223, 0.42) !important;
+}
+
+[data-theme="dark"] footer {
+  background: #100b0f !important;
+  color: #f8d7e1 !important;
+  border-top-color: rgba(255, 212, 223, 0.14) !important;
+}

@@ -1,0 +1,58 @@
+<%- include('partials/header') %>
+
+<section class="support-page">
+  <a href="/soporte" class="btn-outline support-back">Volver a soporte</a>
+  <div class="chat-panel support-chat-shell" data-support-chat
+    data-api="/soporte/<%= ticket.id %>/mensajes" data-own-author="CLIENTE">
+    <div class="support-chat-head">
+      <div>
+        <span>Ticket #<%= ticket.id %></span>
+        <h1><%= ticket.asunto %></h1>
+      </div>
+      <span class="ticket-status" data-support-status><%= ticket.estado %></span>
+    </div>
+
+    <div class="chat-thread" data-support-thread>
+      <% ticket.mensajes.forEach((mensaje) => { %>
+        <div class="chat-message <%= mensaje.autor === 'CLIENTE' ? 'mine' : 'admin' %>">
+          <strong><%= mensaje.autor === 'CLIENTE' ? 'Tu' : 'Administracion' %></strong>
+          <p><%= mensaje.mensaje %></p>
+          <% if (mensaje.adjuntos && mensaje.adjuntos.length) { %>
+            <div class="support-files">
+              <% mensaje.adjuntos.forEach((adjunto) => { %>
+                <% if (adjunto.mimeType.startsWith('image/')) { %>
+                  <img src="<%= adjunto.rutaArchivo %>" alt="<%= adjunto.nombreOriginal %>">
+                <% } %>
+                <a href="<%= adjunto.rutaArchivo %>" target="_blank" rel="noopener"><%= adjunto.nombreOriginal %></a>
+              <% }) %>
+            </div>
+          <% } %>
+          <small><%= mensaje.creadoEn.toLocaleString() %></small>
+        </div>
+      <% }) %>
+    </div>
+
+    <% if (ticket.estado !== 'CERRADO') { %>
+      <form action="/soporte/<%= ticket.id %>/responder" method="POST" enctype="multipart/form-data"
+        class="support-reply" data-support-form>
+        <label>
+          Responder
+          <textarea name="mensaje" rows="4" placeholder="Escribe tu respuesta..."></textarea>
+        </label>
+        <label class="support-file-field">
+          Adjuntos
+          <input type="file" name="adjuntos" accept="image/*,.pdf" multiple>
+        </label>
+        <p class="support-error" data-support-error hidden></p>
+        <button class="nav-btn support-submit" type="submit">Enviar respuesta</button>
+      </form>
+    <% } %>
+    <p class="support-empty" data-support-closed <%= ticket.estado !== 'CERRADO' ? 'hidden' : '' %>>
+      Este ticket fue cerrado por administracion.
+    </p>
+  </div>
+  <%- include('partials/support-payment-note') %>
+</section>
+
+<script src="/js/support-chat.js" defer></script>
+<%- include('partials/footer') %>

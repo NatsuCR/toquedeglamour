@@ -1,0 +1,79 @@
+<%- include('partials/header') %>
+<%
+  const s = siteSettings || {};
+  const heroImages = Array.isArray(s.heroImages) && s.heroImages.length
+    ? s.heroImages
+    : [s.heroImageUrl || '/img/beauty-hero.png'];
+%>
+
+<section class="store-hero animate__animated animate__fadeIn" data-hero-slider>
+  <div class="hero-slide-track" data-hero-track>
+    <% heroImages.forEach((image) => { %>
+      <div class="hero-slide" style="--hero-bg: url('<%= image %>')"></div>
+    <% }) %>
+  </div>
+
+  <div class="hero-copy">
+    <p class="hero-eyebrow"><%= s.heroEyebrow %></p>
+    <h1><%= s.heroTitle %></h1>
+    <p><%= s.heroText %></p>
+    <div class="hero-actions">
+      <a href="<%= s.heroPrimaryHref || '/catalogo' %>" class="nav-btn"><%= s.heroPrimaryLabel %></a>
+      <a href="<%= s.heroSecondaryHref || '/quienes-somos' %>" class="nav-btn-outline"><%= s.heroSecondaryLabel %></a>
+    </div>
+
+    <div class="hero-service-row" aria-label="Servicios principales">
+      <span>Retiro local</span>
+      <span>Correos de Costa Rica</span>
+      <span>Pagos SINPE y BCR</span>
+    </div>
+  </div>
+
+  <% if (heroImages.length > 1) { %>
+    <button class="hero-arrow hero-arrow-left" type="button" data-hero-prev aria-label="Portada anterior">❮</button>
+    <button class="hero-arrow hero-arrow-right" type="button" data-hero-next aria-label="Portada siguiente">❯</button>
+    <div class="hero-dots" aria-label="Portadas disponibles">
+      <% heroImages.forEach((image, index) => { %>
+        <button type="button" class="<%= index === 0 ? 'is-active' : '' %>" data-hero-dot="<%= index %>" aria-label="Ver portada <%= index + 1 %>"></button>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<section class="home-showcase">
+  <%- include('partials/slider-section', {
+    titulo: s.topTitle,
+    subtitulo: s.topSubtitle,
+    icono: '',
+    items: topVentas,
+    sliderId: 'sliderTop',
+    mostrarBadge: false
+  }) %>
+
+  <%- include('partials/slider-section', {
+    titulo: s.newTitle,
+    subtitulo: s.newSubtitle,
+    icono: '',
+    items: nuevos,
+    sliderId: 'sliderNuevos',
+    mostrarBadge: true
+  }) %>
+
+  <%- include('partials/slider-section', {
+    titulo: s.suggestedTitle,
+    subtitulo: s.suggestedSubtitle,
+    icono: '',
+    items: sugeridos,
+    sliderId: 'sliderSugeridos',
+    mostrarBadge: false
+  }) %>
+</section>
+
+<div class="home-more">
+  <a href="/catalogo" class="ver-mas-btn">Ver mas productos</a>
+</div>
+
+<script src="/js/hero-slider.js"></script>
+<script src="/js/client-slider.js"></script>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,26 @@
+<aside class="cart-summary">
+  <div class="cart-summary-head">
+    <span>Resumen</span>
+    <h2>Pedido</h2>
+  </div>
+
+  <div class="cart-summary-lines">
+    <p><span>Subtotal</span><strong><%= formatMoney(subtotal) %></strong></p>
+    <p><span>IVA <%= finance?.ivaPorcentaje || 13 %>%</span><strong><%= formatMoney(iva) %></strong></p>
+    <p><span>Envio</span><strong>Calculado en checkout</strong></p>
+  </div>
+
+  <div class="cart-total">
+    <span>Total estimado</span>
+    <strong><%= formatMoney(total) %></strong>
+  </div>
+
+  <p class="cart-summary-note">
+    El IVA se calcula sobre el subtotal de productos. El envio se define en el checkout segun el tipo de entrega.
+  </p>
+
+  <div class="cart-summary-actions">
+    <a href="/catalogo" class="nav-btn">Continuar comprando</a>
+    <a href="/checkout" class="btn-outline">Proceder al checkout</a>
+  </div>
+</aside>

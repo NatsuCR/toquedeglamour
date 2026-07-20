@@ -1,0 +1,86 @@
+.finance-page {
+  display: grid;
+  gap: 1rem;
+}
+
+.finance-hero,
+.finance-card,
+.finance-filter {
+  border: 1px solid var(--glass-border);
+  background: color-mix(in srgb, var(--surface) 94%, var(--surface-soft));
+  box-shadow: var(--shadow);
+}
+
+.finance-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-radius: 14px;
+  padding: clamp(1.2rem, 3vw, 1.7rem);
+}
+
+.finance-hero span,
+.finance-card-head span,
+.finance-table-head span {
+  color: var(--secondary);
+  font-size: .75rem;
+  font-weight: 950;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.finance-hero h1,
+.finance-card h2,
+.finance-table-head h2 {
+  margin: .25rem 0;
+}
+
+.finance-hero p,
+.finance-card-head p,
+.finance-note,
+.finance-table-head p {
+  color: var(--text-muted);
+}
+
+.finance-export {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border-radius: 999px;
+  padding: .75rem 1.1rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary-strong), var(--primary));
+  font-weight: 950;
+  text-decoration: none;
+}
+
+.finance-flash,
+.finance-filter,
+.finance-card {
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.finance-flash.success {
+  background: color-mix(in srgb, var(--success) 14%, var(--surface));
+  color: var(--success);
+}
+
+.finance-flash.error {
+  background: color-mix(in srgb, var(--danger) 14%, var(--surface));
+  color: var(--danger);
+}
+
+.finance-filter,
+.finance-grid,
+.finance-form-grid {
+  display: grid;
+  gap: .85rem;
+}
+
+.finance-filter {
+  grid-template-columns: repeat(2, minmax(160px, 220px)) auto auto 1fr;
+  align-items: end;
+}

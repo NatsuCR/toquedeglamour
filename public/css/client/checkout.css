@@ -1,0 +1,120 @@
+.checkout-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(300px, 0.9fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.checkout-panel,
+.summary-panel {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  padding: 1.25rem;
+}
+
+.checkout-panel {
+  margin-bottom: 1rem;
+}
+
+.summary-panel {
+  position: sticky;
+  top: 90px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.field-full {
+  grid-column: 1 / -1;
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.choice-card {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  min-height: 82px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 0.9rem;
+  background: var(--surface-strong);
+  cursor: pointer;
+}
+
+.choice-card small,
+.muted {
+  color: var(--text-muted);
+}
+
+.map-frame {
+  width: 100%;
+  min-height: 210px;
+  border: 0;
+  border-radius: var(--radius-card);
+  margin-top: 0.8rem;
+}
+
+.payment-box,
+.checkout-alert {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 0.9rem;
+  background: var(--rose-soft);
+}
+
+.checkout-alert {
+  margin-bottom: 1rem;
+  color: var(--danger);
+  font-weight: 800;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.summary-total {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--primary-strong);
+}
+
+.order-code {
+  display: inline-block;
+  margin: 0.3rem 0;
+  padding: 0.45rem 0.65rem;
+  border-radius: var(--radius-card);
+  background: var(--surface-strong);
+  color: var(--primary-strong);
+  font-weight: 900;
+}
+
+@media (max-width: 860px) {
+  .checkout-grid,
+  .form-grid,
+  .choice-grid {
+    grid-template-columns: 1fr;
+  }
+  .summary-panel {
+    position: static;
+  }
+}

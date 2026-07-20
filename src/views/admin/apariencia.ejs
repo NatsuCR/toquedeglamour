@@ -1,0 +1,112 @@
+<%- include('partials/header') %>
+<%
+  const s = siteSettings || {};
+  const v = (key) => s[key] || '';
+  const heroImages = Array.isArray(s.heroImages) && s.heroImages.length
+    ? s.heroImages
+    : [v('heroImageUrl')].filter(Boolean);
+  const heroFields = [
+    ['heroEyebrow', 'Texto superior'],
+    ['heroTitle', 'Titulo principal'],
+    ['heroText', 'Descripcion', 'textarea'],
+    ['heroPrimaryLabel', 'Boton principal'],
+    ['heroPrimaryHref', 'Enlace boton principal'],
+    ['heroSecondaryLabel', 'Boton secundario'],
+    ['heroSecondaryHref', 'Enlace boton secundario']
+  ];
+  const sections = [
+    ['topTitle', 'Titulo mas vendidos'],
+    ['topSubtitle', 'Subtitulo mas vendidos'],
+    ['newTitle', 'Titulo recien llegados'],
+    ['newSubtitle', 'Subtitulo recien llegados'],
+    ['suggestedTitle', 'Titulo sugeridos'],
+    ['suggestedSubtitle', 'Subtitulo sugeridos']
+  ];
+  const colors = [
+    ['primaryColor', 'Principal'],
+    ['primaryStrongColor', 'Principal oscuro'],
+    ['secondaryColor', 'Dorado'],
+    ['accentColor', 'Acento']
+  ];
+%>
+
+<div class="glass-panel animate__animated animate__fadeInUp">
+  <div class="appearance-head">
+    <div>
+      <h1>Apariencia</h1>
+      <p>Controla el home, logo, imagen principal y colores de marca.</p>
+    </div>
+    <a href="/" class="btn btn-outline" target="_blank">Ver tienda</a>
+  </div>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="admin-alert is-error"><%= error %></div>
+  <% } %>
+  <% if (typeof success !== 'undefined' && success) { %>
+    <div class="admin-alert is-success"><%= success %></div>
+  <% } %>
+
+  <form method="POST" action="/admin/apariencia" enctype="multipart/form-data">
+    <div class="appearance-grid">
+      <section class="appearance-card">
+        <h2>Marca</h2>
+        <label>Logo actual</label>
+        <img src="<%= v('logoUrl') %>" alt="Logo actual" class="brand-preview">
+        <input type="file" name="logo" class="form-control" accept="image/jpeg,image/png,image/webp">
+        <input type="hidden" name="logoUrl" value="<%= v('logoUrl') %>">
+
+        <label>Portadas actuales</label>
+        <div class="hero-gallery-preview">
+          <% heroImages.forEach((image, index) => { %>
+            <div class="hero-image-tile">
+              <img src="<%= image %>" alt="Portada <%= index + 1 %>">
+              <div>
+                <strong><%= index === 0 ? 'Principal' : 'Slide ' + (index + 1) %></strong>
+                <% if (heroImages.length > 1) { %>
+                  <label class="remove-hero-image">
+                    <input type="checkbox" name="removeHeroImages" value="<%= image %>">
+                    Quitar
+                  </label>
+                <% } %>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+
+        <label>Agregar portadas</label>
+        <input type="file" name="heroImages" class="form-control" accept="image/jpeg,image/png,image/webp" multiple>
+        <small class="appearance-hint">Si agregas varias, la portada se movera automaticamente cada 5 segundos.</small>
+        <input type="hidden" name="heroImageUrl" value="<%= v('heroImageUrl') %>">
+        <input type="hidden" name="heroImagesJson" value="<%= JSON.stringify(heroImages) %>">
+      </section>
+
+      <section class="appearance-card">
+        <h2>Hero del home</h2>
+        <% heroFields.forEach(([name, label, type]) => { %>
+          <label for="<%= name %>"><%= label %></label>
+          <% if (type === 'textarea') { %>
+            <textarea id="<%= name %>" name="<%= name %>" class="form-control" rows="4"><%= v(name) %></textarea>
+          <% } else { %>
+            <input id="<%= name %>" name="<%= name %>" class="form-control" value="<%= v(name) %>">
+          <% } %>
+        <% }) %>
+      </section>
+
+      <section class="appearance-card">
+        <h2>Secciones y colores</h2>
+        <% sections.forEach(([name, label]) => { %>
+          <label for="<%= name %>"><%= label %></label>
+          <input id="<%= name %>" name="<%= name %>" class="form-control" value="<%= v(name) %>">
+        <% }) %>
+        <div class="color-grid">
+          <% colors.forEach(([name, label]) => { %>
+            <label><%= label %><input type="color" name="<%= name %>" value="<%= v(name) %>"></label>
+          <% }) %>
+        </div>
+      </section>
+    </div>
+    <button type="submit" class="btn save-appearance">Guardar cambios</button>
+  </form>
+</div>
+
+<%- include('partials/footer') %>

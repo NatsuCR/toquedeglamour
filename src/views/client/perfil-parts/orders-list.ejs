@@ -1,0 +1,60 @@
+<% const faseLabels = { PREPARACION: 'Preparacion del pedido', LISTO: 'Pedido listo', ENVIADO: 'Pedido enviado', COMPLETADO: 'Completado' }; %>
+<% const estadoLabels = { PENDIENTE_VERIFICACION: 'Pago en revision', PAGO_CONFIRMADO: 'Pago confirmado', EN_PREPARACION: 'En preparacion', ENVIADO: 'Enviado', ENTREGADO: 'Entregado', RECHAZADO: 'Cancelado' }; %>
+
+<% if (!pedidos || pedidos.length === 0) { %>
+  <div class="order-card order-empty-card">
+    <span>Sin compras</span>
+    <h2>Aun no tienes compras</h2>
+    <p>Cuando confirmes un pedido, aparecera aqui para darle seguimiento.</p>
+    <a class="nav-btn" href="/catalogo">Ir al catalogo</a>
+  </div>
+<% } else { %>
+  <div class="order-list">
+    <% pedidos.forEach((pedido) => { %>
+      <% const fases = pedido.tipoEntrega === 'LOCAL' ? ['PREPARACION', 'LISTO', 'COMPLETADO'] : ['PREPARACION', 'LISTO', 'ENVIADO', 'COMPLETADO']; %>
+      <% const faseActual = Math.max(0, fases.indexOf(pedido.fase || 'PREPARACION')); %>
+      <article class="order-card">
+        <div class="order-head">
+          <div>
+            <span>Pedido</span>
+            <h2><%= pedido.codigo || `#${pedido.id}` %></h2>
+            <p><%= pedido.creadoEn.toLocaleDateString('es-CR') %></p>
+          </div>
+          <div>
+            <span class="badge-soft"><%= estadoLabels[pedido.estado] || pedido.estado %></span>
+            <strong><%= formatMoney(pedido.total) %></strong>
+          </div>
+        </div>
+
+        <div class="phase-track">
+          <% fases.forEach((fase, index) => { %>
+            <span class="phase-step <%= index <= faseActual ? 'done' : '' %>"><%= faseLabels[fase] %></span>
+          <% }) %>
+        </div>
+
+        <div class="mini-items">
+          <% pedido.items.forEach((item) => { %>
+            <div class="mini-item">
+              <span><%= item.cantidad %> x <%= item.producto.nombre %></span>
+              <strong><%= formatMoney(Number(item.precioUnitario) * item.cantidad) %></strong>
+            </div>
+          <% }) %>
+        </div>
+
+        <div class="order-meta">
+          <p><span>Entrega</span><strong><%= pedido.tipoEntrega === 'DOMICILIO' ? 'Correos de Costa Rica' : 'Retiro en local' %></strong></p>
+          <p><span>Comprobante</span><strong><%= pedido.comprobantePago ? 'Recibido' : 'Pendiente' %></strong></p>
+        </div>
+
+        <% if (pedido.tipoEntrega === 'DOMICILIO' && pedido.direccionEnvio) { %>
+          <div class="order-address">
+            <span>Direccion de entrega</span>
+            <p><%= pedido.direccionEnvio.provincia %>, <%= pedido.direccionEnvio.canton %>, <%= pedido.direccionEnvio.distrito %></p>
+            <p><%= pedido.direccionEnvio.direccionExacta %></p>
+            <% if (pedido.direccionEnvio.descripcionCasa) { %><p><%= pedido.direccionEnvio.descripcionCasa %></p><% } %>
+          </div>
+        <% } %>
+      </article>
+    <% }) %>
+  </div>
+<% } %>

@@ -1,0 +1,13 @@
+<div class="finance-chart-frame small">
+  <div class="finance-bars">
+    <% const chartRows = rows.length ? rows : [[empty, 0, 'units']]; %>
+    <% const chartMax = maxValue(chartRows); %>
+    <% chartRows.forEach(([label, value, type]) => { %>
+      <div class="finance-bar-row <%= Number(value) < 0 ? 'is-negative' : '' %>">
+        <span><%= label %></span>
+        <div><i style="--bar-width:<%= width(value, chartMax) %>%"></i></div>
+        <strong><%= labelValue(value, type) %></strong>
+      </div>
+    <% }) %>
+  </div>
+</div>

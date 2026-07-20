@@ -1,0 +1,15 @@
+<% const codigoPago = typeof codigoPedido !== 'undefined' ? String(codigoPedido).replace(/[^0-9]/g, '') : 'numero de pedido'; %>
+
+<div class="payment-formats">
+  <h3>Detalle de pago</h3>
+  <p>En el detalle del SIMPE Movil o de la transferencia bancaria escribe solamente el numero del pedido, sin espacios ni caracteres especiales.</p>
+
+  <div class="format-block">
+    <h4>Formato valido</h4>
+    <code><%= codigoPago %></code>
+  </div>
+
+  <p class="format-warning">
+    Este formato nos ayuda a agilizar los pedidos, identificar correctamente a quien pertenece cada producto y entregarlo a la persona correcta. Por eso solicitamos utilizarlo al realizar el pago.
+  </p>
+</div>

@@ -1,0 +1,98 @@
+.about-page {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.about-panel {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--rose) 22%, transparent), transparent 34%),
+    var(--surface);
+  box-shadow: var(--shadow);
+  padding: clamp(1.5rem, 4vw, 3.2rem);
+}
+
+.about-heading {
+  text-align: center;
+}
+
+.about-heading span,
+.about-values-head span {
+  color: var(--secondary);
+  font-size: .76rem;
+  font-weight: 950;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.about-heading h1 {
+  margin: .35rem 0 1.8rem;
+  color: var(--primary-strong);
+  font-family: var(--font-serif);
+  font-size: clamp(2.35rem, 5vw, 3.65rem);
+  line-height: 1;
+}
+
+.about-copy {
+  display: grid;
+  gap: 1.2rem;
+  color: var(--text-main);
+  font-size: clamp(1rem, 1.7vw, 1.12rem);
+  line-height: 1.85;
+}
+
+.about-copy strong {
+  color: var(--primary-strong);
+}
+
+.about-values-head {
+  margin: 2.6rem 0 1rem;
+}
+
+.about-values-head h2 {
+  margin-top: .25rem;
+  color: var(--secondary);
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 3vw, 2.45rem);
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.value-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--primary) 9%, transparent), transparent 65%),
+    var(--surface-strong);
+  box-shadow: var(--shadow-soft);
+  padding: 1.3rem;
+}
+
+.value-card span {
+  color: var(--secondary);
+  font-size: .78rem;
+  font-weight: 950;
+  letter-spacing: .12em;
+}
+
+.value-card h3 {
+  margin: .65rem 0 .55rem;
+  color: var(--primary-strong);
+  font-size: 1.32rem;
+}
+
+.value-card p {
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+[data-theme="dark"] .value-card {
+  background:
+    linear-gradient(145deg, rgba(240, 169, 192, .12), rgba(220, 181, 108, .08)),
+    #21151c;
+}

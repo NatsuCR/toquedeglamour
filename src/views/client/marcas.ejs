@@ -1,0 +1,56 @@
+<%- include('partials/header') %>
+
+<section class="brands-page animate__animated animate__fadeIn">
+  <header class="brands-hero">
+    <span>Colaboraciones</span>
+    <h1>Marcas que acompanan Toque de Glamour</h1>
+    <p>Alianzas especiales para traer productos de belleza, cuidado personal y bienestar con respaldo.</p>
+  </header>
+
+  <% if (!colaboraciones || colaboraciones.length === 0) { %>
+    <div class="brands-empty">
+      <h2>Pronto tendremos nuevas colaboraciones</h2>
+      <p>Estamos preparando alianzas especiales para la tienda.</p>
+    </div>
+  <% } else { %>
+    <div class="brand-collab-grid">
+      <% colaboraciones.forEach((colab) => { %>
+        <article class="brand-collab-card">
+          <button
+            class="brand-collab-media"
+            type="button"
+            data-brand-image="<%= colab.imagenUrl %>"
+            data-brand-title="<%= colab.titulo %>"
+            aria-label="Ampliar imagen de <%= colab.titulo %>">
+            <img src="<%= colab.imagenUrl %>" alt="<%= colab.titulo %>" loading="lazy">
+            <span>Ampliar</span>
+          </button>
+          <div class="brand-collab-copy">
+            <span><%= colab.marca %></span>
+            <h2><%= colab.titulo %></h2>
+            <% if (colab.descripcion) { %>
+              <p class="brand-description" data-brand-description><%= colab.descripcion %></p>
+              <button class="brand-description-toggle" type="button" data-brand-description-toggle>
+                Ver mas
+              </button>
+            <% } %>
+            <% if (colab.enlace) { %>
+              <a class="nav-btn" href="<%= colab.enlace %>">Ver productos</a>
+            <% } %>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<div class="brand-lightbox" data-brand-lightbox hidden>
+  <div class="brand-lightbox-frame" role="dialog" aria-modal="true" aria-label="Imagen de colaboracion">
+    <button class="brand-lightbox-close" type="button" data-brand-close aria-label="Cerrar">X</button>
+    <img src="" alt="" data-brand-lightbox-img>
+  </div>
+</div>
+
+<script src="/js/brand-lightbox.js"></script>
+
+<%- include('partials/footer') %>

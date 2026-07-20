@@ -1,0 +1,90 @@
+.finance-grid {
+  grid-template-columns: minmax(270px, .8fr) minmax(360px, 1.2fr);
+}
+
+.finance-card {
+  display: grid;
+  align-content: start;
+  gap: .95rem;
+}
+
+.finance-card-compact {
+  min-height: 100%;
+}
+
+.finance-card label,
+.finance-filter label {
+  color: var(--text-muted);
+  font-size: .84rem;
+  font-weight: 900;
+}
+
+.finance-card input,
+.finance-card textarea,
+.finance-filter input {
+  margin-top: .38rem;
+}
+
+.finance-form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.finance-form-grid label:last-child {
+  grid-column: 1 / -1;
+}
+
+.finance-switch {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  padding: .85rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 24%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--primary) 8%, var(--surface-soft));
+}
+
+.finance-switch input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+  margin: 0;
+}
+
+.finance-file {
+  display: grid;
+  gap: .5rem;
+  padding: .95rem;
+  border: 1px dashed color-mix(in srgb, var(--primary) 36%, var(--glass-border));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--primary) 6%, var(--surface-soft));
+}
+
+.finance-file input {
+  cursor: pointer;
+  border: 0 !important;
+  padding: 0;
+  background: transparent !important;
+}
+
+.finance-file input::file-selector-button {
+  border: 0;
+  border-radius: 999px;
+  margin-right: .75rem;
+  padding: .65rem 1rem;
+  color: #fff;
+  background: var(--primary);
+  font-weight: 950;
+}
+
+.finance-file span {
+  color: var(--text-muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 920px) {
+  .finance-filter,
+  .finance-grid,
+  .finance-form-grid {
+    grid-template-columns: 1fr;
+  }
+}

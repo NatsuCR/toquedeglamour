@@ -1,0 +1,120 @@
+.support-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3.5rem;
+}
+
+.support-hero {
+  margin-bottom: 1.25rem;
+}
+
+.support-hero span {
+  color: var(--secondary);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.support-hero h1 {
+  margin: 0.2rem 0;
+  color: var(--primary-strong);
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 4vw, 3.3rem);
+}
+
+.support-hero p,
+.support-card-head p {
+  color: var(--text-muted);
+}
+
+.support-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.82fr) minmax(0, 1.18fr);
+  gap: 1.1rem;
+}
+
+.chat-panel,
+.ticket-form {
+  border: 1px solid color-mix(in srgb, var(--primary) 14%, transparent);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--surface-strong) 88%, var(--rose-soft));
+  padding: 1.25rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.support-card-head {
+  margin-bottom: 1rem;
+}
+
+.support-card-head h2 {
+  margin-bottom: 0.25rem;
+  color: var(--primary-strong);
+}
+
+.ticket-form label {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.ticket-form input,
+.ticket-form textarea {
+  min-height: 44px;
+  padding: 0.75rem 0.85rem !important;
+  border-color: color-mix(in srgb, var(--primary) 18%, transparent) !important;
+  background: var(--surface-strong) !important;
+  color: var(--text-main) !important;
+  font-size: 0.95rem;
+}
+
+.ticket-form textarea {
+  min-height: 132px;
+}
+
+.support-submit {
+  border: 0;
+  min-width: 160px;
+  padding: 0.85rem 1.2rem;
+}
+
+.ticket-list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.ticket-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 0.95rem;
+  color: var(--text-main);
+  background: var(--surface-strong);
+  text-decoration: none;
+}
+
+.ticket-row small {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+}
+
+.ticket-status,
+.support-empty {
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--primary-strong);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.ticket-status {
+  display: inline-flex;
+  align-self: start;
+  padding: 0.25rem 0.6rem;
+}

@@ -1,0 +1,43 @@
+<section class="checkout-panel">
+  <h2>Tipo de entrega</h2>
+  <div class="choice-grid">
+    <label class="choice-card">
+      <input type="radio" name="tipoEntrega" value="LOCAL" checked>
+      <span><strong>Retiro en local</strong><br><small>Sin costo adicional.</small></span>
+    </label>
+    <label class="choice-card">
+      <input type="radio" name="tipoEntrega" value="DOMICILIO">
+      <span><strong>Correos de Costa Rica</strong><br><small>Entrega a domicilio, CRC 3,000.</small></span>
+    </label>
+  </div>
+
+  <iframe class="map-frame" loading="lazy" allowfullscreen
+    referrerpolicy="strict-origin-when-cross-origin"
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d301.71980466532676!2d-84.45936536916554!3d10.475791460719433!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa07144f2f0f5c1%3A0xeef6392d35986cc4!2stoquedeglamour!5e1!3m2!1ses-419!2scr!4v1783038041259!5m2!1ses-419!2scr">
+  </iframe>
+
+  <div id="addressFields" class="form-grid" hidden>
+    <p class="field-full muted">El envio se coordina por Correos de Costa Rica.</p>
+    <label>
+      Provincia
+      <select id="provincia" name="provincia" data-selected="<%= ultimaDireccion?.provincia || '' %>"></select>
+    </label>
+    <label>
+      Canton
+      <select id="canton" name="canton" data-selected="<%= ultimaDireccion?.canton || '' %>"></select>
+    </label>
+    <label>
+      Distrito
+      <select id="distrito" name="distrito" data-selected="<%= ultimaDireccion?.distrito || '' %>"></select>
+    </label>
+    <label class="field-full checkout-textarea-field">
+      <span>Direccion exacta</span>
+      <textarea name="direccionExacta" rows="3"><%= ultimaDireccion?.direccionExacta || '' %></textarea>
+    </label>
+    <p class="field-full muted">Mientras más detalles nos brinde, mejor será la preparación y entrega de su pedido.</p>
+    <label class="field-full checkout-textarea-field">
+      <span>Descripcion de la casa</span>
+      <textarea name="descripcionCasa" rows="2"><%= ultimaDireccion?.descripcionCasa || '' %></textarea>
+    </label>
+  </div>
+</section>

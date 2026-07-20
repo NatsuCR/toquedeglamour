@@ -1,0 +1,47 @@
+<% if (items && items.length > 0) { %>
+  <section class="slider-container animate__animated animate__fadeInUp">
+    <div class="slider-header">
+      <div>
+        <h2 class="slider-title">
+          <%= titulo %>
+          <% if (typeof icono !== 'undefined' && icono) { %>
+            <span><%= icono %></span>
+          <% } %>
+        </h2>
+        <% if (typeof subtitulo !== 'undefined' && subtitulo) { %>
+          <p class="slider-subtitle"><%= subtitulo %></p>
+        <% } %>
+      </div>
+    </div>
+
+    <% if (items.length >= 3) { %>
+      <button class="slider-btn slider-btn-left" data-slider="<%= sliderId %>" aria-label="Anterior">&#10094;</button>
+      <button class="slider-btn slider-btn-right" data-slider="<%= sliderId %>" aria-label="Siguiente">&#10095;</button>
+    <% } %>
+
+    <div class="slider-track-wrapper">
+      <div class="slider-track" id="<%= sliderId %>">
+        <% items.forEach((p, index) => { %>
+          <% const consulta = p.tipoVenta === 'CONSULTA'; %>
+          <div class="slider-item">
+            <a href="/producto/<%= p.id %>" style="text-decoration:none; color:inherit; display:block; position:relative; height:100%;">
+              <% if (mostrarBadge && index < 3) { %>
+                <div class="highlight-badge">Nuevo</div>
+              <% } %>
+              <article class="glass-card card-hover-effect">
+                <% if (p.imagenUrl) { %>
+                  <img src="<%= p.imagenUrl %>" alt="<%= p.nombre %>" class="card-img" loading="lazy">
+                <% } else { %>
+                  <div class="card-img" style="display:flex; align-items:center; justify-content:center;">Sin imagen</div>
+                <% } %>
+                <span class="card-category"><%= p.subcategoria?.nombre || p.categoria?.nombre || 'General' %></span>
+                <h3 class="card-title"><%= p.nombre %></h3>
+                <p class="card-price"><%= consulta ? 'Precio a consultar' : formatMoney(p.precio) %></p>
+              </article>
+            </a>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+<% } %>
