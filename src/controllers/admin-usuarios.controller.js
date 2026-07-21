@@ -48,6 +48,7 @@ export class AdminUsuariosController {
           cedula: clean(cedula),
           celular1: clean(celular1),
           celular2: clean(celular2) || null,
+          aceptaPromociones: req.body.aceptaPromociones === 'on',
           cuentaVerificada: req.body.cuentaVerificada === 'on'
         }
       });

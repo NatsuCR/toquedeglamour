@@ -76,8 +76,8 @@
       <label>Estado de pago/pedido</label>
       <select name="estado" class="form-control" onchange="this.form.submit()">
         <% const estados = pedido.tipoEntrega === 'LOCAL'
-          ? ['PENDIENTE_VERIFICACION','PAGO_CONFIRMADO','EN_PREPARACION','ENTREGADO','RECHAZADO']
-          : ['PENDIENTE_VERIFICACION','PAGO_CONFIRMADO','EN_PREPARACION','ENVIADO','ENTREGADO','RECHAZADO']; %>
+          ? ['PENDIENTE_VERIFICACION','PAGO_CONFIRMADO','EN_PREPARACION','ENTREGADO']
+          : ['PENDIENTE_VERIFICACION','PAGO_CONFIRMADO','EN_PREPARACION','ENVIADO','ENTREGADO']; %>
         <% estados.forEach((estado) => { %>
           <option value="<%= estado %>" <%= pedido.estado === estado ? 'selected' : '' %>><%= estado %></option>
         <% }) %>

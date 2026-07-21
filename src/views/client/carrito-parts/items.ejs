@@ -14,24 +14,27 @@
         <span>Producto</span>
         <h2><a href="/producto/<%= item.productoId %>"><%= item.nombre %></a></h2>
         <p><%= formatMoney(item.precio) %> por unidad</p>
+        <small class="cart-item-weight">Peso: <%= item.pesoGramos || 250 %> g por unidad</small>
       </div>
 
-      <form class="cart-quantity" action="/carrito/actualizar" method="POST">
-        <input type="hidden" name="productoId" value="<%= item.productoId %>">
-        <label>Cantidad
-          <input type="number" name="cantidad" value="<%= item.cantidad %>" min="1" onchange="this.form.submit()">
-        </label>
-      </form>
+      <div class="cart-item-actions">
+        <form class="cart-quantity" action="/carrito/actualizar" method="POST">
+          <input type="hidden" name="productoId" value="<%= item.productoId %>">
+          <label>Cantidad
+            <input type="number" name="cantidad" value="<%= item.cantidad %>" min="1" onchange="this.form.submit()">
+          </label>
+        </form>
 
-      <div class="cart-line-total">
-        <span>Total</span>
-        <strong><%= formatMoney(lineaTotal) %></strong>
+        <div class="cart-line-total">
+          <span>Total</span>
+          <strong><%= formatMoney(lineaTotal) %></strong>
+        </div>
+
+        <form action="/carrito/eliminar" method="POST">
+          <input type="hidden" name="productoId" value="<%= item.productoId %>">
+          <button class="cart-remove" type="submit" title="Eliminar producto">Quitar</button>
+        </form>
       </div>
-
-      <form action="/carrito/eliminar" method="POST">
-        <input type="hidden" name="productoId" value="<%= item.productoId %>">
-        <button class="cart-remove" type="submit" title="Eliminar producto">Quitar</button>
-      </form>
     </article>
   <% }) %>
 </section>

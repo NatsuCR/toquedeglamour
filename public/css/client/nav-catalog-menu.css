@@ -1,0 +1,80 @@
+.catalog-menu {
+  width: 260px;
+}
+
+.catalog-menu-item {
+  position: relative;
+}
+
+.catalog-menu-link,
+.catalog-product-submenu a {
+  display: block;
+  border-radius: 12px;
+  color: var(--text-main);
+  padding: 0.68rem 0.75rem;
+  text-decoration: none;
+  font-weight: 850;
+}
+
+.catalog-menu-item.has-children > .catalog-menu-link::after {
+  content: "";
+  float: right;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-top: 0.35rem;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.45;
+}
+
+.catalog-submenu,
+.catalog-product-submenu {
+  position: absolute;
+  top: -0.55rem;
+  left: calc(100% - 1px);
+  z-index: 130;
+  min-width: 245px;
+  display: grid;
+  gap: 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  padding: 0.55rem;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(8px);
+  transition: transform 160ms ease, visibility 0s linear 160ms;
+}
+
+.catalog-menu-item:hover > .catalog-submenu,
+.catalog-menu-item:focus-within > .catalog-submenu,
+.catalog-menu-item:hover > .catalog-product-submenu,
+.catalog-menu-item:focus-within > .catalog-product-submenu {
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0);
+  transition-delay: 0s;
+}
+
+.catalog-menu-link:hover,
+.catalog-product-submenu a:hover {
+  color: var(--primary-strong);
+  background: var(--rose-soft);
+}
+
+.catalog-product-submenu span {
+  display: block;
+  color: var(--secondary);
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+[data-theme="dark"] .catalog-submenu,
+[data-theme="dark"] .catalog-product-submenu {
+  background: #20161d;
+  border-color: rgba(255, 244, 248, 0.18);
+}

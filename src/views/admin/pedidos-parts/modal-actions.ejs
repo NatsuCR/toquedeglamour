@@ -3,8 +3,8 @@
     <label>Estado de pago/pedido</label>
     <select name="estado" class="form-control" onchange="this.form.submit()">
       <% const estados = pedido.tipoEntrega === 'LOCAL'
-        ? ['PENDIENTE_VERIFICACION','PAGO_CONFIRMADO','EN_PREPARACION','ENTREGADO','RECHAZADO']
-        : ['PENDIENTE_VERIFICACION','PAGO_CONFIRMADO','EN_PREPARACION','ENVIADO','ENTREGADO','RECHAZADO']; %>
+        ? ['PENDIENTE_VERIFICACION','PAGO_CONFIRMADO','EN_PREPARACION','ENTREGADO']
+        : ['PENDIENTE_VERIFICACION','PAGO_CONFIRMADO','EN_PREPARACION','ENVIADO','ENTREGADO']; %>
       <% estados.forEach((estado) => { %>
         <option value="<%= estado %>" <%= pedido.estado === estado ? 'selected' : '' %>><%= estado %></option>
       <% }) %>
@@ -19,3 +19,16 @@
     </select>
   </form>
 </div>
+
+<form class="order-cancel-box" action="/admin/pedidos/<%= pedido.id %>/cancelar" method="POST">
+  <div>
+    <h3>Cancelar pedido</h3>
+    <p>Escribe el motivo. Se enviara al cliente por correo y el stock volvera al inventario.</p>
+  </div>
+  <label>
+    Motivo de cancelacion
+    <textarea name="motivoCancelacion" rows="3" required minlength="8"
+      placeholder="Ejemplo: comprobante incorrecto, producto no disponible o solicitud del cliente."></textarea>
+  </label>
+  <button class="btn-danger" type="submit">Cancelar pedido y devolver stock</button>
+</form>

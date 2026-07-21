@@ -5,6 +5,7 @@ import { ProductoController } from '../controllers/producto.controller.js';
 import { AdminPedidosController } from '../controllers/admin-pedidos.controller.js';
 import { AdminSoporteController } from '../controllers/admin-soporte.controller.js';
 import { AdminUsuariosController } from '../controllers/admin-usuarios.controller.js';
+import { AnnouncementController } from '../controllers/announcement.controller.js';
 import { FinanceController } from '../controllers/finance.controller.js';
 import { BrandCollaborationController } from '../controllers/brand-collaboration.controller.js';
 import {
@@ -19,7 +20,7 @@ import { uploadBrandCollab, handleBrandCollabUploadError } from '../middlewares/
 
 const router = Router();
 const admin = [requireAdminAuth];
-const productUpload = [requireAdminAuth, uploadProductImage.single('imagen'), handleUploadError];
+const productUpload = [requireAdminAuth, uploadProductImage.array('imagenes', 8), handleUploadError];
 const supportUpload = [requireAdminAuth, uploadSoporte.array('adjuntos', 4), handleSupportUploadError];
 const expenseUpload = [requireAdminAuth, uploadGasto.single('comprobante'), handleExpenseUploadError];
 const brandUpload = [requireAdminAuth, uploadBrandCollab.single('imagen'), handleBrandCollabUploadError];
@@ -33,6 +34,11 @@ router.post('/finanzas/iva', admin, FinanceController.actualizarIva);
 router.post('/finanzas/gastos', expenseUpload, FinanceController.crearGasto);
 router.post('/finanzas/gastos/:id/eliminar', admin, FinanceController.eliminarGasto);
 router.get('/finanzas/exportar', admin, FinanceController.exportar);
+
+router.get('/correos', admin, AnnouncementController.render);
+router.post('/correos', admin, AnnouncementController.enviar);
+router.get('/anuncios', admin, (req, res) => res.redirect('/admin/correos'));
+router.post('/anuncios', admin, AnnouncementController.enviar);
 
 router.get('/marcas', admin, BrandCollaborationController.admin);
 router.post('/marcas', brandUpload, BrandCollaborationController.crear);
@@ -59,6 +65,7 @@ router.post('/usuarios/admins/:id/eliminar', admin, AdminUsuariosController.elim
 router.get('/pedidos', admin, AdminPedidosController.renderPedidos);
 router.post('/pedidos/:id/estado', admin, AdminPedidosController.actualizarEstado);
 router.post('/pedidos/:id/fase', admin, AdminPedidosController.actualizarFase);
+router.post('/pedidos/:id/cancelar', admin, AdminPedidosController.cancelar);
 
 router.get('/soporte', admin, AdminSoporteController.listar);
 router.get('/soporte/:id', admin, AdminSoporteController.detalle);

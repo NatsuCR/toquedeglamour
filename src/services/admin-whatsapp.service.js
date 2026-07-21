@@ -2,6 +2,7 @@ import {
   pedidoWhatsappTexto,
   ticketWhatsappTexto
 } from './admin-whatsapp-format.service.js';
+import { cancelacionClienteWhatsappTexto } from './admin-whatsapp-cancel-format.service.js';
 
 function dividirTexto(texto, limite = 850) {
   const partes = [];
@@ -56,4 +57,9 @@ export async function notificarAdminWhatsapp(pedido) {
 export async function notificarTicketWhatsapp(ticket) {
   if (!puedeEnviar()) return null;
   return enviarCallMeBot(ticketWhatsappTexto(ticket));
+}
+
+export async function notificarCancelacionClienteWhatsapp(pedido) {
+  if (!puedeEnviar()) return null;
+  return enviarCallMeBot(cancelacionClienteWhatsappTexto(pedido));
 }

@@ -1,0 +1,115 @@
+.order-cancel-notice,
+.order-detail-cancel {
+  border: 1px solid color-mix(in srgb, var(--danger) 34%, var(--line));
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--danger) 8%, var(--surface-strong));
+  padding: 0.85rem;
+}
+
+.order-cancel-notice {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 1rem;
+}
+
+.order-cancel-notice strong,
+.order-detail-cancel strong {
+  color: var(--danger);
+}
+
+.order-cancel-notice p,
+.order-detail-cancel p {
+  color: var(--text-muted);
+}
+
+.client-cancel-box {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(260px, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--line));
+  border-radius: var(--radius-card);
+  background: linear-gradient(135deg, var(--surface), var(--rose-soft));
+  box-shadow: var(--shadow-soft);
+  padding: 1rem;
+}
+
+.client-cancel-box span {
+  font-weight: 950;
+}
+
+.client-cancel-box h3 {
+  margin: .18rem 0 .4rem;
+  color: var(--primary-strong);
+}
+
+.client-cancel-box p,
+.client-cancel-box small {
+  color: var(--text-muted);
+}
+
+.client-cancel-box form,
+.client-cancel-box label {
+  display: grid;
+  gap: .55rem;
+}
+
+.client-cancel-box textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 96px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface-strong);
+  color: var(--text);
+  padding: .8rem;
+  font: inherit;
+}
+
+.client-cancel-box .btn-danger,
+.blocked-action button {
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--primary-strong);
+  color: #fff;
+  cursor: pointer;
+  padding: .8rem 1rem;
+  font-weight: 950;
+}
+
+.client-cancel-box.is-blocked {
+  align-items: center;
+  background: color-mix(in srgb, var(--surface-strong) 88%, var(--rose-soft));
+}
+
+.blocked-action {
+  position: relative;
+  width: max-content;
+}
+
+.blocked-action button {
+  cursor: not-allowed;
+  opacity: .62;
+}
+
+.blocked-action:hover::after {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + .65rem);
+  z-index: 5;
+  width: max-content;
+  max-width: 260px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--primary-strong);
+  color: #fff;
+  box-shadow: var(--shadow-soft);
+  content: attr(data-tooltip);
+  padding: .65rem .75rem;
+}
+
+@media (max-width: 720px) {
+  .client-cancel-box {
+    grid-template-columns: 1fr;
+  }
+}

@@ -30,6 +30,10 @@ function estaCompletado(pedido) {
   return pedido.estado === 'ENTREGADO' || pedido.fase === 'COMPLETADO';
 }
 
+function estaCancelado(pedido) {
+  return pedido.estado === 'RECHAZADO';
+}
+
 export class AdminOrderService {
   static async actualizarPedido(pedidoId, data) {
     return prisma.$transaction(async (tx) => {
@@ -52,7 +56,21 @@ export class AdminOrderService {
         data,
         include: pedidoIncludeCompleto
       });
-      return { pedido, completadoNuevo: !estaCompletado(actual) && estaCompletado(pedido) };
+      return {
+        pedido,
+        completadoNuevo: !estaCompletado(actual) && estaCompletado(pedido),
+        canceladoNuevo: !estaCancelado(actual) && estaCancelado(pedido)
+      };
+    });
+  }
+
+  static async cancelarPedido(pedidoId, motivo) {
+    const detalle = String(motivo || '').trim();
+    if (detalle.length < 8) throw new Error('Escribe un motivo de cancelacion mas claro.');
+    return this.actualizarPedido(pedidoId, {
+      estado: 'RECHAZADO',
+      motivoCancelacion: detalle,
+      canceladoEn: new Date()
     });
   }
 }

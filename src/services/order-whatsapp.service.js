@@ -1,4 +1,5 @@
 import { formatMoneyCRC as money, roundMoney } from '../utils/money.js';
+import { formatWeight } from './shipping.service.js';
 
 const pago = {
   SINPE: 'SINPE Movil',
@@ -12,7 +13,8 @@ const entrega = {
 
 function productosTexto(pedido) {
   return pedido.items.map((item) => {
-    const linea = `${item.cantidad} x ${item.producto.nombre}`;
+    const marca = item.producto.marca ? ` (${item.producto.marca})` : '';
+    const linea = `${item.cantidad} x ${item.producto.nombre}${marca}`;
     return `- ${linea} | ${money(roundMoney(item.precioUnitario) * item.cantidad)}`;
   }).join('\n');
 }
@@ -21,7 +23,8 @@ function direccionTexto(pedido) {
   if (pedido.tipoEntrega !== 'DOMICILIO' || !pedido.direccionEnvio) return 'Retiro en local';
   const dir = pedido.direccionEnvio;
   const casa = dir.descripcionCasa ? ` Casa: ${dir.descripcionCasa}` : '';
-  return `${dir.provincia}, ${dir.canton}, ${dir.distrito}. ${dir.direccionExacta}.${casa}`;
+  const zona = dir.zonaEntrega ? `Zona ${dir.zonaEntrega}. ` : '';
+  return `${zona}${dir.provincia}, ${dir.canton}, ${dir.distrito}. ${dir.direccionExacta}.${casa}`;
 }
 
 function ivaTexto(pedido) {
@@ -44,6 +47,7 @@ export class OrderWhatsappService {
       productosTexto(pedido),
       '',
       `Subtotal: ${money(pedido.subtotal)}`,
+      `Peso total: ${formatWeight(pedido.pesoTotalGramos || 0)}`,
       `Envio: ${money(pedido.costoEnvio)}`,
       ...ivaTexto(pedido),
       `Total: ${money(pedido.total)}`,

@@ -1,6 +1,7 @@
 import { InvoiceService } from './invoice.service.js';
 import { transporter } from './client-auth.service.js';
 import { formatMoneyCRC as money } from '../utils/money.js';
+import { formatWeight } from './shipping.service.js';
 
 const metodo = { SINPE: 'SINPE Movil', DEPOSITO: 'Transaccion bancaria' };
 
@@ -26,6 +27,7 @@ function emailHtml(pedido, completado = false) {
           <div style="border:1px solid #ead2dc;border-radius:10px;padding:16px;margin:20px 0;background:#fff8fb;">
             <p style="margin:0 0 8px;"><strong>Codigo:</strong> ${codigo}</p>
             <p style="margin:0 0 8px;"><strong>Metodo de pago:</strong> ${metodo[pedido.metodoPago] || pedido.metodoPago}</p>
+            <p style="margin:0 0 8px;"><strong>Peso:</strong> ${formatWeight(pedido.pesoTotalGramos || 0)}</p>
             <p style="margin:0;"><strong>Total:</strong> ${money(pedido.total)}</p>
           </div>
           <p>${cierre}</p>

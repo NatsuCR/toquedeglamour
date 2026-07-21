@@ -41,12 +41,7 @@
         <a href="/" class="nav-item">Inicio</a>
         <div class="nav-dropdown">
           <a href="/catalogo" class="nav-item">Catalogo</a>
-          <div class="nav-dropdown-menu" aria-label="Categorias del catalogo">
-            <a href="/catalogo">Todo el catalogo</a>
-            <% (typeof catalogoMenu !== 'undefined' ? catalogoMenu : []).forEach((c) => { %>
-              <a href="/catalogo?cat=<%= c.slug %>">Catalogo de <%= c.nombre %></a>
-            <% }) %>
-          </div>
+          <%- include('catalog-menu', { catalogoMenu: typeof catalogoMenu !== 'undefined' ? catalogoMenu : [] }) %>
         </div>
         <a href="/marcas" class="nav-item">Marcas</a>
         <a href="/carrito" class="nav-item cart-icon">

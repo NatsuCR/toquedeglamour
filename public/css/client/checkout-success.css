@@ -1,0 +1,119 @@
+.checkout-success-page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.6rem 1rem 3rem;
+}
+
+.success-card {
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.success-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, auto);
+  gap: 1rem;
+  align-items: end;
+  padding: clamp(1.2rem, 3vw, 1.8rem);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--primary) 14%, transparent), transparent 62%),
+    color-mix(in srgb, var(--surface-strong) 88%, var(--rose-soft));
+}
+
+.success-kicker,
+.success-status-grid span,
+.success-products-head span,
+.success-code-card span {
+  color: var(--secondary);
+  font-size: .74rem;
+  font-weight: 950;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.success-hero h1 {
+  margin: .25rem 0 .35rem;
+  color: var(--primary-strong);
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 3.7rem);
+  line-height: .95;
+}
+
+.success-hero p {
+  max-width: 620px;
+  color: var(--text-muted);
+}
+
+.success-code-card,
+.success-status-grid article {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface-strong);
+  padding: .95rem;
+}
+
+.success-code-card strong {
+  display: block;
+  margin-top: .35rem;
+  color: var(--primary-strong);
+  font-size: 1.22rem;
+}
+
+.success-status-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .85rem;
+  padding: 1rem clamp(1rem, 3vw, 1.4rem) 0;
+}
+
+.success-status-grid strong {
+  display: block;
+  margin-top: .35rem;
+  color: var(--primary-strong);
+}
+
+.success-products {
+  margin: 1rem clamp(1rem, 3vw, 1.4rem);
+}
+
+.success-products-head h2 {
+  color: var(--primary-strong);
+  font-size: 1.2rem;
+}
+
+.success-products li span {
+  display: grid;
+  gap: .15rem;
+}
+
+.success-products small {
+  color: var(--text-muted);
+  font-weight: 800;
+}
+
+.success-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface-strong) 92%, var(--rose-soft));
+  color: var(--text-main);
+  padding: 1rem clamp(1rem, 3vw, 1.4rem) 1.25rem;
+}
+
+.success-actions p {
+  flex: 1 1 260px;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .success-hero,
+  .success-status-grid {
+    grid-template-columns: 1fr;
+  }
+}

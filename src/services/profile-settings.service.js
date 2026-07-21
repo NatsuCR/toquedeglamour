@@ -32,6 +32,13 @@ export class ProfileSettingsService {
     });
   }
 
+  static async actualizarPromociones(clienteId, aceptaPromociones) {
+    return prisma.cliente.update({
+      where: { id: clienteId },
+      data: { aceptaPromociones: aceptaPromociones === 'on' || aceptaPromociones === true }
+    });
+  }
+
   static async solicitarCorreo(clienteId, correoNuevo) {
     const correo = normalizeEmail(correoNuevo);
     if (!correo) throw new Error('El correo es requerido.');

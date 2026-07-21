@@ -22,6 +22,14 @@
     <p class="account-status">Verificacion pendiente de correo.</p>
   <% } %>
 
+  <form class="profile-promo-toggle" method="POST" action="/perfil/configuracion/promociones">
+    <label>
+      <input type="checkbox" name="aceptaPromociones" <%= user?.aceptaPromociones ? 'checked' : '' %>>
+      <span>Recibir promociones</span>
+    </label>
+    <button type="submit">Guardar</button>
+  </form>
+
   <div class="account-actions">
     <a class="btn-outline" href="/perfil/configuracion">Configuraciones</a>
     <a class="btn-outline" href="/logout">Cerrar sesion</a>

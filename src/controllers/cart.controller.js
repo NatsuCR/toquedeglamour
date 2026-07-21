@@ -1,15 +1,7 @@
 import { ProductoService } from '../services/producto.service.js';
 import { FinanceSettingsService } from '../services/finance-settings.service.js';
+import { prepararResumenCarrito } from '../services/cart-summary.service.js';
 import { roundMoney } from '../utils/money.js';
-
-const subtotalCarrito = (carrito) => carrito.reduce(
-  (sum, item) => sum + roundMoney(item.precio) * Number(item.cantidad),
-  0
-);
-const normalizarCarrito = (carrito) => carrito.map((item) => ({
-  ...item,
-  precio: roundMoney(item.precio)
-}));
 
 const numeroPositivo = (value) => {
   const parsed = Number.parseInt(value, 10);
@@ -18,18 +10,18 @@ const numeroPositivo = (value) => {
 
 export class CartController {
   static async renderCarrito(req, res) {
-    const carrito = normalizarCarrito(req.session.carrito || []);
-    req.session.carrito = carrito;
-    const subtotal = subtotalCarrito(carrito);
+    const resumen = await prepararResumenCarrito(req.session.carrito || []);
+    req.session.carrito = resumen.carrito;
     const finance = await FinanceSettingsService.obtener();
-    const iva = finance.ivaActivo ? roundMoney(subtotal * (finance.ivaPorcentaje / 100)) : 0;
+    const iva = finance.ivaActivo ? roundMoney(resumen.subtotal * (finance.ivaPorcentaje / 100)) : 0;
     res.render('client/carrito', {
       user: res.locals.cliente,
-      carrito,
-      subtotal,
+      carrito: resumen.carrito,
+      subtotal: resumen.subtotal,
       finance,
       iva,
-      total: roundMoney(subtotal + iva)
+      shipping: resumen.shipping,
+      total: roundMoney(resumen.subtotal + resumen.shipping.costoEnvio + iva)
     });
   }
 
@@ -51,15 +43,17 @@ export class CartController {
       if (item) {
         item.cantidad = cantidadFinal;
         item.precio = roundMoney(producto.precio);
+        item.pesoGramos = producto.pesoGramos || 250;
       }
       else {
-        req.session.carrito.push({
-          productoId,
-          nombre: producto.nombre,
-          precio: roundMoney(producto.precio),
-          imagenUrl: producto.imagenUrl,
-          cantidad: cantidadFinal
-        });
+          req.session.carrito.push({
+            productoId,
+            nombre: producto.nombre,
+            precio: roundMoney(producto.precio),
+            imagenUrl: producto.imagenUrl,
+            pesoGramos: producto.pesoGramos || 250,
+            cantidad: cantidadFinal
+          });
       }
 
       req.session.save(() => res.redirect('/carrito'));
@@ -86,6 +80,7 @@ export class CartController {
         else {
           carrito[index].cantidad = Math.min(cantidad, producto.stock);
           carrito[index].precio = roundMoney(producto.precio);
+          carrito[index].pesoGramos = producto.pesoGramos || 250;
         }
       }
 

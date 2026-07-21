@@ -1,31 +1,68 @@
 <%- include('partials/header') %>
 
-<section class="checkout-page">
-  <div class="checkout-panel">
-    <h1>Pedido recibido</h1>
-    <p>Tu codigo de pedido es <span class="order-code"><%= pedido.codigo %></span>.</p>
-    <p>El pedido quedo en fase <strong>Preparacion del pedido</strong>.</p>
-    <p>Total: <strong><%= formatMoney(pedido.total) %></strong></p>
+<section class="checkout-success-page">
+  <article class="success-card">
+    <header class="success-hero">
+      <div>
+        <span class="success-kicker">Pedido recibido</span>
+        <h1>Tu compra quedo registrada</h1>
+        <p>Guardamos el pedido para revisar el comprobante y preparar tu compra.</p>
+      </div>
+      <div class="success-code-card">
+        <span>Codigo de pedido</span>
+        <strong><%= pedido.codigo %></strong>
+      </div>
+    </header>
+
+    <div class="success-status-grid">
+      <article>
+        <span>Fase actual</span>
+        <strong>Preparacion del pedido</strong>
+      </article>
+      <article>
+        <span>Total pagado</span>
+        <strong><%= formatMoney(pedido.total) %></strong>
+      </article>
+      <article>
+        <span>Peso del pedido</span>
+        <strong><%= formatWeight(pedido.pesoTotalGramos || 0) %></strong>
+      </article>
+      <article>
+        <span>Comprobante</span>
+        <strong><%= pedido.canalComprobante === 'WHATSAPP' ? 'WhatsApp' : 'Adjunto en web' %></strong>
+      </article>
+    </div>
+
     <div class="success-products">
-      <h2>Resumen del pedido</h2>
+      <div class="success-products-head">
+        <span>Resumen</span>
+        <h2>Productos del pedido</h2>
+      </div>
       <ul>
         <% pedido.items.forEach((item) => { %>
           <li>
-            <span><%= item.cantidad %> x <%= item.producto.nombre %></span>
+            <span>
+              <strong><%= item.cantidad %> x <%= item.producto.nombre %></strong>
+              <small>SKU: PRD-<%= String(item.producto.id).padStart(4, '0') %></small>
+              <small>Peso: <%= formatWeight((item.pesoUnitarioGramos || item.producto.pesoGramos || 0) * item.cantidad) %></small>
+            </span>
             <strong><%= formatMoney(Number(item.precioUnitario) * item.cantidad) %></strong>
           </li>
         <% }) %>
       </ul>
     </div>
 
-    <% if (pedido.canalComprobante === 'WHATSAPP') { %>
-      <p>Marcamos el pedido como comprobante enviado por WhatsApp. El mensaje se abrira con el detalle completo del pedido.</p>
-      <a class="nav-btn" href="<%= whatsappLink %>" target="_blank" rel="noopener">Abrir WhatsApp</a>
-    <% } else { %>
-      <p>Recibimos el comprobante adjunto en el sistema.</p>
-      <a class="nav-btn" href="/perfil">Ver mis pedidos</a>
-    <% } %>
-  </div>
+    <div class="success-actions">
+      <% if (pedido.canalComprobante === 'WHATSAPP') { %>
+        <p>Marcamos el pedido como comprobante enviado por WhatsApp.</p>
+        <a class="nav-btn" href="<%= whatsappLink %>" target="_blank" rel="noopener">Abrir WhatsApp</a>
+      <% } else { %>
+        <p>Recibimos el comprobante adjunto en el sistema.</p>
+        <a class="nav-btn" href="/perfil">Ver mis pedidos</a>
+      <% } %>
+      <a class="nav-btn-outline" href="/catalogo">Continuar comprando</a>
+    </div>
+  </article>
 </section>
 
 <%- include('partials/footer') %>

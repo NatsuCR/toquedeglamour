@@ -1,4 +1,5 @@
 import { roundMoney } from '../utils/money.js';
+import { calculateCartWeight } from './shipping.service.js';
 
 export async function prepararItemsPedido(tx, carrito) {
   if (!Array.isArray(carrito) || carrito.length === 0) {
@@ -26,14 +27,16 @@ export async function prepararItemsPedido(tx, carrito) {
     });
 
     const precioUnitario = roundMoney(producto.precio);
+    const pesoUnitarioGramos = Number.parseInt(producto.pesoGramos, 10) || 250;
     subtotal += precioUnitario * cantidad;
     items.push({
       productoId,
       cantidad,
       precioUnitario,
-      costoUnitario: roundMoney(producto.costo || 0)
+      costoUnitario: roundMoney(producto.costo || 0),
+      pesoUnitarioGramos
     });
   }
 
-  return { items, subtotal };
+  return { items, subtotal, pesoTotalGramos: calculateCartWeight(items) };
 }

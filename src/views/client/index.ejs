@@ -9,7 +9,7 @@
 <section class="store-hero animate__animated animate__fadeIn" data-hero-slider>
   <div class="hero-slide-track" data-hero-track>
     <% heroImages.forEach((image) => { %>
-      <div class="hero-slide" style="--hero-bg: url('<%= image %>')"></div>
+      <div class="hero-slide" data-hero-image="<%= image %>" style="--hero-bg: url('<%= image %>')"></div>
     <% }) %>
   </div>
 
@@ -25,9 +25,19 @@
     <div class="hero-service-row" aria-label="Servicios principales">
       <span>Retiro local</span>
       <span>Correos de Costa Rica</span>
-      <span>Pagos SINPE y BCR</span>
+      <span>Pagos SINPE y BN</span>
     </div>
   </div>
+
+  <button
+    class="hero-zoom-btn"
+    type="button"
+    data-hero-zoom
+    data-lightbox-alt="Imagen de portada Toque de Glamour"
+    aria-label="Ampliar imagen de portada"
+  >
+    Ampliar imagen
+  </button>
 
   <% if (heroImages.length > 1) { %>
     <button class="hero-arrow hero-arrow-left" type="button" data-hero-prev aria-label="Portada anterior">❮</button>
@@ -73,6 +83,18 @@
   <a href="/catalogo" class="ver-mas-btn">Ver mas productos</a>
 </div>
 
+<a
+  class="whatsapp-float"
+  href="https://wa.me/50685203998?text=Hola%2C%20tengo%20una%20consulta%20sobre%20Toque%20de%20Glamour."
+  target="_blank"
+  rel="noopener"
+  aria-label="Consultar por WhatsApp con Toque de Glamour"
+>
+  <span class="whatsapp-float__mark" aria-hidden="true">WA</span>
+  <span class="whatsapp-float__text">Consultas por WhatsApp</span>
+</a>
+
+<script src="/js/image-lightbox.js"></script>
 <script src="/js/hero-slider.js"></script>
 <script src="/js/client-slider.js"></script>
 

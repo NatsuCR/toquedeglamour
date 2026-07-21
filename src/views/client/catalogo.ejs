@@ -7,6 +7,7 @@
     filtros.q,
     filtros.cat,
     filtros.subcat,
+    filtros.marca,
     filtros.minPrecio,
     filtros.maxPrecio,
     filtros.sort,
@@ -16,6 +17,7 @@
   const subcategoriaActual = categorias
     .flatMap((c) => c.subcategorias || [])
     .find((s) => s.slug === filtros.subcat);
+  const marcaActual = filtros.marca || 'Todas';
 %>
 
 <section class="catalog-page animate__animated animate__fadeIn">
@@ -29,11 +31,12 @@
       <article><span>Productos</span><strong><%= totalProductos %></strong></article>
       <article><span>Categor&iacute;a</span><strong><%= categoriaActual?.nombre || 'Todas' %></strong></article>
       <article><span>Subcategor&iacute;a</span><strong><%= subcategoriaActual?.nombre || 'Todas' %></strong></article>
+      <article><span>Marca</span><strong><%= marcaActual %></strong></article>
     </div>
   </header>
 
   <div class="catalog-layout">
-    <%- include('catalogo-parts/filter', { categorias, filtros }) %>
+    <%- include('catalogo-parts/filter', { categorias, marcas, filtros }) %>
 
     <section class="catalog-results">
       <div class="catalog-results-head">

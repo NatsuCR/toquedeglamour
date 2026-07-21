@@ -51,8 +51,10 @@ router.post(
 );
 
 router.get('/perfil', clienteActivo, PerfilController.renderPerfil);
+router.post('/perfil/pedidos/:id/cancelar', clienteActivo, PerfilController.cancelarPedido);
 router.get('/perfil/configuracion', clienteActivo, ProfileSettingsController.render);
 router.post('/perfil/configuracion/celulares', clienteActivo, ProfileSettingsController.celulares);
+router.post('/perfil/configuracion/promociones', clienteActivo, ProfileSettingsController.promociones);
 router.post('/perfil/configuracion/correo', clienteActivo, ProfileSettingsController.solicitarCorreo);
 router.post('/perfil/configuracion/correo/confirmar', clienteActivo, ProfileSettingsController.confirmarCorreo);
 router.post('/perfil/configuracion/password', clienteActivo, ProfileSettingsController.password);

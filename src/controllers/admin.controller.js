@@ -47,7 +47,7 @@ export class AdminController {
   static async renderDashboard(req, res) {
     try {
       const [totalPedidos, totalClientes, stockBajo, recientes, resumen] = await Promise.all([
-        prisma.pedido.count(),
+        prisma.pedido.count({ where: { estado: { not: 'RECHAZADO' } } }),
         prisma.cliente.count(),
         prisma.producto.count({ where: { stock: { lte: 5 } } }),
         prisma.pedido.findMany({

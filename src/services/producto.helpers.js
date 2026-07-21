@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { roundMoney } from '../utils/money.js';
+import { parseProductWeight } from './product-weight.service.js';
 
 export const includeProducto = {
   categoria: true,
@@ -8,10 +9,11 @@ export const includeProducto = {
   imagenes: true
 };
 
-export const mapProducto = (p) => p && ({
-  ...p,
-  imagenUrl: p.imagenes?.[0]?.ruta || null
-});
+export const mapProducto = (p) => {
+  if (!p) return p;
+  const imagenes = ordenarImagenes(p.imagenes);
+  return { ...p, imagenes, imagenUrl: imagenes[0]?.ruta || null };
+};
 
 export const mapProductos = (productos) => productos.map(mapProducto);
 
@@ -32,12 +34,16 @@ export function datosProducto(data, existente = null) {
 
   return {
     nombre: data.nombre ? data.nombre.trim() : existente?.nombre,
+    marca: data.marca !== undefined
+      ? (data.marca.trim() || null)
+      : existente?.marca,
     descripcion: data.descripcion !== undefined
       ? (data.descripcion.trim() || 'Sin descripcion')
       : existente?.descripcion,
     precio: consulta ? null : valorMoney(data.precio, existente?.precio),
     costo: consulta ? 0 : valorMoney(data.costo, existente?.costo || 0),
     stock: consulta ? 0 : valorEntero(data.stock, existente?.stock || 0),
+    pesoGramos: parseProductWeight(data.pesoGramos, existente?.pesoGramos),
     categoriaId: data.categoriaId ? Number.parseInt(data.categoriaId, 10) : existente?.categoriaId,
     subcategoriaId: data.subcategoriaId ? Number.parseInt(data.subcategoriaId, 10) : null,
     tipoVenta: tipo,
@@ -52,6 +58,7 @@ export function filtrosProducto(filtros) {
   if (filtros.q) where.nombre = { contains: filtros.q };
   if (filtros.cat) where.categoria = { slug: filtros.cat };
   if (filtros.subcat) where.subcategoria = { slug: filtros.subcat };
+  if (filtros.marca) where.marca = filtros.marca;
   if (filtros.disponible) {
     where.tipoVenta = 'DIRECTA';
     where.stock = { gt: 0 };
@@ -78,9 +85,19 @@ export function borrarImagenes(imagenes) {
   });
 }
 
-export function imagenCreate(imagenFile) {
-  if (!imagenFile) return undefined;
-  return { create: { ruta: `/uploads/productos/${imagenFile.filename}`, principal: true } };
+export function imagenesCreate(imagenFiles) {
+  const archivos = Array.isArray(imagenFiles) ? imagenFiles.filter(Boolean) : [];
+  if (archivos.length === 0) return undefined;
+  return {
+    create: archivos.map((file, index) => ({
+      ruta: `/uploads/productos/${file.filename}`,
+      principal: index === 0
+    }))
+  };
+}
+
+export function tieneImagenesNuevas(imagenFiles) {
+  return Array.isArray(imagenFiles) && imagenFiles.length > 0;
 }
 
 function valorMoney(value, fallback) {
@@ -89,4 +106,11 @@ function valorMoney(value, fallback) {
 
 function valorEntero(value, fallback) {
   return value !== undefined && value !== '' ? Number.parseInt(value, 10) : fallback;
+}
+
+function ordenarImagenes(imagenes = []) {
+  return [...imagenes].sort((a, b) => {
+    if (a.principal !== b.principal) return a.principal ? -1 : 1;
+    return a.id - b.id;
+  });
 }

@@ -31,7 +31,13 @@
         <span>Historial</span>
         <h2>Mis pedidos</h2>
       </div>
-      <%- include('perfil-parts/orders-list', { pedidos }) %>
+      <% if (typeof success !== 'undefined' && success) { %>
+        <div class="account-feedback is-success"><%= success %></div>
+      <% } %>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="account-feedback is-error"><%= error %></div>
+      <% } %>
+      <%- include('perfil-parts/orders-list', { pedidos, user }) %>
     </section>
   </div>
 </div>

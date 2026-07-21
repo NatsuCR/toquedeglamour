@@ -15,6 +15,7 @@ function fillSelect(select, items, selected, placeholder) {
     const option = document.createElement('option');
     option.value = item.nombre;
     option.dataset.id = item.id;
+    option.dataset.zona = item.zonaEntrega || '';
     option.textContent = item.nombre;
     option.selected = item.nombre === selected;
     select.appendChild(option);
@@ -80,6 +81,14 @@ function loadDistritos() {
   const cant = prov?.cantones.find((actual) => actual.id === canton);
   fillSelect($('#distrito'), cant?.distritos || [], $('#distrito').dataset.selected, 'Selecciona distrito');
   $('#distrito').dataset.selected = '';
+  updateZone();
+}
+
+function updateZone() {
+  const option = selectedOption($('#canton'));
+  const zona = option?.value ? (option.dataset.zona || 'Resto del pa\u00eds') : 'Selecciona canton';
+  $('#zonaEntrega').value = option?.value ? zona : '';
+  $('#zonaEntregaText').textContent = zona;
 }
 
 async function initLocations() {

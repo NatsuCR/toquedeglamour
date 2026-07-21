@@ -1,0 +1,125 @@
+.order-modal {
+  width: min(1080px, calc(100vw - 2rem));
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 20px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--primary) 8%, transparent), transparent 42%),
+    var(--surface);
+  scrollbar-width: thin;
+}
+
+.order-modal-shell {
+  gap: 1.1rem;
+  padding: 0;
+}
+
+.order-modal-head {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  align-items: center;
+  padding: 1.25rem 1.35rem;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--primary) 11%, transparent), transparent 68%),
+    color-mix(in srgb, var(--surface) 94%, var(--surface-soft));
+  backdrop-filter: blur(16px);
+}
+
+.order-modal-head h2 {
+  color: var(--primary-strong);
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1;
+}
+.order-modal-head p { color: var(--text-muted); font-weight: 700; }
+
+.order-modal-badges {
+  display: grid;
+  gap: .35rem;
+  justify-items: end;
+  margin-left: auto;
+}
+
+.order-modal-badges strong,
+.order-modal-badges small {
+  border-radius: 999px;
+  padding: .45rem .72rem;
+  font-weight: 950;
+}
+
+.order-modal-badges strong {
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 12%, var(--surface-soft));
+}
+.order-modal-badges strong.danger {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, var(--surface-soft));
+}
+.order-modal-badges small { color: var(--text-muted); background: var(--surface-soft); }
+
+.order-detail-grid,
+.order-modal-section,
+.admin-order-actions,
+.order-cancel-box {
+  margin-inline: 1.35rem;
+}
+
+.order-detail-grid section,
+.order-modal-section {
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--primary) 5%, transparent), transparent),
+    var(--surface-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+.order-detail-grid h3,
+.order-modal-section h3 { color: var(--primary-strong); font-size: 1.05rem; }
+.order-detail-grid p { color: var(--text-light); line-height: 1.45; }
+
+.order-product-list {
+  display: grid;
+  gap: .65rem;
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: .25rem;
+}
+
+.order-product-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: .8rem;
+  align-items: center;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  padding: .75rem .85rem;
+}
+
+.order-product-row span {
+  display: block;
+  color: var(--text-muted);
+  font-size: .85rem;
+  font-weight: 800;
+}
+.order-product-row strong { color: var(--primary-strong); }
+.proof-section { display: grid; gap: .75rem; }
+
+.proof-section .proof-img {
+  width: min(280px, 100%);
+  max-height: 280px;
+  box-shadow: var(--shadow-soft);
+}
+
+@media (max-width: 800px) {
+  .order-modal-badges {
+    justify-items: start;
+    margin-left: 0;
+  }
+
+  .order-detail-grid,
+  .order-modal-section,
+  .admin-order-actions,
+  .order-cancel-box {
+    margin-inline: 1rem;
+  }
+}

@@ -1,7 +1,7 @@
 import prisma from '../config/db.js';
 
 export const DEFAULT_SITE_SETTINGS = {
-  logoUrl: '/img/logo-main.jpeg',
+  logoUrl: '/img/toque-de-glamour.png',
   heroImageUrl: '/img/beauty-hero.png',
   heroImagesJson: '["/img/beauty-hero.png"]',
   heroEyebrow: 'Belleza, salud y cuidado personal',

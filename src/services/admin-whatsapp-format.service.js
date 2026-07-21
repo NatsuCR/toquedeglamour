@@ -1,4 +1,5 @@
 import { formatMoneyCRC as money, roundMoney } from '../utils/money.js';
+import { formatWeight } from './shipping.service.js';
 
 const paymentLabels = {
   SINPE: 'SINPE Movil',
@@ -13,7 +14,8 @@ const value = (text, fallback = 'No indicado') => {
 function productosTexto(pedido) {
   return pedido.items.map((item) => {
     const total = roundMoney(item.precioUnitario) * item.cantidad;
-    return `- ${item.producto.nombre} x${item.cantidad} | ${money(total)}`;
+    const marca = item.producto.marca ? ` (${item.producto.marca})` : '';
+    return `- ${item.producto.nombre}${marca} x${item.cantidad} | ${money(total)}`;
   }).join('\n') || 'Sin productos';
 }
 
@@ -35,6 +37,7 @@ function entregaDomicilio(pedido) {
   const dir = pedido.direccionEnvio || {};
   return [
     'Entrega: Correos de Costa Rica',
+    `Zona: ${value(dir.zonaEntrega)}`,
     `Provincia: ${value(dir.provincia)}`,
     `Canton: ${value(dir.canton)}`,
     `Distrito: ${value(dir.distrito)}`,
@@ -85,6 +88,7 @@ export function pedidoWhatsappTexto(pedido) {
     '',
     `Metodo de pago: ${paymentLabels[pedido.metodoPago] || pedido.metodoPago}`,
     `Subtotal: ${money(pedido.subtotal)}`,
+    `Peso total: ${formatWeight(pedido.pesoTotalGramos || 0)}`,
     `Envio: ${money(pedido.costoEnvio)}`,
     ...ivaTexto(pedido),
     `Total: ${money(pedido.total)}`,

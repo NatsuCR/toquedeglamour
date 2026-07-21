@@ -35,7 +35,7 @@ export class ProductoController {
 
   static async crear(req, res) {
     try {
-      await ProductoService.crear(req.body, req.file);
+      await ProductoService.crear(req.body, req.files);
       res.redirect('/admin/productos?success=Producto+creado');
     } catch (error) {
       res.redirect(`/admin/productos?error=${encodeURIComponent(error.message)}`);
@@ -44,7 +44,7 @@ export class ProductoController {
 
   static async actualizar(req, res) {
     try {
-      await ProductoService.actualizar(req.params.id, req.body, req.file);
+      await ProductoService.actualizar(req.params.id, req.body, req.files);
       res.redirect('/admin/productos?success=Producto+actualizado');
     } catch (error) {
       res.redirect(`/admin/productos?error=${encodeURIComponent(error.message)}`);
@@ -74,7 +74,7 @@ function filtrarProductos(productos, busqueda) {
   const q = busqueda.toLowerCase();
   return productos.filter((p) => {
     const sku = `prd-${p.id.toString().padStart(4, '0')}`;
-    const valores = [p.nombre, p.categoria?.nombre, p.subcategoria?.nombre, sku, p.id.toString().padStart(4, '0')];
+    const valores = [p.nombre, p.marca, p.categoria?.nombre, p.subcategoria?.nombre, sku, p.id.toString().padStart(4, '0')];
     return valores.some((value) => String(value || '').toLowerCase().includes(q));
   });
 }

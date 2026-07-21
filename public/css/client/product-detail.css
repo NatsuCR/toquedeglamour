@@ -40,6 +40,15 @@
   font-weight: 800;
 }
 
+.product-brand {
+  width: max-content;
+  border-radius: var(--radius-pill);
+  color: var(--primary-strong);
+  background: color-mix(in srgb, var(--primary) 11%, transparent);
+  padding: 0.34rem 0.7rem;
+  font-weight: 950;
+}
+
 .product-detail-info h1 {
   color: var(--primary-strong);
   font-family: var(--font-serif);

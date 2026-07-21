@@ -5,18 +5,21 @@
   </div>
 
   <div class="cart-summary-lines">
-    <p><span>Subtotal</span><strong><%= formatMoney(subtotal) %></strong></p>
+    <p><span>Subtotal productos</span><strong><%= formatMoney(subtotal) %></strong></p>
+    <p><span>Peso total del pedido</span><strong><%= shipping.pesoTexto %></strong></p>
+    <p><span>Envio y gestion logistica</span><strong><%= formatMoney(shipping.costoEnvio) %></strong></p>
     <p><span>IVA <%= finance?.ivaPorcentaje || 13 %>%</span><strong><%= formatMoney(iva) %></strong></p>
-    <p><span>Envio</span><strong>Calculado en checkout</strong></p>
   </div>
 
   <div class="cart-total">
-    <span>Total estimado</span>
+    <span>Total estimado Correos</span>
     <strong><%= formatMoney(total) %></strong>
   </div>
 
   <p class="cart-summary-note">
-    El IVA se calcula sobre el subtotal de productos. El envio se define en el checkout segun el tipo de entrega.
+    El costo de envio se calcula segun el peso total del pedido. Los pedidos de hasta
+    2 kg pagan ₡5.000. Despues de 2 kg, se cobra ₡1.000 adicional por cada kilogramo
+    extra o fraccion. Si eliges retiro local en checkout, el envio queda en ₡0.
   </p>
 
   <div class="cart-summary-actions">

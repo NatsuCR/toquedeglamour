@@ -7,7 +7,7 @@
     </label>
     <label class="choice-card">
       <input type="radio" name="tipoEntrega" value="DOMICILIO">
-      <span><strong>Correos de Costa Rica</strong><br><small>Entrega a domicilio, CRC 3,000.</small></span>
+      <span><strong>Correos de Costa Rica</strong><br><small>Tarifa segun peso del pedido.</small></span>
     </label>
   </div>
 
@@ -18,6 +18,7 @@
 
   <div id="addressFields" class="form-grid" hidden>
     <p class="field-full muted">El envio se coordina por Correos de Costa Rica.</p>
+    <input type="hidden" id="zonaEntrega" name="zonaEntrega" value="">
     <label>
       Provincia
       <select id="provincia" name="provincia" data-selected="<%= ultimaDireccion?.provincia || '' %>"></select>
@@ -30,6 +31,7 @@
       Distrito
       <select id="distrito" name="distrito" data-selected="<%= ultimaDireccion?.distrito || '' %>"></select>
     </label>
+    <p class="field-full delivery-zone-pill">Zona: <span id="zonaEntregaText">Selecciona canton</span></p>
     <label class="field-full checkout-textarea-field">
       <span>Direccion exacta</span>
       <textarea name="direccionExacta" rows="3"><%= ultimaDireccion?.direccionExacta || '' %></textarea>

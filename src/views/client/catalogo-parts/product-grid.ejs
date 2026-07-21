@@ -31,6 +31,7 @@
           </div>
 
           <div class="catalog-product-body">
+            <% if (p.marca) { %><span class="catalog-brand"><%= p.marca %></span><% } %>
             <span class="catalog-category"><%= p.subcategoria?.nombre || p.categoria?.nombre || 'General' %></span>
             <h3><%= p.nombre %></h3>
             <div class="catalog-product-foot">

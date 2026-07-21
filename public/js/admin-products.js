@@ -33,43 +33,55 @@ function actualizarSubcategorias(selected = '') {
 }
 
 function abrirProductoCrear() {
-  productPanel().classList.remove('is-hidden');
-  document.getElementById('formTitle').innerText = 'Crear producto';
   const form = productForm();
+  productPanel().classList.remove('is-hidden');
+  document.body.classList.add('admin-modal-open');
+  document.getElementById('formTitle').innerText = 'Crear producto';
   form.action = '/admin/productos';
   form.reset();
+  form.pesoGramos.value = 250;
   document.getElementById('imgInput').required = true;
   document.getElementById('imgHint').hidden = true;
   actualizarTipoVenta();
   actualizarSubcategorias();
-  productPanel().scrollIntoView({ behavior: 'smooth', block: 'start' });
+  form.nombre.focus();
 }
 
 function cerrarProductoForm() {
   productPanel().classList.add('is-hidden');
+  document.body.classList.remove('admin-modal-open');
 }
 
 function abrirProductoEditar(btn) {
-  productPanel().classList.remove('is-hidden');
-  document.getElementById('formTitle').innerText = 'Editar producto';
   const form = productForm();
+  productPanel().classList.remove('is-hidden');
+  document.body.classList.add('admin-modal-open');
+  document.getElementById('formTitle').innerText = 'Editar producto';
   form.action = `/admin/productos/${btn.dataset.id}?_method=PUT`;
   form.nombre.value = btn.dataset.nombre;
+  form.marca.value = btn.dataset.marca || '';
   form.tipoVenta.value = btn.dataset.tipo || 'DIRECTA';
   form.categoriaId.value = btn.dataset.cat;
   actualizarSubcategorias(btn.dataset.subcat || '');
   form.precio.value = btn.dataset.precio;
   form.costo.value = btn.dataset.costo;
   form.stock.value = btn.dataset.stock;
+  form.pesoGramos.value = btn.dataset.peso || 250;
   form.descripcion.value = btn.dataset.desc;
   document.getElementById('checkNuevo').checked = btn.dataset.nuevo === 'true';
   document.getElementById('imgInput').required = false;
   document.getElementById('imgHint').hidden = false;
   actualizarTipoVenta();
-  productPanel().scrollIntoView({ behavior: 'smooth', block: 'start' });
+  form.nombre.focus();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('tipoVentaSelect')?.addEventListener('change', actualizarTipoVenta);
   document.getElementById('categoriaSelect')?.addEventListener('change', () => actualizarSubcategorias());
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && !productPanel().classList.contains('is-hidden')) {
+    cerrarProductoForm();
+  }
 });

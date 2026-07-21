@@ -20,14 +20,18 @@ export class ClientController {
         q: req.query.q || '',
         cat: req.query.cat || '',
         subcat: req.query.subcat || '',
+        marca: req.query.marca || '',
         sort: req.query.sort || '',
         disponible: req.query.disponible === 'true',
         minPrecio: req.query.minPrecio || '',
         maxPrecio: req.query.maxPrecio || ''
       };
-      const productos = await ProductoService.obtenerFiltrados(filtros);
-      const categorias = await ProductoService.obtenerCategoriasDisponibles();
-      res.render('client/catalogo', { user: res.locals.cliente, productos, categorias, filtros });
+      const [productos, categorias, marcas] = await Promise.all([
+        ProductoService.obtenerFiltrados(filtros),
+        ProductoService.obtenerCategoriasDisponibles(),
+        ProductoService.obtenerMarcasDisponibles()
+      ]);
+      res.render('client/catalogo', { user: res.locals.cliente, productos, categorias, marcas, filtros });
     } catch (error) {
       console.error(error);
       res.status(500).send('Error cargando el catalogo completo.');

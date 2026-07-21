@@ -57,6 +57,28 @@
   padding: 0.75rem 0.85rem !important;
 }
 
+.settings-check {
+  display: grid !important;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--rose-soft) 74%, var(--surface-strong));
+  padding: .9rem;
+}
+
+.settings-check input {
+  width: 1.1rem;
+  min-height: 1.1rem;
+  margin-top: .12rem;
+  accent-color: var(--primary);
+}
+
+.settings-check span {
+  color: var(--text-main);
+  line-height: 1.45;
+}
+
 .settings-narrow {
   max-width: 480px;
 }

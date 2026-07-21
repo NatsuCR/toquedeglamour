@@ -1,4 +1,5 @@
 import { roundMoney } from '../utils/money.js';
+import { zonaEntregaPorUbicacion } from './geo-zone.service.js';
 
 const limpiar = (value) => String(value || '').trim();
 const requerido = (value, label) => {
@@ -19,13 +20,14 @@ export function datosClientePedido(body, cliente) {
 }
 
 export function datosDireccionPedido(body) {
-  return {
+  const direccion = {
     provincia: requerido(body.provincia, 'Provincia'),
     canton: requerido(body.canton, 'Canton'),
     distrito: requerido(body.distrito, 'Distrito'),
     direccionExacta: requerido(body.direccionExacta, 'Direccion exacta'),
     descripcionCasa: limpiar(body.descripcionCasa) || null
   };
+  return { ...direccion, zonaEntrega: zonaEntregaPorUbicacion(direccion.provincia, direccion.canton) };
 }
 
 export function payloadPedido(data) {
@@ -45,6 +47,7 @@ export function payloadPedido(data) {
     celular2Cliente: data.datosCliente.celular2 || null,
     subtotal,
     costoEnvio,
+    pesoTotalGramos: Number.parseInt(data.pesoTotalGramos, 10) || 0,
     total: roundMoney(subtotal + costoEnvio + iva),
     estado: 'PENDIENTE_VERIFICACION',
     fase: 'PREPARACION',

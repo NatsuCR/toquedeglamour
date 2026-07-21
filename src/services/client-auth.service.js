@@ -25,7 +25,8 @@ function normalizeClient(data) {
     apellidos: data.apellidos.trim(),
     cedula: data.cedula.trim(),
     celular1: data.celular1.trim(),
-    celular2: data.celular2 ? data.celular2.trim() : null
+    celular2: data.celular2 ? data.celular2.trim() : null,
+    aceptaPromociones: data.aceptaPromociones === 'on' || data.aceptaPromociones === true
   };
 }
 

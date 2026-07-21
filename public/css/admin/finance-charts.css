@@ -16,7 +16,7 @@
 }
 
 .finance-chart-wide {
-  grid-row: span 2;
+  grid-column: 1 / -1;
 }
 
 .finance-chart-head span,
@@ -41,12 +41,14 @@
 
 .finance-chart-frame {
   position: relative;
-  height: 320px;
+  display: grid;
+  align-content: center;
+  min-height: 150px;
   margin-top: .9rem;
 }
 
 .finance-chart-frame.small {
-  height: 205px;
+  min-height: 170px;
 }
 
 .finance-reading-card {
@@ -66,7 +68,6 @@
 .finance-bars {
   display: grid;
   gap: .72rem;
-  height: 100%;
   align-content: center;
 }
 

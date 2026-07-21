@@ -1,21 +1,24 @@
-<section id="categoryFormPanel" class="admin-form-panel is-hidden">
-  <div class="form-panel-head">
-    <div>
-      <span>Categoría</span>
-      <h2 id="formTitle">Crear categoría</h2>
-      <p>Define una familia visible para ordenar productos.</p>
+<section id="categoryFormPanel" class="admin-modal-shell is-hidden" role="dialog" aria-modal="true">
+  <div class="admin-modal-backdrop" onclick="cerrarCategoriaForm()"></div>
+  <div class="admin-modal-card admin-modal-card-sm">
+    <div class="form-panel-head">
+      <div>
+        <span>Categoria</span>
+        <h2 id="formTitle">Crear categoria</h2>
+        <p>Define una familia visible para ordenar productos.</p>
+      </div>
+      <button class="admin-modal-close" type="button" onclick="cerrarCategoriaForm()" aria-label="Cerrar">X</button>
     </div>
-    <button class="btn btn-outline" type="button" onclick="cerrarCategoriaForm()">Cerrar</button>
-  </div>
 
-  <form id="formPrincipal" method="POST" action="/admin/categorias">
-    <div class="admin-form-grid one-column">
-      <label>Nombre<input type="text" name="nombre" class="form-control" required></label>
-      <label>Descripción<textarea name="descripcion" class="form-control" rows="3"></textarea></label>
-    </div>
-    <div class="form-actions">
-      <button type="submit" class="btn">Guardar categoría</button>
-      <button type="button" class="btn btn-outline" onclick="cerrarCategoriaForm()">Cancelar</button>
-    </div>
-  </form>
+    <form id="formPrincipal" method="POST" action="/admin/categorias">
+      <div class="admin-form-grid one-column">
+        <label>Nombre<input type="text" name="nombre" class="form-control" required></label>
+        <label>Descripcion<textarea name="descripcion" class="form-control" rows="3"></textarea></label>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn">Guardar categoria</button>
+        <button type="button" class="btn btn-outline" onclick="cerrarCategoriaForm()">Cancelar</button>
+      </div>
+    </form>
+  </div>
 </section>

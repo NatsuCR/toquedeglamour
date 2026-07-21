@@ -7,9 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const dots = Array.from(hero.querySelectorAll('[data-hero-dot]'));
   const prev = hero.querySelector('[data-hero-prev]');
   const next = hero.querySelector('[data-hero-next]');
+  const zoom = hero.querySelector('[data-hero-zoom]');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let index = 0;
   let timer = null;
+
+  const syncZoom = () => {
+    if (!zoom || !slides[index]) return;
+    zoom.dataset.lightboxSrc = slides[index].dataset.heroImage || '';
+  };
 
   const update = (nextIndex) => {
     index = (nextIndex + slides.length) % slides.length;
@@ -17,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dots.forEach((dot, dotIndex) => {
       dot.classList.toggle('is-active', dotIndex === index);
     });
+    syncZoom();
   };
 
   const start = () => {
@@ -29,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     start();
   };
 
+  update(0);
   if (slides.length < 2) return;
 
   prev?.addEventListener('click', () => {

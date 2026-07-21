@@ -1,0 +1,46 @@
+<%- include('partials/header') %>
+
+<section class="announcements-page animate__animated animate__fadeInUp">
+  <header class="admin-page-hero">
+    <div>
+      <span>Marketing</span>
+      <h1>Correos promocionales</h1>
+      <p>Envia novedades y promociones por correo solo a clientes que aceptaron recibirlas.</p>
+    </div>
+    <div class="announcement-stats">
+      <article><span>Suscritos</span><strong><%= resumen.suscritos %></strong></article>
+      <article><span>Verificados</span><strong><%= resumen.verificados %></strong></article>
+    </div>
+  </header>
+
+  <% if (flashMsg) { %>
+    <div class="admin-flash <%= flashMsg.type === 'ok' ? 'ok' : 'error' %>"><%= flashMsg.message %></div>
+  <% } %>
+
+  <div class="announcement-grid">
+    <form class="announcement-card admin-form-panel" method="POST" action="/admin/correos">
+      <div class="form-panel-head">
+        <h2>Nuevo anuncio</h2>
+        <p>Se enviara por correo a clientes verificados con consentimiento activo.</p>
+      </div>
+      <label>Asunto
+        <input class="form-control" name="asunto" required minlength="4" maxlength="120"
+          placeholder="Ej. Nueva promo de skincare">
+      </label>
+      <label>Mensaje
+        <textarea class="form-control" name="mensaje" required minlength="10" rows="8"
+          placeholder="Escribe el mensaje que recibiran los clientes."></textarea>
+      </label>
+      <button class="btn" type="submit">Enviar anuncio</button>
+    </form>
+
+    <aside class="announcement-card announcement-note">
+      <span>Importante</span>
+      <h2>Consentimiento</h2>
+      <p>Los clientes pueden activar o desactivar esta preferencia desde su perfil.</p>
+      <p>Solo se enviaran correos a clientes verificados con el consentimiento activo.</p>
+    </aside>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -2,7 +2,7 @@
   <div class="catalog-filter-head">
     <span>B&uacute;squeda</span>
     <h2>Filtros</h2>
-    <p>Refina el catalogo por nombre, categoria, subcategoria, precio o disponibilidad.</p>
+    <p>Refina el catalogo por nombre, marca, categoria, precio o disponibilidad.</p>
   </div>
 
   <form action="/catalogo" method="GET">
@@ -14,6 +14,15 @@
         value="<%= filtros.q || '' %>"
         placeholder="Nombre del producto..."
       >
+    </label>
+
+    <label class="catalog-field">Marca
+      <select class="catalog-control" name="marca">
+        <option value="">Todas</option>
+        <% (marcas || []).forEach((marca) => { %>
+          <option value="<%= marca %>" <%= filtros.marca === marca ? 'selected' : '' %>><%= marca %></option>
+        <% }) %>
+      </select>
     </label>
 
     <label class="catalog-field">Categor&iacute;a

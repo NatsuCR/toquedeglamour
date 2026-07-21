@@ -10,6 +10,7 @@ import clientRoutes from './routes/client.routes.js';
 import aparienciaRoutes from './routes/apariencia.routes.js';
 import { injectSiteSettings } from './middlewares/site-settings.middleware.js';
 import { formatMoneyCRC } from './utils/money.js';
+import { formatWeight } from './services/shipping.service.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,6 +20,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.locals.formatMoney = formatMoneyCRC;
+app.locals.formatWeight = formatWeight;
 
 app.use(helmet({
   contentSecurityPolicy: false,

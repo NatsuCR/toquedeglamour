@@ -1,0 +1,27 @@
+<div class="nav-dropdown-menu catalog-menu" aria-label="Categorias del catalogo">
+  <a class="catalog-menu-link" href="/catalogo">Todo el catalogo</a>
+  <% (catalogoMenu || []).forEach((c) => { %>
+    <div class="catalog-menu-item <%= (c.subcategorias || []).length ? 'has-children' : '' %>">
+      <a class="catalog-menu-link" href="/catalogo?cat=<%= c.slug %>">Catalogo de <%= c.nombre %></a>
+      <% if ((c.subcategorias || []).length) { %>
+        <div class="catalog-submenu">
+          <% c.subcategorias.forEach((s) => { %>
+            <div class="catalog-menu-item <%= (s.productos || []).length ? 'has-children' : '' %>">
+              <a class="catalog-menu-link" href="/catalogo?cat=<%= c.slug %>&subcat=<%= s.slug %>"><%= s.nombre %></a>
+              <% if ((s.productos || []).length) { %>
+                <div class="catalog-product-submenu">
+                  <% s.productos.forEach((p) => { %>
+                    <a href="/producto/<%= p.id %>">
+                      <% if (p.marca) { %><span><%= p.marca %></span><% } %>
+                      <%= p.nombre %>
+                    </a>
+                  <% }) %>
+                </div>
+              <% } %>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+  <% }) %>
+</div>

@@ -1,0 +1,18 @@
+.account-feedback {
+  border-radius: var(--radius-card);
+  margin-bottom: .85rem;
+  padding: .8rem .95rem;
+  font-weight: 950;
+}
+
+.account-feedback.is-success {
+  border: 1px solid color-mix(in srgb, var(--success) 35%, var(--line));
+  background: color-mix(in srgb, var(--success) 10%, var(--surface));
+  color: var(--success);
+}
+
+.account-feedback.is-error {
+  border: 1px solid color-mix(in srgb, var(--danger) 35%, var(--line));
+  background: color-mix(in srgb, var(--danger) 10%, var(--surface));
+  color: var(--danger);
+}

@@ -1,0 +1,41 @@
+<%
+  const createdAt = new Date(pedido.creadoEn);
+  const elapsedHours = (Date.now() - createdAt.getTime()) / (60 * 60 * 1000);
+  const cancelado = pedido.estado === 'RECHAZADO';
+  const completado = pedido.estado === 'ENTREGADO' || pedido.fase === 'COMPLETADO';
+  const vencido = elapsedHours > 48;
+  const puedeCancelar = !cancelado && !completado && !vencido;
+  const limite = new Date(createdAt.getTime() + 48 * 60 * 60 * 1000).toLocaleString('es-CR');
+  const bloqueo = vencido
+    ? 'Paso el plazo de 48 horas para solicitar la devolucion.'
+    : 'Este pedido ya fue completado y no puede cancelarse.';
+%>
+
+<% if (!cancelado) { %>
+  <section class="client-cancel-box <%= puedeCancelar ? '' : 'is-blocked' %>">
+    <div>
+      <span>Devoluciones</span>
+      <h3>Solicitud de cancelacion</h3>
+      <p>
+        Puedes pedir la devolucion dentro de las primeras 48 horas.
+        Si procede, el dinero se devuelve en un plazo de 8 dias habiles.
+      </p>
+      <small>Fecha limite: <%= limite %></small>
+    </div>
+
+    <% if (puedeCancelar) { %>
+      <form method="POST" action="/perfil/pedidos/<%= pedido.id %>/cancelar">
+        <label>
+          Motivo de la solicitud
+          <textarea name="motivoCancelacion" rows="3" required minlength="8" maxlength="500"
+            placeholder="Cuentanos por que deseas cancelar o pedir devolucion."></textarea>
+        </label>
+        <button class="btn-danger" type="submit">Solicitar devolucion y cancelar pedido</button>
+      </form>
+    <% } else { %>
+      <span class="blocked-action" data-tooltip="<%= bloqueo %>" title="<%= bloqueo %>">
+        <button class="btn-danger" type="button" disabled>Cancelar pedido</button>
+      </span>
+    <% } %>
+  </section>
+<% } %>

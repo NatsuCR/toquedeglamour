@@ -1,0 +1,23 @@
+[data-theme="dark"] .public-nav {
+  background: linear-gradient(180deg, #100b0f, #120c11);
+}
+
+[data-theme="dark"] .nav-container {
+  background: #20161d;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
+}
+
+[data-theme="dark"] .nav-links {
+  border-color: rgba(255, 212, 223, 0.16);
+  background: linear-gradient(135deg, #241820, #2d222a);
+}
+
+[data-theme="dark"] .nav-links .nav-item {
+  color: #e5c7d2 !important;
+}
+
+[data-theme="dark"] .nav-links .nav-item:hover,
+[data-theme="dark"] .nav-links .nav-item.active {
+  color: #fff4f8 !important;
+  background: #3a2632 !important;
+}

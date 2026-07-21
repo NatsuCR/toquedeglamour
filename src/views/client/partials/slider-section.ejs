@@ -34,6 +34,7 @@
                 <% } else { %>
                   <div class="card-img" style="display:flex; align-items:center; justify-content:center;">Sin imagen</div>
                 <% } %>
+                <% if (p.marca) { %><span class="card-brand"><%= p.marca %></span><% } %>
                 <span class="card-category"><%= p.subcategoria?.nombre || p.categoria?.nombre || 'General' %></span>
                 <h3 class="card-title"><%= p.nombre %></h3>
                 <p class="card-price"><%= consulta ? 'Precio a consultar' : formatMoney(p.precio) %></p>

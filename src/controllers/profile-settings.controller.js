@@ -32,6 +32,16 @@ export class ProfileSettingsController {
     res.redirect('/perfil/configuracion');
   }
 
+  static async promociones(req, res) {
+    try {
+      await ProfileSettingsService.actualizarPromociones(res.locals.cliente.id, req.body.aceptaPromociones);
+      req.session.settingsSuccess = 'Tu preferencia de promociones fue actualizada.';
+    } catch (error) {
+      req.session.settingsError = error.message;
+    }
+    res.redirect('/perfil/configuracion');
+  }
+
   static async solicitarCorreo(req, res) {
     try {
       req.session.pendingClientEmail = await ProfileSettingsService.solicitarCorreo(

@@ -18,7 +18,17 @@ export class CategoriaService {
   static async obtenerMenu() {
     return prisma.categoria.findMany({
       orderBy: { nombre: 'asc' },
-      include: { subcategorias: { orderBy: { nombre: 'asc' } } }
+      include: {
+        subcategorias: {
+          orderBy: { nombre: 'asc' },
+          include: {
+            productos: {
+              orderBy: { nombre: 'asc' },
+              select: { id: true, nombre: true, marca: true, tipoVenta: true }
+            }
+          }
+        }
+      }
     });
   }
 

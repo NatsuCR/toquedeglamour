@@ -1,0 +1,40 @@
+.nav-actions .nav-item,
+.nav-actions #themeSelector {
+  border: 1px solid color-mix(in srgb, var(--primary) 20%, var(--line)) !important;
+  background: var(--surface-strong) !important;
+  color: var(--primary-strong) !important;
+  box-shadow: 0 8px 18px rgba(84, 23, 45, 0.06);
+}
+
+.nav-actions .nav-item:hover,
+.nav-actions #themeSelector:hover {
+  border-color: color-mix(in srgb, var(--primary) 38%, transparent) !important;
+  background: var(--rose-soft) !important;
+  color: var(--primary-strong) !important;
+}
+
+.nav-actions #themeSelector {
+  width: 112px;
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.nav-actions a[href="/login"],
+.nav-actions a[href="/perfil"] {
+  padding-inline: 1rem !important;
+}
+
+[data-theme="dark"] .nav-actions .nav-item,
+[data-theme="dark"] .nav-actions #themeSelector {
+  border-color: rgba(255, 212, 223, 0.22) !important;
+  background: #2a1c25 !important;
+  color: #f8d7e1 !important;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+}
+
+[data-theme="dark"] .nav-actions .nav-item:hover,
+[data-theme="dark"] .nav-actions #themeSelector:hover {
+  border-color: rgba(255, 212, 223, 0.42) !important;
+  background: #382632 !important;
+  color: #fff4f8 !important;
+}

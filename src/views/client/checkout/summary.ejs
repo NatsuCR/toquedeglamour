@@ -8,24 +8,31 @@
   <% }) %>
 
   <div class="summary-line">
-    <span>Subtotal</span>
+    <span>Subtotal productos</span>
     <strong><%= formatMoney(subtotal) %></strong>
   </div>
+  <div class="summary-line weight-line">
+    <span>Peso total del pedido</span>
+    <strong id="weightAmount"><%= shipping.pesoTexto %></strong>
+  </div>
   <div class="summary-line">
-    <span>Envio por Correos de Costa Rica</span>
+    <span>Envio y gestion logistica</span>
     <strong id="shippingAmount">Gratis</strong>
   </div>
+  <p class="shipping-note">
+    El costo de envio se calcula segun el peso total del pedido. Los pedidos de hasta
+    2 kg pagan ₡5.000. Despues de 2 kg, se cobra ₡1.000 adicional por cada kilogramo
+    extra o fraccion.
+  </p>
   <div id="ivaLine" class="summary-line" hidden>
     <span>IVA</span>
     <strong id="ivaAmount">₡0</strong>
   </div>
   <div class="summary-line summary-total">
-    <span>Total</span>
+    <span>Total a pagar</span>
     <span id="totalAmount"><%= formatMoney(subtotal) %></span>
   </div>
 
-  <button type="submit" class="nav-btn checkout-submit">
-    Confirmar pedido
-  </button>
+  <button type="submit" class="nav-btn checkout-submit">Confirmar pedido</button>
   <p class="muted">Al confirmar se guarda el pedido para seguimiento y alisto.</p>
 </aside>

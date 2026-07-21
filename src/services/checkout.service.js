@@ -5,7 +5,8 @@ import { OrderMailService } from './order-mail.service.js';
 import { notificarAdminWhatsapp } from './admin-whatsapp.service.js';
 import { FinanceSettingsService } from './finance-settings.service.js';
 import { datosClientePedido, datosDireccionPedido, payloadPedido } from './checkout-payload.service.js';
-export const COSTO_ENVIO_DOMICILIO = 3000;
+import { calculateShipping } from './shipping.service.js';
+
 const includePedido = {
   cliente: true,
   direccionEnvio: true,
@@ -36,8 +37,8 @@ export class CheckoutService {
       const tipoEntrega = body.tipoEntrega === 'DOMICILIO' ? 'DOMICILIO' : 'LOCAL';
       const datosCliente = datosClientePedido(body, cliente);
       const datosDireccion = tipoEntrega === 'DOMICILIO' ? datosDireccionPedido(body) : null;
-      const { items, subtotal } = await prepararItemsPedido(tx, carrito);
-      const costoEnvio = tipoEntrega === 'DOMICILIO' ? COSTO_ENVIO_DOMICILIO : 0;
+      const { items, subtotal, pesoTotalGramos } = await prepararItemsPedido(tx, carrito);
+      const costoEnvio = tipoEntrega === 'DOMICILIO' ? calculateShipping(pesoTotalGramos) : 0;
       const finance = await FinanceSettingsService.obtener();
       const codigo = await CodigoPedidoService.generarCodigo(tx, body.codigoPedido);
       await this.actualizarCliente(tx, clienteId, datosCliente, datosDireccion);
@@ -45,7 +46,7 @@ export class CheckoutService {
       return tx.pedido.create({
         data: payloadPedido({
           clienteId, datosCliente, datosDireccion, tipoEntrega, items,
-          subtotal, costoEnvio, codigo, canal, comprobanteRuta, body, finance
+          subtotal, costoEnvio, pesoTotalGramos, codigo, canal, comprobanteRuta, body, finance
         }),
         include: includePedido
       });

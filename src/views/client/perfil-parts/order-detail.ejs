@@ -1,0 +1,78 @@
+<%
+  const nombre = pedido.nombreCliente || user?.nombre || 'No indicado';
+  const apellidos = pedido.apellidosCliente || user?.apellidos || '';
+  const correo = pedido.correoCliente || user?.correo || 'No indicado';
+  const cedula = pedido.cedulaCliente || user?.cedula || 'No indicada';
+  const celular1 = pedido.celular1Cliente || user?.celular1 || 'No indicado';
+  const celular2 = pedido.celular2Cliente || user?.celular2 || 'No indicado';
+  const envio = Number(pedido.costoEnvio || 0);
+  const iva = Math.max(0, Number(pedido.total || 0) - Number(pedido.subtotal || 0) - envio);
+  const pagoLabels = { SINPE: 'SINPE Movil', DEPOSITO: 'Transferencia bancaria' };
+%>
+
+<div class="order-detail-grid">
+  <% if (pedido.estado === 'RECHAZADO') { %>
+    <section class="order-detail-cancel">
+      <span>Pedido cancelado</span>
+      <p><strong>Motivo:</strong> <%= pedido.motivoCancelacion || 'Administracion cancelo este pedido.' %></p>
+    </section>
+  <% } %>
+
+  <section>
+    <span>Datos del cliente</span>
+    <p><strong><%= nombre %> <%= apellidos %></strong></p>
+    <p>Correo: <%= correo %></p>
+    <p>Cedula: <%= cedula %></p>
+    <p>Celular 1: <%= celular1 %></p>
+    <p>Celular 2: <%= celular2 %></p>
+  </section>
+
+  <section>
+    <span>Entrega</span>
+    <p><strong><%= pedido.tipoEntrega === 'DOMICILIO' ? 'Correos de Costa Rica' : 'Retiro en local' %></strong></p>
+    <% if (pedido.tipoEntrega === 'DOMICILIO' && pedido.direccionEnvio) { %>
+      <p>Zona: <%= pedido.direccionEnvio.zonaEntrega || 'Resto del pa\u00eds' %></p>
+      <p><%= pedido.direccionEnvio.provincia %>, <%= pedido.direccionEnvio.canton %>, <%= pedido.direccionEnvio.distrito %></p>
+      <p><%= pedido.direccionEnvio.direccionExacta %></p>
+      <% if (pedido.direccionEnvio.descripcionCasa) { %><p>Casa: <%= pedido.direccionEnvio.descripcionCasa %></p><% } %>
+    <% } else { %>
+      <p>El pedido se retira en el punto oficial de Toque de Glamour.</p>
+    <% } %>
+  </section>
+
+  <section>
+    <span>Pago</span>
+    <p>Metodo: <strong><%= pagoLabels[pedido.metodoPago] || pedido.metodoPago %></strong></p>
+    <p>Canal del comprobante: <%= pedido.canalComprobante === 'WHATSAPP' ? 'WhatsApp' : 'Sistema web' %></p>
+    <p>Estado: <%= pedido.comprobantePago ? 'Comprobante recibido' : 'Comprobante pendiente' %></p>
+  </section>
+
+  <section>
+    <span>Totales</span>
+    <p>Subtotal: <%= formatMoney(pedido.subtotal) %></p>
+    <p>Peso total: <%= formatWeight(pedido.pesoTotalGramos || 0) %></p>
+    <p>Envio: <%= formatMoney(envio) %></p>
+    <p>IVA: <%= formatMoney(iva) %></p>
+    <p><strong>Total: <%= formatMoney(pedido.total) %></strong></p>
+  </section>
+</div>
+
+<%- include('./order-cancel-request', { pedido }) %>
+
+<div class="order-detail-products">
+  <span>Productos comprados</span>
+  <% pedido.items.forEach((item) => { const producto = item.producto || {}; %>
+    <div class="order-detail-product">
+      <div>
+        <strong><%= producto.nombre || 'Producto' %></strong>
+        <small>SKU: PRD-<%= String(producto.id || item.productoId).padStart(4, '0') %></small>
+        <small>Peso unitario: <%= formatWeight(item.pesoUnitarioGramos || producto.pesoGramos || 0) %></small>
+        <small><%= producto.categoria?.nombre || 'Sin categoria' %><% if (producto.subcategoria?.nombre) { %> / <%= producto.subcategoria.nombre %><% } %></small>
+      </div>
+      <div>
+        <span><%= item.cantidad %> uds</span>
+        <strong><%= formatMoney(Number(item.precioUnitario) * item.cantidad) %></strong>
+      </div>
+    </div>
+  <% }) %>
+</div>

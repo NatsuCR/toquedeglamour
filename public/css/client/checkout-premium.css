@@ -1,0 +1,112 @@
+.checkout-title {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: end;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--primary) 11%, transparent), transparent 58%),
+    var(--surface);
+  box-shadow: var(--shadow-soft);
+  padding: clamp(1rem, 3vw, 1.45rem);
+}
+
+.checkout-title::after {
+  content: "";
+  position: absolute;
+  right: -4rem;
+  bottom: -4.5rem;
+  width: 12rem;
+  height: 12rem;
+  border: 1px solid color-mix(in srgb, var(--secondary) 30%, transparent);
+  border-radius: 50%;
+}
+
+.checkout-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  justify-content: flex-end;
+  position: relative;
+  z-index: 1;
+}
+
+.checkout-steps span {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface-strong);
+  color: var(--primary-strong);
+  padding: .58rem .78rem;
+  font-size: .78rem;
+  font-weight: 950;
+}
+
+.checkout-grid > div {
+  counter-reset: checkout-step;
+}
+
+.checkout-grid > div > .checkout-panel {
+  counter-increment: checkout-step;
+}
+
+.checkout-panel,
+.summary-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.checkout-panel::before,
+.summary-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--rose), var(--secondary));
+}
+
+.checkout-panel h2 {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+}
+
+.checkout-panel > h2:first-of-type::before {
+  content: counter(checkout-step, decimal-leading-zero);
+  display: inline-grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--rose-soft);
+  color: var(--primary-strong);
+  font-size: .72rem;
+  font-weight: 950;
+}
+
+.summary-panel h2::after {
+  content: "Compra";
+  float: right;
+  border-radius: var(--radius-pill);
+  background: var(--rose-soft);
+  color: var(--primary-strong);
+  padding: .35rem .58rem;
+  font-size: .7rem;
+  font-weight: 950;
+}
+
+.map-frame {
+  min-height: 320px;
+}
+
+@media (max-width: 860px) {
+  .checkout-title {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-steps {
+    justify-content: flex-start;
+  }
+}

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { clienteNombre, invoiceBrand as brand, labelEntrega, labelPago, moneyPdf } from './invoice-format.service.js';
 import { roundMoney } from '../utils/money.js';
-
+import { formatWeight } from './shipping.service.js';
 export class InvoiceRenderer {
   static render(doc, pedido) {
     this.header(doc, pedido);
@@ -11,9 +11,8 @@ export class InvoiceRenderer {
     this.totals(doc, pedido);
     this.footer(doc);
   }
-
   static header(doc, pedido) {
-    const logo = path.join(process.cwd(), 'public', 'img', 'logo-main.jpeg');
+    const logo = path.join(process.cwd(), 'public', 'img', 'toque-de-glamour.png');
     doc.roundedRect(34, 34, 527, 94, 10).fill(brand.rose);
     if (fs.existsSync(logo)) doc.image(logo, 50, 48, { fit: [90, 54] });
     doc.fillColor(brand.wine).font('Helvetica-Bold').fontSize(23).text('Toque de Glamour', 150, 50);
@@ -23,14 +22,14 @@ export class InvoiceRenderer {
     doc.fillColor(brand.muted).font('Helvetica').fontSize(9)
       .text(`Emitido: ${pedido.creadoEn.toLocaleDateString('es-CR')}`, 390, 78, { width: 145, align: 'right' });
   }
-
   static infoCards(doc, pedido) {
     const y = 150;
     this.card(doc, 44, y, 240, 115, 'Cliente', [
       clienteNombre(pedido),
       pedido.correoCliente || pedido.cliente.correo,
       `Cedula: ${pedido.cedulaCliente || pedido.cliente.cedula}`,
-      `Celular: ${pedido.celular1Cliente || pedido.cliente.celular1}`
+      `Celular: ${pedido.celular1Cliente || pedido.cliente.celular1}`,
+      `Peso: ${formatWeight(pedido.pesoTotalGramos || 0)}`
     ]);
     const entrega = this.entregaLines(pedido);
     this.card(doc, 312, y, 240, 115, 'Entrega', entrega);
@@ -50,6 +49,7 @@ export class InvoiceRenderer {
     }
     return [
       labelEntrega[pedido.tipoEntrega],
+      pedido.direccionEnvio.zonaEntrega || 'Resto del pa\u00eds',
       `${pedido.direccionEnvio.provincia}, ${pedido.direccionEnvio.canton}`,
       pedido.direccionEnvio.distrito,
       pedido.direccionEnvio.direccionExacta,

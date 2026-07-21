@@ -1,0 +1,64 @@
+.product-main-image {
+  position: relative;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  border-radius: 18px;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.product-main-image img {
+  display: block;
+}
+
+.product-main-image span {
+  position: absolute;
+  right: 0.8rem;
+  bottom: 0.8rem;
+  border-radius: var(--radius-pill);
+  color: #fff7fa;
+  background: rgba(84, 23, 45, 0.78);
+  box-shadow: var(--shadow-soft);
+  padding: 0.4rem 0.78rem;
+  font-size: 0.78rem;
+  font-weight: 950;
+  opacity: 0;
+  transform: translateY(7px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.product-main-image:hover span,
+.product-main-image:focus-visible span {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.product-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 0.65rem;
+  margin-top: 0.85rem;
+}
+
+.product-thumbs button {
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: var(--surface-soft);
+  padding: 0.25rem;
+  cursor: pointer;
+}
+
+.product-thumbs button.is-active {
+  border-color: var(--primary-strong);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 14%, transparent);
+}
+
+.product-thumbs img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: none;
+}

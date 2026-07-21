@@ -1,0 +1,50 @@
+.order-cancel-box {
+  display: grid;
+  gap: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--danger) 28%, var(--glass-border));
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--danger) 8%, var(--surface-soft));
+  padding: 1rem;
+}
+
+.order-cancel-box h3 {
+  color: var(--danger);
+}
+
+.order-cancel-box p,
+.order-cancel-box small {
+  color: var(--text-muted);
+}
+
+.order-cancel-box label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--text-light);
+  font-weight: 900;
+}
+
+.order-cancel-box textarea {
+  width: 100%;
+  min-height: 92px;
+  resize: vertical;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  color: var(--text-light);
+  padding: 0.75rem;
+}
+
+.btn-danger {
+  width: max-content;
+  border: 0;
+  border-radius: 999px;
+  background: var(--danger);
+  color: #fff;
+  padding: 0.75rem 1rem;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.order-cancel-box.is-cancelled {
+  border-color: color-mix(in srgb, var(--danger) 38%, var(--glass-border));
+}

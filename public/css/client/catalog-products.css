@@ -65,6 +65,7 @@
 
 .catalog-card-badges span,
 .catalog-product-foot span,
+.catalog-brand,
 .catalog-category {
   display: inline-flex;
   align-items: center;
@@ -92,6 +93,13 @@
   display: grid;
   gap: .68rem;
   padding: .95rem;
+}
+
+.catalog-brand {
+  width: max-content;
+  color: var(--primary-strong);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  padding: .28rem .58rem;
 }
 
 .catalog-category {

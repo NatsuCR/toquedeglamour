@@ -4,9 +4,10 @@
   { id: 'PREPARACION', title: 'Preparación', hint: 'Pedidos por alistar' },
   { id: 'LISTO', title: 'Listos', hint: 'Retiro local o despacho pendiente' },
   { id: 'ENVIADO', title: 'Enviados', hint: 'Domicilio en Correos de Costa Rica' },
-  { id: 'COMPLETADO', title: 'Completados', hint: 'Pedidos cerrados y entregados' }
+  { id: 'COMPLETADO', title: 'Completados', hint: 'Pedidos cerrados y entregados' },
+  { id: 'CANCELADO', title: 'Cancelados', hint: 'Pedidos anulados con motivo registrado' }
 ]; %>
-<% const total = pedidos.reduce((sum, item) => sum + Number(item.total || 0), 0); %>
+<% const total = pedidos.filter((p) => p.estado !== 'RECHAZADO').reduce((sum, item) => sum + Number(item.total || 0), 0); %>
 
 <section class="orders-admin-page animate__animated animate__fadeInUp">
   <header class="admin-page-hero">

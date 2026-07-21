@@ -55,6 +55,16 @@
   font-size: 1.08rem;
 }
 
+.home-showcase .card-brand {
+  width: max-content;
+  border-radius: var(--radius-pill);
+  color: var(--primary-strong);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  padding: .24rem .55rem;
+  font-size: .72rem;
+  font-weight: 950;
+}
+
 .home-showcase .slider-item {
   min-width: 210px;
   flex: 0 0 calc(25% - .75rem);

@@ -7,10 +7,19 @@
 <% const proof = pedido.comprobantePago?.rutaArchivo || ''; %>
 <% const proofIsPdf = proof.toLowerCase().endsWith('.pdf'); %>
 <% const isHome = pedido.tipoEntrega === 'DOMICILIO'; %>
+<% const isCancelled = pedido.estado === 'RECHAZADO'; %>
 <% const fase = pedido.faseAgrupada || pedido.fase || 'PREPARACION'; %>
+<% const estadoTexto = {
+  PENDIENTE_VERIFICACION: 'Pago en revision',
+  PAGO_CONFIRMADO: 'Pago confirmado',
+  EN_PREPARACION: 'En preparacion',
+  ENVIADO: 'Enviado',
+  ENTREGADO: 'Entregado',
+  RECHAZADO: 'Cancelado'
+}[pedido.estado] || pedido.estado; %>
 <% const phaseOptions = isHome
-  ? [['PREPARACION','Preparación'], ['LISTO','Listo para entregar'], ['ENVIADO','Pedido enviado'], ['COMPLETADO','Completado']]
-  : [['PREPARACION','Preparación'], ['LISTO','Listo para retirar'], ['COMPLETADO','Completado']]; %>
+  ? [['PREPARACION','Preparacion'], ['LISTO','Listo para entregar'], ['ENVIADO','Pedido enviado'], ['COMPLETADO','Completado']]
+  : [['PREPARACION','Preparacion'], ['LISTO','Listo para retirar'], ['COMPLETADO','Completado']]; %>
 
 <dialog class="order-modal" data-order-modal="<%= pedido.id %>">
   <div class="order-modal-shell">
@@ -20,7 +29,11 @@
         <h2><%= nombre %> <%= apellidos %></h2>
         <p><%= pedido.creadoEn.toLocaleString() %></p>
       </div>
-      <button type="button" class="modal-close" data-order-close aria-label="Cerrar">×</button>
+      <div class="order-modal-badges">
+        <strong class="<%= isCancelled ? 'danger' : '' %>"><%= estadoTexto %></strong>
+        <small><%= isHome ? 'Correos de Costa Rica' : 'Retiro local' %></small>
+      </div>
+      <button type="button" class="modal-close" data-order-close aria-label="Cerrar">X</button>
     </header>
 
     <div class="order-detail-grid">
@@ -35,34 +48,52 @@
         <h3>Entrega</h3>
         <% if (isHome && pedido.direccionEnvio) { %>
           <p>Domicilio por Correos de Costa Rica</p>
+          <p>Zona: <%= pedido.direccionEnvio.zonaEntrega || 'Resto del pa\u00eds' %></p>
           <p><%= pedido.direccionEnvio.provincia %>, <%= pedido.direccionEnvio.canton %>, <%= pedido.direccionEnvio.distrito %></p>
           <p><%= pedido.direccionEnvio.direccionExacta %></p>
-          <% if (pedido.direccionEnvio.descripcionCasa) { %>
-            <p>Casa: <%= pedido.direccionEnvio.descripcionCasa %></p>
-          <% } %>
+          <% if (pedido.direccionEnvio.descripcionCasa) { %><p>Casa: <%= pedido.direccionEnvio.descripcionCasa %></p><% } %>
         <% } else { %>
           <p>Retiro en local</p>
         <% } %>
       </section>
       <section>
         <h3>Pago</h3>
-        <p>Método: <strong><%= pedido.metodoPago %></strong></p>
+        <p>Metodo: <strong><%= pedido.metodoPago %></strong></p>
         <p>Subtotal: <%= formatMoney(pedido.subtotal) %></p>
-        <p>Envío: <%= formatMoney(pedido.costoEnvio) %></p>
+        <p>Peso: <%= formatWeight(pedido.pesoTotalGramos || 0) %></p>
+        <p>Envio: <%= formatMoney(pedido.costoEnvio) %></p>
         <p>Total: <strong><%= formatMoney(pedido.total) %></strong></p>
       </section>
     </div>
 
     <section class="order-modal-section">
       <h3>Productos</h3>
-      <ul class="admin-list">
+      <div class="order-product-list">
         <% pedido.items.forEach((item) => { %>
-          <li><%= item.cantidad %> x <%= item.producto.nombre %> - <%= formatMoney(Number(item.precioUnitario) * item.cantidad) %></li>
+          <article class="order-product-row">
+            <div>
+              <strong><%= item.producto.nombre %></strong>
+              <span>SKU: PRD-<%= String(item.producto.id).padStart(4, '0') %></span>
+              <span>Peso unitario: <%= formatWeight(item.pesoUnitarioGramos || item.producto.pesoGramos || 0) %></span>
+            </div>
+            <div>
+              <span><%= item.cantidad %> uds</span>
+              <strong><%= formatMoney(Number(item.precioUnitario) * item.cantidad) %></strong>
+            </div>
+          </article>
         <% }) %>
-      </ul>
+      </div>
     </section>
 
     <%- include('proof', { pedido, proof, proofIsPdf }) %>
-    <%- include('modal-actions', { pedido, fase, phaseOptions }) %>
+    <% if (isCancelled) { %>
+      <section class="order-cancel-box is-cancelled">
+        <h3>Pedido cancelado</h3>
+        <p><%= pedido.motivoCancelacion || 'Sin motivo registrado.' %></p>
+        <% if (pedido.canceladoEn) { %><small>Cancelado el <%= pedido.canceladoEn.toLocaleString() %></small><% } %>
+      </section>
+    <% } else { %>
+      <%- include('modal-actions', { pedido, fase, phaseOptions }) %>
+    <% } %>
   </div>
 </dialog>

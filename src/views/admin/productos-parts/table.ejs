@@ -1,9 +1,9 @@
-<section class="admin-list-panel">
+<section class="admin-list-panel product-list-panel">
   <div class="form-panel-head">
     <div><h2>Productos</h2><p><%= productos.length %> articulos en inventario.</p></div>
   </div>
   <div class="table-container"><table class="glass-table">
-    <thead><tr><th>Imagen</th><th>Nombre</th><th>Categoria</th><th>Costo</th><th>Precio</th><th>Margen</th><th>Stock</th><th>Estado</th><th>Acciones</th></tr></thead>
+    <thead><tr><th>Imagen</th><th>Nombre</th><th>Marca</th><th>Categoria</th><th>Costo</th><th>Precio</th><th>Margen</th><th>Stock</th><th>Peso</th><th>Estado</th><th>Acciones</th></tr></thead>
     <tbody>
       <% productos.forEach((p) => { const consulta = p.tipoVenta === 'CONSULTA'; const margen = consulta ? 0 : Number(p.precio || 0) - Number(p.costo || 0); %>
         <tr>
@@ -16,6 +16,7 @@
             <small class="muted block-text">SKU: PRD-<%= p.id.toString().padStart(4, '0') %></small>
             <% if (p.subcategoria) { %><small class="muted block-text"><%= p.subcategoria.nombre %></small><% } %>
           </td>
+          <td><span class="admin-badge"><%= p.marca || 'Sin marca' %></span></td>
           <td>
             <span class="admin-badge"><%= p.categoria ? p.categoria.nombre : 'Sin categoria' %></span>
             <small class="muted block-text">Subcategoria: <%= p.subcategoria?.nombre || 'Sin subcategoria' %></small>
@@ -24,12 +25,14 @@
           <td><span class="<%= consulta ? 'admin-badge' : 'money-success' %>"><%= consulta ? 'A consultar' : formatMoney(Number(p.precio || 0)) %></span></td>
           <td><% if (consulta) { %><span class="muted">-</span><% } else { %><span class="<%= margen >= 0 ? 'money-success' : 'money-danger' %>"><%= margen >= 0 ? '+' : '-' %><%= formatMoney(Math.abs(margen)) %></span><% } %></td>
           <td><span class="<%= consulta ? 'admin-badge' : (p.stock <= 5 ? 'money-danger' : 'money-success') %>"><%= consulta ? 'Consulta' : `${p.stock}${p.stock <= 5 ? ' bajo' : ''}` %></span></td>
+          <td><span class="admin-badge"><%= p.pesoGramos || 250 %> g</span></td>
           <td><% if (p.esNuevo) { %><span class="admin-badge">Nuevo</span><% } else { %><span class="muted">-</span><% } %></td>
           <td class="row-actions">
             <button type="button" class="btn btn-outline btn-sm btn-editar"
-              data-id="<%= p.id %>" data-nombre="<%= p.nombre %>" data-cat="<%= p.categoriaId %>"
+              data-id="<%= p.id %>" data-nombre="<%= p.nombre %>" data-marca="<%= p.marca || '' %>" data-cat="<%= p.categoriaId %>"
               data-subcat="<%= p.subcategoriaId || '' %>" data-tipo="<%= p.tipoVenta || 'DIRECTA' %>"
               data-precio="<%= p.precio || '' %>" data-costo="<%= p.costo || 0 %>" data-stock="<%= p.stock %>"
+              data-peso="<%= p.pesoGramos || 250 %>"
               data-nuevo="<%= p.esNuevo %>" data-desc="<%= p.descripcion || '' %>"
               onclick="abrirProductoEditar(this)">Editar</button>
             <form method="POST" action="/admin/productos/<%= p.id %>?_method=DELETE">
@@ -38,7 +41,7 @@
           </td>
         </tr>
       <% }) %>
-      <% if (productos.length === 0) { %><tr><td colspan="9" class="empty-cell">No hay productos en inventario.</td></tr><% } %>
+      <% if (productos.length === 0) { %><tr><td colspan="11" class="empty-cell">No hay productos en inventario.</td></tr><% } %>
     </tbody>
   </table></div>
 </section>

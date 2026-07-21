@@ -23,6 +23,16 @@
       <button class="nav-btn" type="submit">Guardar celulares</button>
     </form>
 
+    <form class="settings-panel" method="POST" action="/perfil/configuracion/promociones">
+      <h2>Promociones</h2>
+      <p class="muted">Activa o desactiva novedades, descuentos y anuncios de Toque de Glamour.</p>
+      <label class="settings-check">
+        <input type="checkbox" name="aceptaPromociones" <%= user.aceptaPromociones ? 'checked' : '' %>>
+        <span>Deseo recibir promociones por correo electronico.</span>
+      </label>
+      <button class="nav-btn" type="submit">Guardar preferencia</button>
+    </form>
+
     <form class="settings-panel" method="POST" action="/perfil/configuracion/correo">
       <h2>Correo</h2>
       <p class="muted">Correo actual: <strong><%= user.correo %></strong></p>
