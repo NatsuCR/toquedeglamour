@@ -1,0 +1,79 @@
+@media (max-width: 820px) {
+  .home-showcase {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .home-showcase .slider-container {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    margin-bottom: 1.35rem;
+    padding: .25rem 0 0;
+  }
+
+  .home-showcase .slider-header {
+    min-height: 0;
+    align-items: start;
+    margin-bottom: .7rem;
+    padding: 1rem 0 0;
+  }
+
+  .home-showcase .slider-title {
+    font-size: clamp(1.75rem, 9vw, 2.35rem);
+    overflow-wrap: anywhere;
+  }
+
+  .home-showcase .slider-track-wrapper {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: .15rem 0 .65rem;
+  }
+
+  .home-showcase .slider-track {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    gap: .75rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+    transform: none !important;
+    transition: none;
+  }
+
+  .home-showcase .slider-item {
+    min-width: 100%;
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .home-showcase .slider-btn {
+    display: none;
+  }
+
+  .home-showcase .glass-card {
+    min-height: 0;
+  }
+
+  .home-showcase .card-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: contain;
+    background: var(--rose-soft);
+  }
+
+  .catalog-results {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+}

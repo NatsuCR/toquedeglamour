@@ -2,6 +2,8 @@ import { AuthService } from '../services/auth.service.js';
 import { resetLoginAttempts } from '../middlewares/auth.middleware.js';
 import prisma from '../config/db.js';
 import { FinanceStatsService } from '../services/finance-stats.service.js';
+import { AnalyticsReportService } from '../services/analytics-report.service.js';
+import { startAdminSession } from '../services/admin-session.service.js';
 
 export class AdminController {
   static renderLoginForm(req, res) {
@@ -20,13 +22,9 @@ export class AdminController {
         req.session.loginError = 'Credenciales invalidas. Verifica tu correo y contrasena.';
         return res.redirect('/admin/login');
       }
-      req.session.regenerate((err) => {
-        if (err) return res.status(500).send('Error interno al iniciar sesion.');
-        req.session.adminId = admin.id;
-        req.session.adminCorreo = admin.correo;
-        resetLoginAttempts(req.ip);
-        req.session.save(() => res.redirect('/admin/dashboard'));
-      });
+      const destino = await startAdminSession(req, admin);
+      resetLoginAttempts(req.ip);
+      res.redirect(destino);
     } catch (error) {
       console.error('Error en login admin:', error.message);
       req.session.loginError = 'Ocurrio un error inesperado al procesar el login.';
@@ -46,8 +44,9 @@ export class AdminController {
 
   static async renderDashboard(req, res) {
     try {
-      const [totalPedidos, totalClientes, stockBajo, recientes, resumen] = await Promise.all([
+      const [totalPedidos, totalVentasLocal, totalClientes, stockBajo, recientes, resumen, analytics] = await Promise.all([
         prisma.pedido.count({ where: { estado: { not: 'RECHAZADO' } } }),
+        prisma.ventaPresencial.count(),
         prisma.cliente.count(),
         prisma.producto.count({ where: { stock: { lte: 5 } } }),
         prisma.pedido.findMany({
@@ -55,11 +54,20 @@ export class AdminController {
           orderBy: { creadoEn: 'desc' },
           include: { cliente: true }
         }),
-        FinanceStatsService.resumen()
+        FinanceStatsService.resumen(),
+        AnalyticsReportService.summary()
       ]);
       res.render('admin/dashboard', {
         admin: res.locals.admin,
-        stats: { pedidos: totalPedidos, clientes: totalClientes, stockBajo, ...resumen.kpis },
+        stats: {
+          pedidos: totalPedidos,
+          ventasLocal: totalVentasLocal,
+          clientes: totalClientes,
+          stockBajo,
+          visitas: analytics.visits,
+          visitantesUnicos: analytics.uniqueVisitors,
+          ...resumen.kpis
+        },
         pedidosRecientes: recientes
       });
     } catch (error) {

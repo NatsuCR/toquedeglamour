@@ -1,0 +1,24 @@
+<section class="sales-history">
+  <div class="form-panel-head">
+    <div><span>Registro</span><h2>Ventas recientes</h2></div>
+  </div>
+  <div class="sales-history-list <%= ventas.length > 4 ? 'is-scrollable' : '' %>">
+    <% ventas.forEach((venta) => { %>
+      <article>
+        <div>
+          <small><%= venta.codigo %> - <%= venta.creadoEn.toLocaleString('es-CR') %></small>
+          <strong><%= venta.clienteNombre || 'Consumidor final' %></strong>
+          <span><%= venta.items.reduce((sum, item) => sum + item.cantidad, 0) %> productos - <%= venta.metodoPago %></span>
+        </div>
+        <div>
+          <strong><%= formatMoney(venta.total) %></strong>
+          <small><%= venta.vendedor.correo %></small>
+          <span>Comision: <%= formatMoney(venta.comision) %></span>
+          <button class="btn btn-outline btn-sm" type="button" data-open-sale="<%= venta.id %>">Ver detalle</button>
+        </div>
+      </article>
+      <%- include('sale-modal', { venta }) %>
+    <% }) %>
+    <% if (!ventas.length) { %><p class="muted">Aun no hay ventas presenciales registradas.</p><% } %>
+  </div>
+</section>

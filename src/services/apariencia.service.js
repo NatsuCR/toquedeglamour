@@ -1,22 +1,24 @@
 import prisma from '../config/db.js';
+import { getHeroSlides, prepareHeroSlides } from './apariencia-hero.service.js';
 
 export const DEFAULT_SITE_SETTINGS = {
   logoUrl: '/img/toque-de-glamour.png',
   heroImageUrl: '/img/beauty-hero.png',
   heroImagesJson: '["/img/beauty-hero.png"]',
+  heroSlidesJson: '[]',
   heroEyebrow: 'Belleza, salud y cuidado personal',
   heroTitle: 'Tu belleza, tu toque de glamour',
   heroText: 'Maquillaje, cuidado facial y productos de bienestar seleccionados para tu rutina diaria, regalos especiales y compras faciles desde casa.',
-  heroPrimaryLabel: 'Ver catalogo',
+  heroPrimaryLabel: 'Ver catálogo',
   heroPrimaryHref: '/catalogo',
   heroSecondaryLabel: 'Conocer la marca',
   heroSecondaryHref: '/quienes-somos',
-  topTitle: 'Mas vendidos',
-  topSubtitle: 'Los favoritos de nuestras clientas este ano.',
-  newTitle: 'Recien llegados',
+  topTitle: 'Más vendidos',
+  topSubtitle: 'Los favoritos de nuestras clientas este año.',
+  newTitle: 'Recién llegados',
   newSubtitle: 'Novedades para renovar tu rutina de belleza.',
-  suggestedTitle: 'Tambien te puede gustar',
-  suggestedSubtitle: 'Una seleccion extra para descubrir algo nuevo.',
+  suggestedTitle: 'También te puede gustar',
+  suggestedSubtitle: 'Una selección extra para descubrir algo nuevo.',
   primaryColor: '#7b2446',
   primaryStrongColor: '#54172d',
   secondaryColor: '#c7964a',
@@ -24,35 +26,21 @@ export const DEFAULT_SITE_SETTINGS = {
 };
 
 const EDITABLE_KEYS = Object.keys(DEFAULT_SITE_SETTINGS);
-
-const asList = (value) => {
-  if (Array.isArray(value)) return value;
-  return value ? [value] : [];
+const FIXED_HERO_ACTIONS = {
+  heroPrimaryLabel: DEFAULT_SITE_SETTINGS.heroPrimaryLabel,
+  heroPrimaryHref: DEFAULT_SITE_SETTINGS.heroPrimaryHref,
+  heroSecondaryLabel: DEFAULT_SITE_SETTINGS.heroSecondaryLabel,
+  heroSecondaryHref: DEFAULT_SITE_SETTINGS.heroSecondaryHref
 };
-
-const cleanImages = (images, fallback) => {
-  const unique = [];
-  for (const image of images) {
-    const value = String(image || '').trim();
-    if (value && !unique.includes(value)) unique.push(value);
-  }
-  return unique.length ? unique : [fallback];
+const EDITABLE_CONTENT_KEYS = EDITABLE_KEYS.filter((key) => !(key in FIXED_HERO_ACTIONS));
+const LEGACY_TEXT = {
+  heroPrimaryLabel: ['Ver catalogo', 'Ver catálogo'],
+  topTitle: ['Mas vendidos', 'Más vendidos'],
+  topSubtitle: ['Los favoritos de nuestras clientas este ano.', 'Los favoritos de nuestras clientas este año.'],
+  newTitle: ['Recien llegados', 'Recién llegados'],
+  suggestedTitle: ['Tambien te puede gustar', 'También te puede gustar'],
+  suggestedSubtitle: ['Una seleccion extra para descubrir algo nuevo.', 'Una selección extra para descubrir algo nuevo.']
 };
-
-const parseHeroImages = (settings) => {
-  let images = [];
-  try {
-    images = JSON.parse(settings.heroImagesJson || '[]');
-  } catch {
-    images = [];
-  }
-  if (!Array.isArray(images)) images = asList(images);
-  const legacyImage = String(settings.heroImageUrl || '').trim();
-  if (legacyImage && !images.includes(legacyImage)) images.unshift(legacyImage);
-  return cleanImages(images, DEFAULT_SITE_SETTINGS.heroImageUrl);
-};
-
-const removeValues = (value) => new Set(asList(value).map((item) => String(item)));
 
 export class AparienciaService {
   static async obtenerAjustes() {
@@ -62,44 +50,43 @@ export class AparienciaService {
         acc[row.clave] = row.valor;
         return acc;
       }, {});
-      const settings = { ...DEFAULT_SITE_SETTINGS, ...saved };
-      const heroImages = parseHeroImages(settings);
-      return { ...settings, heroImages, heroImageUrl: heroImages[0] };
+      Object.entries(LEGACY_TEXT).forEach(([key, [legacy, corrected]]) => {
+        if (saved[key] === legacy) saved[key] = corrected;
+      });
+      const settings = { ...DEFAULT_SITE_SETTINGS, ...saved, ...FIXED_HERO_ACTIONS };
+      const heroSlides = getHeroSlides(settings, DEFAULT_SITE_SETTINGS);
+      const heroImages = heroSlides.map((slide) => slide.image);
+      return { ...settings, heroSlides, heroImages, heroImageUrl: heroImages[0] };
     } catch (error) {
       console.warn('No se pudieron cargar ajustes visuales:', error.message);
       return {
         ...DEFAULT_SITE_SETTINGS,
-        heroImages: [DEFAULT_SITE_SETTINGS.heroImageUrl]
+        heroImages: [DEFAULT_SITE_SETTINGS.heroImageUrl],
+        heroSlides: getHeroSlides(DEFAULT_SITE_SETTINGS, DEFAULT_SITE_SETTINGS)
       };
     }
   }
 
   static async guardarAjustes(data, files = {}) {
     const values = {};
-    for (const key of EDITABLE_KEYS) {
+    for (const key of EDITABLE_CONTENT_KEYS) {
       if (Object.prototype.hasOwnProperty.call(data, key)) {
         values[key] = String(data[key] ?? '').trim();
       }
     }
 
     const logo = files.logo?.[0];
-    const hero = files.heroImage?.[0];
-    const heroMany = files.heroImages || [];
     if (logo) values.logoUrl = `/uploads/branding/${logo.filename}`;
 
     const baseSettings = { ...DEFAULT_SITE_SETTINGS, ...data };
-    let heroImages = parseHeroImages(baseSettings);
-    const removed = removeValues(data.removeHeroImages);
-    heroImages = heroImages.filter((image) => !removed.has(image));
-
-    if (hero) heroImages.unshift(`/uploads/branding/${hero.filename}`);
-    for (const image of heroMany) {
-      heroImages.push(`/uploads/branding/${image.filename}`);
-    }
-
-    heroImages = cleanImages(heroImages, DEFAULT_SITE_SETTINGS.heroImageUrl);
+    const heroSlides = prepareHeroSlides(baseSettings, data, files, DEFAULT_SITE_SETTINGS);
+    const heroImages = heroSlides.map((slide) => slide.image);
+    values.heroSlidesJson = JSON.stringify(heroSlides);
     values.heroImagesJson = JSON.stringify(heroImages);
     values.heroImageUrl = heroImages[0];
+    values.heroEyebrow = heroSlides[0].eyebrow;
+    values.heroTitle = heroSlides[0].title;
+    values.heroText = heroSlides[0].text;
 
     await prisma.$transaction(
       Object.entries(values).map(([clave, valor]) =>

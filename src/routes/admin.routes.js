@@ -8,6 +8,9 @@ import { AdminUsuariosController } from '../controllers/admin-usuarios.controlle
 import { AnnouncementController } from '../controllers/announcement.controller.js';
 import { FinanceController } from '../controllers/finance.controller.js';
 import { BrandCollaborationController } from '../controllers/brand-collaboration.controller.js';
+import { SalesController } from '../controllers/sales.controller.js';
+import { AnalyticsController } from '../controllers/analytics.controller.js';
+import { requireOwnerRole } from '../middlewares/role.middleware.js';
 import {
   requireAdminAuth,
   redirectIfAdminAuthenticated,
@@ -17,18 +20,28 @@ import { uploadProductImage, handleUploadError } from '../middlewares/upload.mid
 import { uploadSoporte, handleSupportUploadError } from '../middlewares/support-upload.middleware.js';
 import { uploadGasto, handleExpenseUploadError } from '../middlewares/expense-upload.middleware.js';
 import { uploadBrandCollab, handleBrandCollabUploadError } from '../middlewares/brand-upload.middleware.js';
+import { uploadSaleProofs, handleSaleProofError } from '../middlewares/sales-proof-upload.middleware.js';
 
 const router = Router();
-const admin = [requireAdminAuth];
-const productUpload = [requireAdminAuth, uploadProductImage.array('imagenes', 8), handleUploadError];
-const supportUpload = [requireAdminAuth, uploadSoporte.array('adjuntos', 4), handleSupportUploadError];
-const expenseUpload = [requireAdminAuth, uploadGasto.single('comprobante'), handleExpenseUploadError];
-const brandUpload = [requireAdminAuth, uploadBrandCollab.single('imagen'), handleBrandCollabUploadError];
+const staff = [requireAdminAuth];
+const admin = [requireAdminAuth, requireOwnerRole];
+const productUpload = [requireAdminAuth, requireOwnerRole, uploadProductImage.array('imagenes', 8), handleUploadError];
+const supportUpload = [requireAdminAuth, requireOwnerRole, uploadSoporte.array('adjuntos', 4), handleSupportUploadError];
+const expenseUpload = [requireAdminAuth, requireOwnerRole, uploadGasto.single('comprobante'), handleExpenseUploadError];
+const brandUpload = [requireAdminAuth, requireOwnerRole, uploadBrandCollab.single('imagen'), handleBrandCollabUploadError];
+const salesUpload = [requireAdminAuth, uploadSaleProofs.array('comprobantes', 4), handleSaleProofError];
 
 router.get('/login', redirectIfAdminAuthenticated, AdminController.renderLoginForm);
 router.post('/login', redirectIfAdminAuthenticated, loginRateLimiter, AdminController.processLogin);
-router.get('/logout', admin, AdminController.logout);
+router.get('/', staff, (req, res) => {
+  res.redirect(res.locals.admin.rol === 'EMPLEADO' ? '/admin/ventas' : '/admin/dashboard');
+});
+router.get('/logout', staff, AdminController.logout);
+router.get('/ventas', staff, SalesController.render);
+router.post('/ventas', salesUpload, SalesController.create);
 router.get('/dashboard', admin, AdminController.renderDashboard);
+router.get('/analitica', admin, AnalyticsController.renderAdmin);
+router.post('/analitica/eliminar', admin, AnalyticsController.clearAll);
 router.get('/finanzas', admin, FinanceController.render);
 router.post('/finanzas/iva', admin, FinanceController.actualizarIva);
 router.post('/finanzas/gastos', expenseUpload, FinanceController.crearGasto);

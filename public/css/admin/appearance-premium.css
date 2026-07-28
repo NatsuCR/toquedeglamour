@@ -49,8 +49,6 @@
 }
 
 .hero-gallery-preview {
-  max-height: 300px;
-  overflow-y: auto;
   padding-right: .2rem;
 }
 

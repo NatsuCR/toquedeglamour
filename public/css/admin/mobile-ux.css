@@ -1,0 +1,81 @@
+@media (max-width: 760px) {
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 16px;
+  }
+
+  .btn,
+  .btn-outline,
+  button {
+    min-height: 44px;
+  }
+
+  .dashboard-mini,
+  .finance-kpis,
+  .orders-kpis,
+  .users-stats {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .dashboard-mini article,
+  .finance-kpi,
+  .kpi-card {
+    min-width: 0;
+  }
+
+  .table-container,
+  .finance-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+
+  .finance-table-card table {
+    min-width: 760px;
+  }
+
+  .sales-history-list {
+    max-height: 62dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .sales-history-list article > div:last-child {
+    display: grid;
+    gap: .2rem;
+  }
+
+  .sales-history-list .btn,
+  .sales-register > .btn,
+  .sales-register button[type="submit"],
+  .admin-form-panel button[type="submit"] {
+    width: 100%;
+  }
+
+  .chart-box,
+  .dashboard-shortcuts,
+  .admin-page-hero,
+  .finance-card {
+    min-width: 0;
+  }
+
+  .chart-frame {
+    height: 250px;
+  }
+
+  .chart-frame.small {
+    height: 210px;
+  }
+
+  .dashboard-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-actions .btn,
+  .dashboard-filter .btn {
+    width: 100%;
+  }
+}

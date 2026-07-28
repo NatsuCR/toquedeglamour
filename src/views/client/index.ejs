@@ -1,22 +1,30 @@
 <%- include('partials/header') %>
 <%
   const s = siteSettings || {};
-  const heroImages = Array.isArray(s.heroImages) && s.heroImages.length
-    ? s.heroImages
-    : [s.heroImageUrl || '/img/beauty-hero.png'];
+  const heroSlides = Array.isArray(s.heroSlides) && s.heroSlides.length
+    ? s.heroSlides
+    : [{
+      image: s.heroImageUrl || '/img/beauty-hero.png',
+      eyebrow: s.heroEyebrow,
+      title: s.heroTitle,
+      text: s.heroText
+    }];
+  const firstSlide = heroSlides[0];
 %>
 
 <section class="store-hero animate__animated animate__fadeIn" data-hero-slider>
   <div class="hero-slide-track" data-hero-track>
-    <% heroImages.forEach((image) => { %>
-      <div class="hero-slide" data-hero-image="<%= image %>" style="--hero-bg: url('<%= image %>')"></div>
+    <% heroSlides.forEach((slide) => { %>
+      <div class="hero-slide" data-hero-image="<%= slide.image %>"
+        data-hero-eyebrow="<%= slide.eyebrow %>" data-hero-title="<%= slide.title %>"
+        data-hero-text="<%= slide.text %>" style="--hero-bg: url('<%= slide.image %>')"></div>
     <% }) %>
   </div>
 
   <div class="hero-copy">
-    <p class="hero-eyebrow"><%= s.heroEyebrow %></p>
-    <h1><%= s.heroTitle %></h1>
-    <p><%= s.heroText %></p>
+    <p class="hero-eyebrow" data-hero-copy-eyebrow><%= firstSlide.eyebrow %></p>
+    <h1 data-hero-copy-title><%= firstSlide.title %></h1>
+    <p data-hero-copy-text><%= firstSlide.text %></p>
     <div class="hero-actions">
       <a href="<%= s.heroPrimaryHref || '/catalogo' %>" class="nav-btn"><%= s.heroPrimaryLabel %></a>
       <a href="<%= s.heroSecondaryHref || '/quienes-somos' %>" class="nav-btn-outline"><%= s.heroSecondaryLabel %></a>
@@ -39,11 +47,11 @@
     Ampliar imagen
   </button>
 
-  <% if (heroImages.length > 1) { %>
-    <button class="hero-arrow hero-arrow-left" type="button" data-hero-prev aria-label="Portada anterior">❮</button>
-    <button class="hero-arrow hero-arrow-right" type="button" data-hero-next aria-label="Portada siguiente">❯</button>
+  <% if (heroSlides.length > 1) { %>
+    <button class="hero-arrow hero-arrow-left" type="button" data-hero-prev aria-label="Portada anterior">&lsaquo;</button>
+    <button class="hero-arrow hero-arrow-right" type="button" data-hero-next aria-label="Portada siguiente">&rsaquo;</button>
     <div class="hero-dots" aria-label="Portadas disponibles">
-      <% heroImages.forEach((image, index) => { %>
+      <% heroSlides.forEach((slide, index) => { %>
         <button type="button" class="<%= index === 0 ? 'is-active' : '' %>" data-hero-dot="<%= index %>" aria-label="Ver portada <%= index + 1 %>"></button>
       <% }) %>
     </div>

@@ -1,0 +1,52 @@
+<dialog class="sales-detail-modal" id="saleModal-<%= venta.id %>">
+  <div class="sales-detail-head">
+    <div>
+      <span>Venta presencial</span>
+      <h2><%= venta.codigo %></h2>
+      <p><%= venta.creadoEn.toLocaleString('es-CR') %></p>
+    </div>
+    <button type="button" data-close-sale="<%= venta.id %>" aria-label="Cerrar">X</button>
+  </div>
+
+  <div class="sales-detail-grid">
+    <section>
+      <span>Cliente</span>
+      <strong><%= venta.clienteNombre || 'Consumidor final' %></strong>
+      <p>Cedula: <%= venta.clienteCedula || 'No indicada' %></p>
+    </section>
+    <section>
+      <span>Pago</span>
+      <strong><%= venta.metodoPago %></strong>
+      <p>Total: <%= formatMoney(venta.total) %></p>
+    </section>
+    <section>
+      <span>Vendedor</span>
+      <strong><%= venta.vendedor.correo %></strong>
+      <p>Comision: <%= formatMoney(venta.comision) %></p>
+    </section>
+  </div>
+
+  <section class="sales-detail-block">
+    <span>Productos vendidos</span>
+    <div class="sales-detail-items">
+      <% venta.items.forEach((item) => { const product = item.producto || {}; %>
+        <div>
+          <strong><%= product.nombre || `Producto #${item.productoId}` %></strong>
+          <small>SKU: PRD-<%= String(item.productoId).padStart(4, '0') %></small>
+          <small><%= product.categoria?.nombre || 'Sin categoria' %> / <%= product.subcategoria?.nombre || 'General' %></small>
+          <span><%= item.cantidad %> x <%= formatMoney(item.precioUnitario) %></span>
+        </div>
+      <% }) %>
+    </div>
+  </section>
+
+  <section class="sales-detail-block">
+    <span>Nota interna</span>
+    <p><%= venta.notas || 'Sin nota registrada.' %></p>
+  </section>
+
+  <section class="sales-detail-block">
+    <span>Comprobantes</span>
+    <%- include('sale-proofs', { adjuntos: venta.adjuntos || [] }) %>
+  </section>
+</dialog>

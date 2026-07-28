@@ -11,8 +11,8 @@ const selectSql = `
 
 export function dateRange(query = {}) {
   const range = {};
-  if (query.fechaInicio) range.from = new Date(`${query.fechaInicio}T00:00:00.000Z`);
-  if (query.fechaFin) range.to = new Date(`${query.fechaFin}T23:59:59.999Z`);
+  if (query.fechaInicio) range.from = new Date(`${query.fechaInicio}T00:00:00.000-06:00`);
+  if (query.fechaFin) range.to = new Date(`${query.fechaFin}T23:59:59.999-06:00`);
   return range;
 }
 

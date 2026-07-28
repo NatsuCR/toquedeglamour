@@ -6,7 +6,6 @@ const money = (value) => new Intl.NumberFormat('es-CR', {
   currency: 'CRC',
   maximumFractionDigits: 0
 }).format(roundMoney(value));
-
 const state = { data: [], subtotal: 0, envio: 0, ivaActivo: false, ivaRate: 13 };
 
 function fillSelect(select, items, selected, placeholder) {
@@ -40,6 +39,8 @@ function updateDelivery() {
   address.hidden = !isHome;
   setRequired(address, isHome);
   $('#shippingAmount').textContent = isHome ? money(state.envio) : 'Gratis';
+  const schedule = $('#dispatchSchedule');
+  if (schedule) schedule.hidden = !isHome;
   $('#ivaLine').hidden = !state.ivaActivo;
   $('#ivaAmount').textContent = money(iva);
   $('#totalAmount').textContent = money(state.subtotal + state.envio + iva);

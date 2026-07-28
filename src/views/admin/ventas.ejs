@@ -1,0 +1,27 @@
+<%- include('partials/header') %>
+
+<section class="sales-page">
+  <header class="admin-page-hero sales-hero">
+    <div>
+      <span>Punto de venta</span>
+      <h1>Ventas presenciales</h1>
+      <p>Registra compras del local, descuenta inventario y calcula la comision correspondiente.</p>
+    </div>
+    <div class="sales-role-card">
+      <span>Sesion</span>
+      <strong><%= admin.rol === 'EMPLEADO' ? 'Empleado · 10%' : 'Administrador · 0%' %></strong>
+    </div>
+  </header>
+
+  <% if (flash) { %><div class="admin-alert is-<%= flash.type %>"><%= flash.message %></div><% } %>
+  <% if (error) { %><div class="admin-alert is-error"><%= error %></div><% } %>
+
+  <div class="sales-layout">
+    <%- include('ventas-parts/register', { productos, finance, admin }) %>
+    <%- include('ventas-parts/history', { ventas }) %>
+  </div>
+</section>
+
+<script src="/js/admin-sales.js" defer></script>
+<script src="/js/admin-sales-detail.js" defer></script>
+<%- include('partials/footer') %>

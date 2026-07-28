@@ -63,10 +63,11 @@ export class AdminUsuariosController {
   static async crearAdmin(req, res) {
     try {
       const correo = clean(req.body.correo).toLowerCase();
+      const rol = req.body.rol === 'EMPLEADO' ? 'EMPLEADO' : 'ADMINISTRADOR';
       await prisma.usuarioAdmin.create({
-        data: { correo, passwordHash: await hashPassword(req.body.password) }
+        data: { correo, rol, passwordHash: await hashPassword(req.body.password) }
       });
-      flash(req, 'ok', 'Administrador creado correctamente.');
+      flash(req, 'ok', `${rol === 'EMPLEADO' ? 'Empleado' : 'Administrador'} creado correctamente.`);
     } catch (error) {
       console.error(error);
       flash(req, 'error', error.message || 'No se pudo crear el administrador.');
@@ -81,8 +82,12 @@ export class AdminUsuariosController {
         throw new Error('No puedes eliminar tu propio administrador activo.');
       }
 
-      const totalAdmins = await prisma.usuarioAdmin.count();
-      if (totalAdmins <= 1) throw new Error('Debe quedar al menos un administrador.');
+      const objetivo = await prisma.usuarioAdmin.findUnique({ where: { id: adminId } });
+      if (!objetivo) throw new Error('Cuenta interna no encontrada.');
+      const totalAdmins = await prisma.usuarioAdmin.count({ where: { rol: 'ADMINISTRADOR' } });
+      if (objetivo.rol === 'ADMINISTRADOR' && totalAdmins <= 1) {
+        throw new Error('Debe quedar al menos un administrador.');
+      }
 
       await prisma.usuarioAdmin.delete({ where: { id: adminId } });
       flash(req, 'ok', 'Administrador eliminado correctamente.');

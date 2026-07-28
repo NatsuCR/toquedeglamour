@@ -33,6 +33,7 @@
           <div class="catalog-product-body">
             <% if (p.marca) { %><span class="catalog-brand"><%= p.marca %></span><% } %>
             <span class="catalog-category"><%= p.subcategoria?.nombre || p.categoria?.nombre || 'General' %></span>
+            <span class="catalog-sku">SKU: PRD-<%= String(p.id).padStart(4, '0') %></span>
             <h3><%= p.nombre %></h3>
             <div class="catalog-product-foot">
               <strong><%= consulta ? 'Precio a consultar' : formatMoney(Number(p.precio || 0)) %></strong>

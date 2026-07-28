@@ -52,7 +52,7 @@
         </div>
       </div>
 
-      <div class="brand-admin-list">
+      <div class="brand-admin-list <%= colaboraciones.length > 3 ? 'is-scrollable' : '' %>">
         <% colaboraciones.forEach((colab) => { %>
           <article class="brand-admin-card">
             <img src="<%= colab.imagenUrl %>" alt="<%= colab.titulo %>">

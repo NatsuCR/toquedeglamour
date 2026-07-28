@@ -37,9 +37,13 @@
       <% if (typeof error !== 'undefined' && error) { %>
         <div class="account-feedback is-error"><%= error %></div>
       <% } %>
+      <% if (pedidos?.length) { %>
+        <%- include('perfil-parts/order-toolbar', { pedidos }) %>
+      <% } %>
       <%- include('perfil-parts/orders-list', { pedidos, user }) %>
     </section>
   </div>
 </div>
 
+<script src="/js/profile-orders.js" defer></script>
 <%- include('partials/footer') %>

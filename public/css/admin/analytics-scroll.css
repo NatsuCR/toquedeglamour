@@ -1,0 +1,27 @@
+.analytics-list.is-scrollable {
+  max-height: 374px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: .35rem;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--primary) transparent;
+  scrollbar-width: thin;
+}
+
+.analytics-list.is-scrollable::-webkit-scrollbar {
+  width: 7px;
+}
+
+.analytics-list.is-scrollable::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--surface-soft) 70%, transparent);
+}
+
+.analytics-list.is-scrollable::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--primary) 72%, var(--secondary));
+}
+
+.analytics-list.is-scrollable::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}

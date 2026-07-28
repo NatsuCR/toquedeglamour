@@ -1,0 +1,105 @@
+@media (max-width: 760px) {
+  .admin-main > *,
+  .users-page,
+  .users-page > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .admin-form-grid,
+  .users-grid,
+  .users-form-grid,
+  .finance-grid,
+  .finance-form-grid,
+  .finance-kpis,
+  .dashboard-mini,
+  .dashboard-filter,
+  .charts-grid,
+  .appearance-grid,
+  .brand-admin-grid,
+  .sales-layout,
+  .sales-customer-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-form-panel,
+  .admin-list-panel,
+  .users-card,
+  .finance-card,
+  .sales-register,
+  .sales-history {
+    padding: .8rem;
+  }
+
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-gutter: stable;
+  }
+
+  .glass-table,
+  .data-table {
+    min-width: 840px;
+  }
+
+  .admin-modal-shell {
+    align-items: end;
+    padding: 0;
+  }
+
+  .admin-modal-card {
+    width: 100vw;
+    max-height: 92dvh;
+    border-radius: 18px 18px 0 0;
+    padding: .85rem;
+  }
+
+  .form-panel-head,
+  .admin-user-row,
+  .dashboard-shortcuts {
+    display: grid;
+  }
+
+  .row-actions {
+    align-items: stretch;
+  }
+
+  .row-actions .btn,
+  .form-actions .btn {
+    flex: 1;
+  }
+
+  .category-admin-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .category-admin-card header,
+  .brand-admin-card,
+  .sales-product,
+  .sales-history-list article {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-frame {
+    height: 260px;
+  }
+
+  .chart-frame.small {
+    height: 220px;
+  }
+
+  .product-list-panel .table-container,
+  .brand-admin-list,
+  .subcategory-stack,
+  .hero-gallery-preview {
+    max-height: 62dvh;
+    overflow: auto;
+  }
+
+  .sales-role-card,
+  .users-stats {
+    min-width: 0;
+    width: 100%;
+  }
+}

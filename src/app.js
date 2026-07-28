@@ -11,6 +11,7 @@ import aparienciaRoutes from './routes/apariencia.routes.js';
 import { injectSiteSettings } from './middlewares/site-settings.middleware.js';
 import { formatMoneyCRC } from './utils/money.js';
 import { formatWeight } from './services/shipping.service.js';
+import { trackSiteVisit } from './middlewares/analytics.middleware.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,6 +52,7 @@ app.use(session({
 }));
 
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(trackSiteVisit);
 app.use(injectSiteSettings);
 
 app.use('/admin/apariencia', aparienciaRoutes);

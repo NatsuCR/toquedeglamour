@@ -24,59 +24,11 @@
     }
   </style>
   <script src="/js/theme.js" defer></script>
+  <script src="/js/public-nav.js" defer></script>
+  <script src="/js/site-analytics.js" defer></script>
 </head>
 <body>
   <nav class="public-nav animate__animated animate__fadeInDown">
-    <div class="nav-container">
-      <a href="/" class="logo" aria-label="Toque de Glamour">
-        <% if (visual.logoUrl) { %>
-          <img src="<%= visual.logoUrl %>" alt="Toque de Glamour" class="logo-img">
-        <% } else { %>
-          <span class="logo-mark">T</span>
-          <span><strong>Toque</strong><em>de Glamour</em></span>
-        <% } %>
-      </a>
-
-      <div class="nav-links" aria-label="Navegacion principal">
-        <a href="/" class="nav-item">Inicio</a>
-        <div class="nav-dropdown">
-          <a href="/catalogo" class="nav-item">Catalogo</a>
-          <%- include('catalog-menu', { catalogoMenu: typeof catalogoMenu !== 'undefined' ? catalogoMenu : [] }) %>
-        </div>
-        <a href="/marcas" class="nav-item">Marcas</a>
-        <a href="/carrito" class="nav-item cart-icon">
-          Carrito
-          <% if (typeof carrito !== 'undefined' && carrito && carrito.length > 0) { %>
-            <span class="cart-count"><%= carrito.reduce((sum, item) => sum + item.cantidad, 0) %></span>
-          <% } %>
-        </a>
-        <a href="/quienes-somos" class="nav-item">Quienes Somos</a>
-      </div>
-
-      <div class="nav-actions">
-        <select id="themeSelector" class="theme-select nav-item" aria-label="Tema visual">
-          <option value="light">Claro</option>
-          <option value="dark">Oscuro</option>
-        </select>
-
-        <% if (typeof cliente !== 'undefined' && cliente) { %>
-          <a href="/perfil" class="nav-item">Mi Cuenta</a>
-          <a href="/logout" class="nav-btn-outline">Salir</a>
-        <% } else { %>
-          <a href="/login" class="nav-item">Iniciar Sesion</a>
-          <a href="/registro" class="nav-btn">Registrarse</a>
-        <% } %>
-      </div>
-    </div>
+    <%- include('navbar', { visual }) %>
   </nav>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const currentPath = window.location.pathname;
-      document.querySelectorAll('.nav-item').forEach((item) => {
-        if (item.tagName === 'A' && item.getAttribute('href') === currentPath) item.classList.add('active');
-      });
-    });
-  </script>
-
   <main class="public-main">

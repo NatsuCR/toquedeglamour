@@ -1,0 +1,49 @@
+<button
+  class="admin-mobile-toggle"
+  type="button"
+  aria-expanded="false"
+  aria-controls="adminSidebar"
+  data-admin-menu-toggle>
+  <span class="admin-mobile-toggle-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+  <span>Menu administrativo</span>
+</button>
+<button class="admin-sidebar-backdrop" type="button" aria-label="Cerrar menu" data-admin-menu-close></button>
+
+<aside class="admin-sidebar" id="adminSidebar" data-admin-sidebar>
+  <div class="admin-sidebar-head">
+    <div class="admin-brand">
+      <% if (visual.logoUrl) { %>
+        <img src="<%= visual.logoUrl %>" alt="Toque de Glamour" class="admin-logo">
+      <% } else { %>
+        <h2>Toque de Glamour</h2>
+      <% } %>
+      <span><%= admin.rol === 'EMPLEADO' ? 'Panel de empleado' : 'Panel administrativo' %></span>
+    </div>
+    <button class="admin-sidebar-close" type="button" aria-label="Cerrar menu" data-admin-menu-close>X</button>
+  </div>
+
+  <div class="theme-row">
+    <select id="themeSelector" class="theme-select form-control" aria-label="Tema visual">
+      <option value="light">Claro</option>
+      <option value="dark">Oscuro</option>
+    </select>
+  </div>
+
+  <ul class="admin-nav">
+    <% if (admin.rol === 'ADMINISTRADOR') { %>
+      <li><a href="/admin/dashboard">Dashboard</a></li>
+      <li><a href="/admin/analitica">Analitica web</a></li>
+      <li><a href="/admin/finanzas">Finanzas</a></li>
+      <li><a href="/admin/correos">Correos</a></li>
+      <li><a href="/admin/marcas">Marcas</a></li>
+      <li><a href="/admin/apariencia">Apariencia</a></li>
+      <li><a href="/admin/pedidos">Pedidos</a></li>
+      <li><a href="/admin/soporte">Soporte</a></li>
+      <li><a href="/admin/usuarios">Usuarios</a></li>
+      <li><a href="/admin/categorias">Categorias</a></li>
+      <li><a href="/admin/productos">Productos</a></li>
+    <% } %>
+    <li><a href="/admin/ventas">Ventas presenciales</a></li>
+    <li><a href="/admin/logout" class="btn-outline">Cerrar sesion</a></li>
+  </ul>
+</aside>

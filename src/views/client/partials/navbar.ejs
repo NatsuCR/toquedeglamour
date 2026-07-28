@@ -1,0 +1,66 @@
+<div class="nav-container" data-public-nav>
+  <a href="/" class="logo" aria-label="Toque de Glamour">
+    <% if (visual.logoUrl) { %>
+      <img src="<%= visual.logoUrl %>" alt="Toque de Glamour" class="logo-img">
+    <% } else { %>
+      <span class="logo-mark">T</span>
+      <span><strong>Toque</strong><em>de Glamour</em></span>
+    <% } %>
+  </a>
+
+  <button
+    class="nav-menu-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="publicNavPanel"
+    aria-label="Abrir menu"
+    data-nav-toggle>
+    <span></span><span></span><span></span>
+  </button>
+
+  <button class="public-nav-backdrop" type="button" aria-label="Cerrar menu" data-nav-close></button>
+  <div class="nav-mobile-panel" id="publicNavPanel" data-nav-panel>
+    <div class="public-menu-head">
+      <a href="/" class="public-menu-brand" aria-label="Ir al inicio">
+        <% if (visual.logoUrl) { %>
+          <img src="<%= visual.logoUrl %>" alt="Toque de Glamour">
+        <% } else { %>
+          <strong>Toque de Glamour</strong>
+        <% } %>
+      </a>
+      <button class="public-menu-close" type="button" aria-label="Cerrar menu" data-nav-close>X</button>
+    </div>
+
+    <div class="nav-links" aria-label="Navegacion principal">
+      <a href="/" class="nav-item">Inicio</a>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-head">
+          <a href="/catalogo" class="nav-item">Catalogo</a>
+        </div>
+        <%- include('catalog-menu', { catalogoMenu: typeof catalogoMenu !== 'undefined' ? catalogoMenu : [] }) %>
+      </div>
+      <a href="/marcas" class="nav-item">Marcas</a>
+      <a href="/carrito" class="nav-item cart-icon">
+        Carrito
+        <% if (typeof carrito !== 'undefined' && carrito && carrito.length > 0) { %>
+          <span class="cart-count"><%= carrito.reduce((sum, item) => sum + item.cantidad, 0) %></span>
+        <% } %>
+      </a>
+      <a href="/quienes-somos" class="nav-item">Quienes Somos</a>
+    </div>
+
+    <div class="nav-actions">
+      <select id="themeSelector" class="theme-select nav-item" aria-label="Tema visual">
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+      </select>
+      <% if (typeof cliente !== 'undefined' && cliente) { %>
+        <a href="/perfil" class="nav-item">Mi Cuenta</a>
+        <a href="/logout" class="nav-btn-outline">Salir</a>
+      <% } else { %>
+        <a href="/login" class="nav-item">Iniciar Sesion</a>
+        <a href="/registro" class="nav-btn">Registrarse</a>
+      <% } %>
+    </div>
+  </div>
+</div>

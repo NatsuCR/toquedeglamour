@@ -1,0 +1,57 @@
+@media (max-width: 900px) {
+  .admin-sidebar-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px;
+    gap: .5rem;
+    align-items: start;
+  }
+
+  .admin-sidebar-close {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--primary-strong);
+    background: var(--surface-soft);
+    font-weight: 950;
+  }
+
+  .admin-brand {
+    min-width: 0;
+    display: grid;
+    padding: .4rem;
+  }
+
+  .admin-logo {
+    width: 100%;
+    height: 72px;
+    margin: 0 0 .25rem;
+    object-fit: contain;
+  }
+
+  .admin-nav {
+    grid-column: auto;
+    display: grid;
+    gap: .35rem;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .admin-nav li,
+  .admin-nav a {
+    width: 100%;
+  }
+
+  .admin-nav a {
+    min-height: 46px;
+    padding: .7rem .8rem;
+    font-size: .9rem;
+  }
+
+  .admin-main {
+    width: 100%;
+    padding: .75rem;
+  }
+}

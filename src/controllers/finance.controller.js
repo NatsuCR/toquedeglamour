@@ -75,11 +75,13 @@ export class FinanceController {
 
   static async exportar(req, res) {
     try {
-      const html = await FinanceExportService.excel(filtros(req));
-      const stamp = new Date().toISOString().slice(0, 10);
-      res.setHeader('Content-Type', 'application/vnd.ms-excel; charset=utf-8');
-      res.setHeader('Content-Disposition', `attachment; filename="finanzas-${stamp}.xls"`);
-      res.send(html);
+      const workbook = await FinanceExportService.excel(filtros(req));
+      const stamp = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'America/Costa_Rica'
+      }).format(new Date());
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename="finanzas-${stamp}.xlsx"`);
+      res.send(Buffer.from(workbook));
     } catch (error) {
       console.error('Error exportando finanzas:', error.message);
       res.status(500).send('No se pudo exportar el reporte.');

@@ -1,48 +1,38 @@
 <%- include('partials/header') %>
 
-<div class="animate__animated animate__fadeIn" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 2rem;">
-  <div class="glass-card" style="width: 100%; max-width: 450px; padding: 3rem 2rem;">
-    <div style="text-align: center; margin-bottom: 2rem;">
-      <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem;">Bienvenido</h1>
-      <p style="color: var(--text-muted);">Inicia sesión para acceder a tu cuenta</p>
-    </div>
+<section class="auth-shell animate__animated animate__fadeIn">
+  <article class="auth-card">
+    <header class="auth-head">
+      <span>Tu cuenta</span>
+      <h1>Bienvenido</h1>
+      <p>Inicia sesi&oacute;n para acceder a tus pedidos y beneficios.</p>
+    </header>
 
     <% if (typeof error !== 'undefined' && error) { %>
-      <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; font-weight: 600;">
-        <%= error %>
-      </div>
+      <div class="auth-alert is-error"><%= error %></div>
     <% } %>
     <% if (typeof success !== 'undefined' && success) { %>
-      <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); color: #22c55e; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; font-weight: 600;">
-        <%= success %>
-      </div>
+      <div class="auth-alert is-success"><%= success %></div>
     <% } %>
 
-    <form method="POST" action="/login" style="display: flex; flex-direction: column; gap: 1.5rem;">
-      <div>
-        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Correo Electrónico</label>
-        <input type="email" name="correo" required placeholder="tu@correo.com"
-          style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
-          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
-      </div>
-
-      <div>
-        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Contraseña</label>
-        <input type="password" name="password" required placeholder="••••••••"
-          style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
-          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
-      </div>
-
-      <a href="/password/olvido" style="color:var(--primary);font-weight:800;text-align:right;text-decoration:none;">¿Olvidó la contraseña?</a>
-      <button type="submit" class="nav-btn" style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem; border: none; cursor: pointer; text-align: center;">
-        Iniciar Sesión
-      </button>
+    <form method="POST" action="/login" class="auth-form">
+      <label>
+        Correo electr&oacute;nico
+        <input type="email" name="correo" required autocomplete="email" placeholder="tu@correo.com">
+      </label>
+      <label>
+        Contrase&ntilde;a
+        <input type="password" name="password" required autocomplete="current-password" placeholder="Tu contraseña">
+      </label>
+      <a href="/password/olvido" class="auth-help">&iquest;Olvidaste la contrase&ntilde;a?</a>
+      <button type="submit" class="nav-btn auth-submit">Iniciar sesi&oacute;n</button>
     </form>
 
-    <div style="text-align: center; margin-top: 2rem; border-top: 1px solid var(--glass-border); padding-top: 1.5rem;">
-      <p style="color: var(--text-muted);">¿No tienes una cuenta? <a href="/registro" style="color: var(--primary); font-weight: 600; text-decoration: none;">Regístrate aquí</a></p>
-    </div>
-  </div>
-</div>
+    <footer class="auth-footer">
+      <span>&iquest;No tienes una cuenta?</span>
+      <a href="/registro">Crear cuenta</a>
+    </footer>
+  </article>
+</section>
 
 <%- include('partials/footer') %>

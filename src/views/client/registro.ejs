@@ -1,96 +1,50 @@
 <%- include('partials/header') %>
 
-<div class="animate__animated animate__fadeIn" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 2rem;">
-  <div class="glass-card" style="width: 100%; max-width: 550px; padding: 3rem 2rem;">
-    <div style="text-align: center; margin-bottom: 2rem;">
-      <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem;">Crea tu Cuenta</h1>
-      <p style="color: var(--text-muted);">Únete a Toque de Glamour</p>
-    </div>
+<section class="auth-shell auth-register-shell animate__animated animate__fadeIn">
+  <article class="auth-card auth-register-card">
+    <header class="auth-head">
+      <span>Nueva cuenta</span>
+      <h1>Crea tu cuenta</h1>
+      <p>Completa tus datos para comprar y dar seguimiento a tus pedidos.</p>
+    </header>
 
     <% if (typeof error !== 'undefined' && error) { %>
-      <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; font-weight: 600;">
-        <%= error %>
-      </div>
+      <div class="auth-alert is-error"><%= error %></div>
     <% } %>
 
-    <form method="POST" action="/registro" style="display: flex; flex-direction: column; gap: 1.2rem;">
-      
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        <div style="flex: 1; min-width: 200px;">
-          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Nombre</label>
-          <input type="text" name="nombre" required placeholder="Tu nombre"
-            style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
-            onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
-        </div>
-        <div style="flex: 1; min-width: 200px;">
-          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Apellidos</label>
-          <input type="text" name="apellidos" required placeholder="Tus apellidos"
-            style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
-            onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
-        </div>
-      </div>
-
-      <div>
-        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Cédula</label>
-        <input type="text" name="cedula" required placeholder="Número de identificación"
-          style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
-          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
-      </div>
-
-      <div>
-        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Celular</label>
-        <input type="tel" name="celular1" required placeholder="Tu número de teléfono"
-          style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
-          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
-      </div>
-
-      <div>
-        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Celular 2 (opcional)</label>
-        <input type="tel" name="celular2" placeholder="Otro numero de contacto"
-          style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
-          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
-      </div>
-
-      <div>
-        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Correo Electrónico</label>
-        <input type="email" name="correo" required placeholder="tu@correo.com"
-          style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
-          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
-      </div>
-
-      <div>
-        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Contraseña</label>
-        <input type="password" name="password" required placeholder="Crea una contraseña segura"
-          style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(150, 150, 150, 0.3); background: var(--bg-color); color: var(--text-main); outline: none; transition: border-color 0.3s;"
-          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(150, 150, 150, 0.3)'">
+    <form method="POST" action="/registro" class="auth-form">
+      <div class="auth-fields">
+        <label>Nombre<input type="text" name="nombre" required autocomplete="given-name" placeholder="Tu nombre"></label>
+        <label>Apellidos<input type="text" name="apellidos" required autocomplete="family-name" placeholder="Tus apellidos"></label>
+        <label>C&eacute;dula<input type="text" name="cedula" required inputmode="numeric" placeholder="Número de identificación"></label>
+        <label>Celular<input type="tel" name="celular1" required autocomplete="tel" placeholder="Tu número de teléfono"></label>
+        <label>Celular 2 <small>Opcional</small><input type="tel" name="celular2" placeholder="Otro número de contacto"></label>
+        <label>Correo electr&oacute;nico<input type="email" name="correo" required autocomplete="email" placeholder="tu@correo.com"></label>
+        <label class="auth-field-wide">Contrase&ntilde;a<input type="password" name="password" required autocomplete="new-password" placeholder="Crea una contraseña segura"></label>
       </div>
 
       <label class="terms-check">
         <input type="checkbox" name="aceptoTerminos" required>
-        <span>
-          Acepto los <a href="/terminos-condiciones" target="_blank" rel="noopener">Términos y condiciones</a>
-          y la <a href="/politica-privacidad" target="_blank" rel="noopener">Política de privacidad</a>.
-          <small>Usaremos tus datos para gestionar tu cuenta, pedidos, entregas y soporte.</small>
+        <span>Acepto los <a href="/terminos-condiciones" target="_blank">T&eacute;rminos y condiciones</a>
+          y la <a href="/politica-privacidad" target="_blank">Pol&iacute;tica de privacidad</a>.
+          <small>Usaremos tus datos para gestionar cuenta, pedidos, entregas y soporte.</small>
         </span>
       </label>
 
       <label class="terms-check">
         <input type="checkbox" name="aceptaPromociones">
-        <span>
-          Deseo recibir promociones y novedades de Toque de Glamour por correo electronico.
-          <small>Podras cambiar esta preferencia desde tu perfil cuando quieras.</small>
+        <span>Deseo recibir promociones y novedades por correo electr&oacute;nico.
+          <small>Podr&aacute;s cambiar esta preferencia desde tu perfil.</small>
         </span>
       </label>
-
-      <button type="submit" class="nav-btn" style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem; border: none; cursor: pointer; text-align: center;">
-        Completar Registro
-      </button>
+      <button type="submit" class="nav-btn auth-submit">Completar registro</button>
     </form>
 
-    <div style="text-align: center; margin-top: 2rem; border-top: 1px solid var(--glass-border); padding-top: 1.5rem;">
-      <p style="color: var(--text-muted);">¿Ya tienes una cuenta? <a href="/login" style="color: var(--primary); font-weight: 600; text-decoration: none;">Inicia sesión aquí</a></p>
-    </div>
-  </div>
-</div>
+    <footer class="auth-footer">
+      <span>&iquest;Ya tienes una cuenta?</span>
+      <a href="/login">Iniciar sesi&oacute;n</a>
+    </footer>
+  </article>
+</section>
 
 <%- include('partials/footer') %>

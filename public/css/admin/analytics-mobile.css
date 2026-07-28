@@ -1,0 +1,19 @@
+@media (max-width: 900px) {
+  .analytics-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .analytics-kpis {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-kpis article {
+    min-height: 104px;
+  }
+}

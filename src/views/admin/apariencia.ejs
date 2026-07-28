@@ -5,23 +5,14 @@
   const heroImages = Array.isArray(s.heroImages) && s.heroImages.length
     ? s.heroImages
     : [v('heroImageUrl')].filter(Boolean);
-  const heroFields = [
-    ['heroEyebrow', 'Texto superior'],
-    ['heroTitle', 'Titulo principal'],
-    ['heroText', 'Descripcion', 'textarea'],
-    ['heroPrimaryLabel', 'Boton principal'],
-    ['heroPrimaryHref', 'Enlace boton principal'],
-    ['heroSecondaryLabel', 'Boton secundario'],
-    ['heroSecondaryHref', 'Enlace boton secundario']
-  ];
-  const sections = [
-    ['topTitle', 'Titulo mas vendidos'],
-    ['topSubtitle', 'Subtitulo mas vendidos'],
-    ['newTitle', 'Titulo recien llegados'],
-    ['newSubtitle', 'Subtitulo recien llegados'],
-    ['suggestedTitle', 'Titulo sugeridos'],
-    ['suggestedSubtitle', 'Subtitulo sugeridos']
-  ];
+  const heroSlides = Array.isArray(s.heroSlides) && s.heroSlides.length
+    ? s.heroSlides
+    : heroImages.map((image) => ({
+      image,
+      eyebrow: v('heroEyebrow'),
+      title: v('heroTitle'),
+      text: v('heroText')
+    }));
   const colors = [
     ['primaryColor', 'Principal'],
     ['primaryStrongColor', 'Principal oscuro'],
@@ -29,7 +20,6 @@
     ['accentColor', 'Acento']
   ];
 %>
-
 <div class="glass-panel animate__animated animate__fadeInUp">
   <div class="appearance-head">
     <div>
@@ -38,66 +28,75 @@
     </div>
     <a href="/" class="btn btn-outline" target="_blank">Ver tienda</a>
   </div>
-
   <% if (typeof error !== 'undefined' && error) { %>
     <div class="admin-alert is-error"><%= error %></div>
   <% } %>
   <% if (typeof success !== 'undefined' && success) { %>
     <div class="admin-alert is-success"><%= success %></div>
   <% } %>
-
   <form method="POST" action="/admin/apariencia" enctype="multipart/form-data">
     <div class="appearance-grid">
-      <section class="appearance-card">
-        <h2>Marca</h2>
-        <label>Logo actual</label>
-        <img src="<%= v('logoUrl') %>" alt="Logo actual" class="brand-preview">
-        <input type="file" name="logo" class="form-control" accept="image/jpeg,image/png,image/webp">
-        <input type="hidden" name="logoUrl" value="<%= v('logoUrl') %>">
-
-        <label>Portadas actuales</label>
-        <div class="hero-gallery-preview">
-          <% heroImages.forEach((image, index) => { %>
-            <div class="hero-image-tile">
-              <img src="<%= image %>" alt="Portada <%= index + 1 %>">
-              <div>
-                <strong><%= index === 0 ? 'Principal' : 'Slide ' + (index + 1) %></strong>
-                <% if (heroImages.length > 1) { %>
-                  <label class="remove-hero-image">
-                    <input type="checkbox" name="removeHeroImages" value="<%= image %>">
-                    Quitar
-                  </label>
-                <% } %>
-              </div>
+      <section class="appearance-card appearance-brand-card">
+        <h2>Marca y portadas</h2>
+        <div class="appearance-brand-layout">
+          <div class="appearance-logo-panel">
+            <div class="appearance-section-title">
+              <span>Identidad</span>
+              <strong>Logo principal</strong>
+              <p>Se utiliza en la tienda y en el panel administrativo.</p>
             </div>
-          <% }) %>
+            <img src="<%= v('logoUrl') %>" alt="Logo actual" class="brand-preview">
+            <label for="brandLogo">Reemplazar logo</label>
+            <input id="brandLogo" type="file" name="logo" class="form-control"
+              accept="image/jpeg,image/png,image/webp">
+            <input type="hidden" name="logoUrl" value="<%= v('logoUrl') %>">
+          </div>
+
+          <div class="appearance-hero-panel">
+            <div class="appearance-section-title">
+              <span>Portada del inicio</span>
+              <strong><%= heroSlides.length %> <%= heroSlides.length === 1 ? 'imagen activa' : 'imagenes activas' %></strong>
+              <p>Edita el mensaje de cada imagen o agrega nuevas portadas.</p>
+            </div>
+            <div class="hero-gallery-preview <%= heroSlides.length > 3 ? 'is-scrollable' : '' %>">
+              <% heroSlides.forEach((slide, index) => { %>
+                <article class="hero-image-tile">
+                  <div class="hero-slide-media">
+                    <img src="<%= slide.image %>" alt="Portada <%= index + 1 %>">
+                    <span><%= String(index + 1).padStart(2, '0') %></span>
+                  </div>
+                  <div class="hero-slide-fields">
+                    <strong><%= index === 0 ? 'Portada principal' : 'Portada ' + (index + 1) %></strong>
+                    <label>Texto superior<input name="heroSlideEyebrow" value="<%= slide.eyebrow %>"></label>
+                    <label>Titulo<input name="heroSlideTitle" value="<%= slide.title %>" required></label>
+                    <label>Descripcion<textarea name="heroSlideText" rows="3"><%= slide.text %></textarea></label>
+                    <% if (heroSlides.length > 1) { %>
+                      <label class="remove-hero-image">
+                        <input type="checkbox" name="removeHeroImages" value="<%= slide.image %>">
+                        Quitar esta portada
+                      </label>
+                    <% } %>
+                  </div>
+                </article>
+              <% }) %>
+            </div>
+
+            <label for="heroImagesInput">Agregar portadas</label>
+            <input id="heroImagesInput" type="file" name="heroImages" class="form-control"
+              accept="image/jpeg,image/png,image/webp" multiple>
+            <div id="newHeroSlideFields" class="new-hero-slide-fields"></div>
+            <small class="appearance-hint">Las portadas cambian automaticamente cada 5 segundos.</small>
+            <input type="hidden" name="heroImageUrl" value="<%= v('heroImageUrl') %>">
+            <input type="hidden" name="heroImagesJson" value="<%= JSON.stringify(heroImages) %>">
+            <input type="hidden" name="heroSlidesJson" value="<%= JSON.stringify(heroSlides) %>">
+          </div>
         </div>
-
-        <label>Agregar portadas</label>
-        <input type="file" name="heroImages" class="form-control" accept="image/jpeg,image/png,image/webp" multiple>
-        <small class="appearance-hint">Si agregas varias, la portada se movera automaticamente cada 5 segundos.</small>
-        <input type="hidden" name="heroImageUrl" value="<%= v('heroImageUrl') %>">
-        <input type="hidden" name="heroImagesJson" value="<%= JSON.stringify(heroImages) %>">
       </section>
 
-      <section class="appearance-card">
-        <h2>Hero del home</h2>
-        <% heroFields.forEach(([name, label, type]) => { %>
-          <label for="<%= name %>"><%= label %></label>
-          <% if (type === 'textarea') { %>
-            <textarea id="<%= name %>" name="<%= name %>" class="form-control" rows="4"><%= v(name) %></textarea>
-          <% } else { %>
-            <input id="<%= name %>" name="<%= name %>" class="form-control" value="<%= v(name) %>">
-          <% } %>
-        <% }) %>
-      </section>
+      <%- include('apariencia-parts/carousels', { v }) %>
 
       <section class="appearance-card">
-        <h2>Secciones y colores</h2>
-        <% sections.forEach(([name, label]) => { %>
-          <label for="<%= name %>"><%= label %></label>
-          <input id="<%= name %>" name="<%= name %>" class="form-control" value="<%= v(name) %>">
-        <% }) %>
+        <h2>Colores de la tienda</h2>
         <div class="color-grid">
           <% colors.forEach(([name, label]) => { %>
             <label><%= label %><input type="color" name="<%= name %>" value="<%= v(name) %>"></label>
@@ -108,5 +107,5 @@
     <button type="submit" class="btn save-appearance">Guardar cambios</button>
   </form>
 </div>
-
+<script src="/js/admin-appearance-hero.js" defer></script>
 <%- include('partials/footer') %>

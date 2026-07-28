@@ -1,0 +1,32 @@
+.admin-brand {
+  display: grid;
+  gap: .5rem;
+}
+
+.admin-logo {
+  display: block;
+  width: 100%;
+  height: 96px;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+  padding: .25rem;
+  margin: 0;
+  background: #fff;
+}
+
+.admin-brand span {
+  padding: 0 .1rem;
+}
+
+@media (max-width: 900px) {
+  .admin-brand {
+    grid-template-columns: 88px minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .admin-logo {
+    width: 88px;
+    height: 52px;
+  }
+}

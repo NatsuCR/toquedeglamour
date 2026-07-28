@@ -1,0 +1,31 @@
+<%
+  const states = [
+    ['TODOS', 'Todos'],
+    ['PREPARACION', 'Preparacion'],
+    ['LISTO', 'Listos'],
+    ['ENVIADO', 'Enviados'],
+    ['COMPLETADO', 'Completados'],
+    ['CANCELADO', 'Cancelados']
+  ];
+  const countState = (key) => {
+    if (key === 'TODOS') return pedidos.length;
+    if (key === 'CANCELADO') return pedidos.filter((p) => p.estado === 'RECHAZADO').length;
+    return pedidos.filter((p) => p.estado !== 'RECHAZADO' && p.fase === key).length;
+  };
+%>
+
+<div class="order-tools" data-order-tools>
+  <label class="order-search">
+    <span>Buscar pedido</span>
+    <input type="search" placeholder="Codigo, producto o SKU" data-order-search>
+  </label>
+  <div class="order-tabs" role="tablist" aria-label="Estados de pedidos">
+    <% states.forEach(([key, label], index) => { %>
+      <button type="button" role="tab" data-order-filter="<%= key %>"
+        class="<%= index === 0 ? 'is-active' : '' %>">
+        <%= label %> <span><%= countState(key) %></span>
+      </button>
+    <% }) %>
+  </div>
+</div>
+<p class="order-filter-empty" data-order-empty hidden>No encontramos pedidos con ese filtro.</p>

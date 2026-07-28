@@ -1,0 +1,21 @@
+<div class="sales-proof-list">
+  <% if (!adjuntos.length) { %>
+    <p class="muted">Sin comprobantes adjuntos.</p>
+  <% } %>
+  <% adjuntos.forEach((proof) => { const image = proof.mime && proof.mime.startsWith('image/'); %>
+    <article class="sales-proof-item">
+      <div class="sales-proof-actions">
+        <button class="sales-proof-toggle" type="button" data-proof-toggle>Cargar comprobante</button>
+        <a href="<%= proof.ruta %>" target="_blank" rel="noopener">Abrir en pestana</a>
+        <small><%= proof.nombre %></small>
+      </div>
+      <div class="sales-proof-preview" hidden>
+        <% if (image) { %>
+          <img src="<%= proof.ruta %>" alt="<%= proof.nombre %>">
+        <% } else { %>
+          <iframe src="<%= proof.ruta %>" title="<%= proof.nombre %>"></iframe>
+        <% } %>
+      </div>
+    </article>
+  <% }) %>
+</div>

@@ -1,0 +1,39 @@
+<%
+  const carousels = [
+    { number: '01', name: 'Más vendidos', title: 'topTitle', subtitle: 'topSubtitle' },
+    { number: '02', name: 'Recién llegados', title: 'newTitle', subtitle: 'newSubtitle' },
+    {
+      number: '03',
+      name: 'También te puede gustar',
+      title: 'suggestedTitle',
+      subtitle: 'suggestedSubtitle'
+    }
+  ];
+%>
+<section class="appearance-card carousel-copy-card">
+  <div class="carousel-copy-head">
+    <div>
+      <span>Contenido del inicio</span>
+      <h2>Títulos y descripciones de carruseles</h2>
+    </div>
+    <p>Cada cambio se refleja en la página principal.</p>
+  </div>
+  <div class="carousel-copy-grid">
+    <% carousels.forEach((carousel) => { %>
+      <article>
+        <span><%= carousel.number %></span>
+        <h3><%= carousel.name %></h3>
+        <label for="<%= carousel.title %>">
+          Título
+          <input id="<%= carousel.title %>" name="<%= carousel.title %>"
+            class="form-control" value="<%= v(carousel.title) %>" required>
+        </label>
+        <label for="<%= carousel.subtitle %>">
+          Descripción
+          <textarea id="<%= carousel.subtitle %>" name="<%= carousel.subtitle %>"
+            class="form-control" rows="3" required><%= v(carousel.subtitle) %></textarea>
+        </label>
+      </article>
+    <% }) %>
+  </div>
+</section>

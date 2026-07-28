@@ -1,0 +1,115 @@
+.analytics-page {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.analytics-hero,
+.analytics-panel,
+.analytics-kpis article {
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.analytics-hero {
+  border-top: 3px solid var(--secondary);
+  padding: clamp(1.2rem, 3vw, 2rem);
+}
+
+.analytics-hero span,
+.analytics-panel-head span {
+  color: var(--secondary);
+  font-size: .76rem;
+  font-weight: 950;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+
+.analytics-hero h1 {
+  color: var(--primary-strong);
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+}
+
+.analytics-hero p,
+.analytics-kpis small,
+.analytics-empty,
+.analytics-clicks small {
+  color: var(--text-muted);
+}
+
+.analytics-kpis {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: .8rem;
+}
+
+.analytics-kpis article {
+  min-height: 126px;
+  display: grid;
+  align-content: center;
+  gap: .2rem;
+  padding: 1rem;
+}
+
+.analytics-kpis span {
+  color: var(--text-muted);
+  font-weight: 850;
+}
+
+.analytics-kpis strong {
+  color: var(--primary-strong);
+  font-family: var(--font-serif);
+  font-size: 2rem;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.analytics-panel {
+  min-width: 0;
+  padding: 1.1rem;
+}
+
+.analytics-panel-head {
+  margin-bottom: .8rem;
+}
+
+.analytics-panel h2 {
+  color: var(--primary-strong);
+  font-size: 1.25rem;
+}
+
+.analytics-list {
+  display: grid;
+  gap: .5rem;
+}
+
+.analytics-list > div {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .65rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: .72rem;
+  background: var(--surface-soft);
+}
+
+.analytics-list b {
+  color: var(--secondary);
+}
+
+.analytics-list span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.analytics-clicks span {
+  display: grid;
+}

@@ -95,6 +95,13 @@
   padding: .95rem;
 }
 
+.catalog-sku {
+  color: var(--text-muted);
+  font-size: .76rem;
+  font-weight: 850;
+  letter-spacing: .04em;
+}
+
 .catalog-brand {
   width: max-content;
   color: var(--primary-strong);

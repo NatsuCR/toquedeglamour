@@ -1,0 +1,106 @@
+@media (max-width: 820px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .public-main {
+    width: 100%;
+    padding: .8rem .7rem 2.5rem;
+  }
+
+  .public-nav {
+    position: sticky;
+  }
+
+  .nav-container {
+    padding: .55rem .7rem;
+  }
+
+  .nav-links,
+  .nav-actions {
+    overscroll-behavior-x: contain;
+  }
+
+  .nav-item,
+  .nav-btn,
+  .nav-btn-outline {
+    min-height: 40px;
+    flex: 0 0 auto;
+  }
+
+  .store-hero {
+    min-height: min(620px, 80dvh);
+    align-items: end;
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+
+  .hero-copy {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .store-hero h1 {
+    max-width: 11ch;
+    font-size: clamp(2.55rem, 14vw, 4.2rem);
+  }
+
+  .store-hero p {
+    font-size: .95rem;
+    line-height: 1.5;
+  }
+
+  .hero-arrow {
+    top: 1rem;
+    transform: none;
+  }
+
+  .hero-arrow:hover {
+    transform: scale(1.06);
+  }
+
+  .hero-service-row {
+    gap: .4rem;
+  }
+
+  .hero-service-row span {
+    padding: .42rem .58rem;
+    font-size: .75rem;
+  }
+
+  .hero-zoom-btn {
+    right: .75rem;
+    bottom: .75rem;
+  }
+
+  .slider-shell,
+  .catalog-results,
+  .cart-items,
+  .order-list {
+    overscroll-behavior: contain;
+  }
+
+  .whatsapp-float {
+    right: .75rem;
+    bottom: .75rem;
+  }
+}
+
+@media (max-width: 460px) {
+  .hero-eyebrow {
+    width: fit-content;
+    font-size: .66rem;
+    letter-spacing: .08em;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-actions {
+    gap: .5rem;
+  }
+
+  .hero-actions a {
+    flex: 1;
+    text-align: center;
+  }
+}

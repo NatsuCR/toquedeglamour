@@ -1,4 +1,4 @@
-<section class="cart-items" aria-label="Productos en carrito">
+<section class="cart-items <%= carrito.length > 4 ? 'is-scrollable' : '' %>" aria-label="Productos en carrito">
   <% carrito.forEach((item) => { %>
     <% const lineaTotal = Number(item.precio || 0) * Number(item.cantidad || 0); %>
     <article class="cart-item">

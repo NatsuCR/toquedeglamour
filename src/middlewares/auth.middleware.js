@@ -40,7 +40,8 @@ export const requireAdminAuth = (req, res, next) => {
   // para que esté disponible automáticamente en las vistas EJS
   res.locals.admin = {
     id: req.session.adminId,
-    correo: req.session.adminCorreo
+    correo: req.session.adminCorreo,
+    rol: req.session.adminRol || 'ADMINISTRADOR'
   };
 
   // El usuario es admin, puede continuar a la ruta solicitada
@@ -58,7 +59,8 @@ export const requireAdminAuth = (req, res, next) => {
  */
 export const redirectIfAdminAuthenticated = (req, res, next) => {
   if (req.session && req.session.adminId) {
-    return res.redirect('/admin/dashboard');
+    const destino = req.session.adminRol === 'EMPLEADO' ? '/admin/ventas' : '/admin/dashboard';
+    return res.redirect(destino);
   }
   next();
 };

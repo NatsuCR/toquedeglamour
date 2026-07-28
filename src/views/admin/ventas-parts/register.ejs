@@ -1,0 +1,42 @@
+<form class="sales-register" method="POST" action="/admin/ventas" enctype="multipart/form-data"
+  data-sales-form data-iva-rate="<%= finance.ivaPorcentaje %>" data-iva-active="<%= finance.ivaActivo %>">
+  <div class="form-panel-head">
+    <div><span>Nueva venta</span><h2>Seleccionar productos</h2></div>
+  </div>
+
+  <div class="sales-customer-grid">
+    <label>Cliente (opcional)<input name="clienteNombre" placeholder="Nombre completo"></label>
+    <label>Cedula (opcional)<input name="clienteCedula" placeholder="Identificacion"></label>
+    <label>Metodo de pago<select name="metodoPago" required data-sales-payment>
+      <option value="EFECTIVO">Efectivo</option>
+      <option value="SINPE">SINPE Movil</option>
+      <option value="TARJETA">Tarjeta</option>
+      <option value="TRANSFERENCIA">Transferencia</option>
+      <option value="OTRO">Otro</option>
+    </select></label>
+    <label>Nota interna (opcional)<input name="notas" placeholder="Detalle interno de la venta"></label>
+  </div>
+
+  <label class="sales-proof-field" data-sales-proof-wrap>Comprobantes de pago (opcional)
+    <input type="file" name="comprobantes" accept="image/*,.pdf" multiple data-sales-files>
+    <span data-sales-file-label>Subir imagen o PDF de SINPE, transferencia o recibo.</span>
+  </label>
+  <p class="sales-cash-note" data-sales-cash-note hidden>
+    Pago en efectivo: no es necesario adjuntar comprobante.
+  </p>
+
+  <label class="sales-search">Buscar producto
+    <input type="search" placeholder="Nombre, marca, categoria, subcategoria o SKU" data-sales-search>
+  </label>
+
+  <%- include('product-groups', { productos }) %>
+
+  <input type="hidden" name="itemsJson" data-items-json>
+  <div class="sales-total">
+    <p><span>Subtotal</span><strong data-sale-subtotal>CRC 0</strong></p>
+    <p><span>IVA <%= finance.ivaPorcentaje %>%</span><strong data-sale-iva>CRC 0</strong></p>
+    <p><span>Comision <%= admin.rol === 'EMPLEADO' ? '10%' : '0%' %></span><strong data-sale-commission>CRC 0</strong></p>
+    <p class="grand"><span>Total cobrado</span><strong data-sale-total>CRC 0</strong></p>
+  </div>
+  <button class="btn" type="submit">Registrar venta y descontar stock</button>
+</form>

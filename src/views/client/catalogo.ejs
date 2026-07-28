@@ -36,6 +36,29 @@
   </header>
 
   <div class="catalog-layout">
+    <form class="catalog-mobile-search" action="/catalogo" method="GET">
+      <label for="catalogMobileSearch">Buscar productos</label>
+      <div>
+        <input
+          id="catalogMobileSearch"
+          type="search"
+          name="q"
+          value="<%= filtros.q || '' %>"
+          placeholder="Nombre o SKU"
+        >
+        <button type="submit">Buscar</button>
+      </div>
+    </form>
+    <button
+      class="catalog-filter-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="catalogFilter"
+      data-catalog-filter-toggle>
+      <span>Filtros</span>
+      <% if (filtrosActivos) { %><strong><%= filtrosActivos %></strong><% } %>
+    </button>
+
     <%- include('catalogo-parts/filter', { categorias, marcas, filtros }) %>
 
     <section class="catalog-results">
@@ -53,5 +76,6 @@
 </section>
 
 <script src="/js/catalog-load-more.js"></script>
+<script src="/js/catalog-mobile-filter.js"></script>
 
 <%- include('partials/footer') %>

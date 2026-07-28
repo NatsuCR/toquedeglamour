@@ -4,9 +4,18 @@
     : ['PREPARACION', 'LISTO', 'ENVIADO', 'COMPLETADO'];
   const faseActual = Math.max(0, fases.indexOf(pedido.fase || 'PREPARACION'));
   const cancelado = pedido.estado === 'RECHAZADO';
+  const orderState = cancelado ? 'CANCELADO' : (pedido.fase || 'PREPARACION');
+  const orderSearch = [
+    pedido.codigo,
+    ...pedido.items.flatMap((item) => [
+      item.producto?.nombre,
+      `PRD-${String(item.productoId).padStart(4, '0')}`
+    ])
+  ].filter(Boolean).join(' ').toLowerCase();
 %>
 
-<article class="order-card">
+<article class="order-card" data-order-card data-order-state="<%= orderState %>"
+  data-order-search="<%= orderSearch %>">
   <div class="order-head">
     <div>
       <span>Pedido</span>

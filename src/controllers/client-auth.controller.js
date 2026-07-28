@@ -4,6 +4,9 @@ import {
   getClientReturn,
   setClientSession
 } from '../services/client-session.service.js';
+import { AuthService } from '../services/auth.service.js';
+import { startAdminSession } from '../services/admin-session.service.js';
+import { resetLoginAttempts } from '../middlewares/auth.middleware.js';
 
 export class ClientAuthController {
   static renderLogin(req, res) {
@@ -38,12 +41,20 @@ export class ClientAuthController {
   static async processLogin(req, res) {
     const { correo, password } = req.body;
     try {
+      const admin = await AuthService.loginAdmin(correo, password);
+      if (admin) {
+        const destination = await startAdminSession(req, admin);
+        resetLoginAttempts(req.ip);
+        return res.redirect(destination);
+      }
+
       const cliente = await ClientAuthService.loginClient(correo, password);
       if (!cliente) {
         req.session.loginError = 'Credenciales invalidas.';
         return res.redirect('/login');
       }
       const returnTo = getClientReturn(req);
+      resetLoginAttempts(req.ip);
       req.session.regenerate((err) => {
         if (err) throw err;
         setClientSession(req, cliente, returnTo);

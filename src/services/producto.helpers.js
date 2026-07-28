@@ -16,17 +16,14 @@ export const mapProducto = (p) => {
 };
 
 export const mapProductos = (productos) => productos.map(mapProducto);
-
 export function tipoVenta(data) {
   return data.tipoVenta === 'CONSULTA' ? 'CONSULTA' : 'DIRECTA';
 }
-
 export function requiereVentaDirecta(data) {
   const directa = tipoVenta(data) === 'DIRECTA';
   return directa && (data.precio === undefined || data.precio === '' ||
     data.stock === undefined || data.stock === '');
 }
-
 export function datosProducto(data, existente = null) {
   const tipo = tipoVenta(data);
   const consulta = tipo === 'CONSULTA';
@@ -52,10 +49,17 @@ export function datosProducto(data, existente = null) {
     fechaNuevo: marcarNuevo && !existente?.esNuevo ? new Date() : (marcarNuevo ? existente?.fechaNuevo : null)
   };
 }
-
 export function filtrosProducto(filtros) {
   const where = {};
-  if (filtros.q) where.nombre = { contains: filtros.q };
+  if (filtros.q) {
+    const query = String(filtros.q).trim();
+    const sku = query.match(/^PRD-?0*(\d+)$/i);
+    where.OR = [
+      { nombre: { contains: query } },
+      { marca: { contains: query } }
+    ];
+    if (sku) where.OR.push({ id: Number.parseInt(sku[1], 10) });
+  }
   if (filtros.cat) where.categoria = { slug: filtros.cat };
   if (filtros.subcat) where.subcategoria = { slug: filtros.subcat };
   if (filtros.marca) where.marca = filtros.marca;

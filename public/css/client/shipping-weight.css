@@ -27,6 +27,16 @@
   line-height: 1.55;
 }
 
+.pickup-note {
+  border-style: solid;
+  border-left: 4px solid var(--secondary);
+  background: color-mix(in srgb, var(--secondary) 11%, var(--surface));
+}
+
+.pickup-note strong {
+  color: var(--primary-strong);
+}
+
 .delivery-zone-pill {
   display: inline-flex;
   align-items: center;

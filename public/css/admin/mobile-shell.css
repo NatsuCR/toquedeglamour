@@ -1,0 +1,110 @@
+@media (max-width: 900px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .admin-layout {
+    display: block;
+  }
+
+  .admin-sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 132px;
+    gap: .55rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--glass-border);
+    padding: .55rem;
+  }
+
+  .admin-brand {
+    min-width: 0;
+    display: flex;
+    gap: .6rem;
+    align-items: center;
+    padding: .45rem;
+  }
+
+  .admin-logo {
+    width: 72px;
+    height: 42px;
+    margin: 0;
+    object-fit: contain;
+  }
+
+  .admin-brand span {
+    font-size: .66rem;
+  }
+
+  .theme-row {
+    align-self: center;
+  }
+
+  .theme-select {
+    min-height: 40px;
+  }
+
+  .admin-nav {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: .4rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding-bottom: .1rem;
+  }
+
+  .admin-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .admin-nav li {
+    flex: 0 0 auto;
+  }
+
+  .admin-nav a {
+    min-height: 38px;
+    padding: .55rem .72rem;
+    font-size: .8rem;
+  }
+
+  .admin-main {
+    width: 100%;
+    padding: .7rem;
+    overflow: visible;
+  }
+
+  .admin-page-hero,
+  .dashboard-hero,
+  .finance-hero,
+  .appearance-head {
+    display: grid !important;
+    align-items: start;
+    padding: 1rem;
+  }
+
+  .admin-page-hero h1,
+  .dashboard-hero h1,
+  .finance-hero h1 {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .admin-page-hero .btn,
+  .finance-export {
+    width: 100%;
+  }
+}
+
+@media (max-width: 460px) {
+  .admin-sidebar {
+    grid-template-columns: minmax(0, 1fr) 112px;
+  }
+
+  .admin-brand span {
+    max-width: 100px;
+  }
+}

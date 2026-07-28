@@ -1,0 +1,60 @@
+.appearance-brand-card {
+  grid-column: 1 / -1;
+}
+
+.appearance-brand-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, .34fr) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.appearance-logo-panel,
+.appearance-hero-panel {
+  min-width: 0;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  padding: 1rem;
+}
+
+.appearance-section-title {
+  display: grid;
+  gap: .2rem;
+  margin-bottom: .85rem;
+}
+
+.appearance-section-title span {
+  color: var(--secondary);
+  font-size: .72rem;
+  font-weight: 950;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.appearance-section-title strong {
+  color: var(--text-color);
+  font-size: 1.05rem;
+}
+
+.appearance-section-title p {
+  color: var(--text-muted);
+  font-size: .88rem;
+}
+
+.appearance-logo-panel .brand-preview {
+  height: auto;
+  aspect-ratio: 16 / 7;
+  object-fit: contain;
+  padding: .65rem;
+}
+
+@media (max-width: 760px) {
+  .appearance-brand-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .appearance-logo-panel,
+  .appearance-hero-panel {
+    padding: .75rem;
+  }
+}

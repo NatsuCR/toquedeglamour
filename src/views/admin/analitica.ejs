@@ -1,0 +1,93 @@
+<%- include('partials/header') %>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<%
+  const chartPayload = JSON.stringify({
+    summary: {
+      visits: analytics.visits,
+      uniqueVisitors: analytics.uniqueVisitors,
+      publicVisits: analytics.publicVisits,
+      pageViews: analytics.pageViews,
+      clicks: analytics.clicks
+    },
+    pages: analytics.topPages.slice(0, 8).map((item) => ({
+      label: item.ruta,
+      value: item.total
+    }))
+  }).replace(/</g, '\\u003c');
+%>
+
+<section class="analytics-page">
+  <header class="analytics-hero">
+    <div>
+      <span>Comportamiento web</span>
+      <h1>Analitica de la tienda</h1>
+      <p>Visitas generales y acciones del publico, sin almacenar formularios ni datos personales.</p>
+    </div>
+    <button class="btn btn-danger" type="button" data-open-analytics-reset>Eliminar registros</button>
+  </header>
+
+  <% if (query?.limpiado === '1') { %>
+    <p class="analytics-notice">Historial eliminado. La sesion administrativa actual inicia el nuevo conteo.</p>
+  <% } %>
+
+  <section class="analytics-kpis">
+    <article><span>Visitas</span><strong><%= analytics.visits %></strong><small>Incluye sesiones administrativas</small></article>
+    <article><span>Visitantes unicos</span><strong><%= analytics.uniqueVisitors %></strong><small>Navegadores reconocidos</small></article>
+    <article><span>Visitas publicas</span><strong><%= analytics.publicVisits %></strong><small>Sesiones con navegacion publica</small></article>
+    <article><span>Paginas vistas</span><strong><%= analytics.pageViews %></strong><small>Navegacion del publico</small></article>
+    <article><span>Clics publicos</span><strong><%= analytics.clicks %></strong><small>Enlaces y controles usados</small></article>
+  </section>
+
+  <section class="analytics-dashboard" aria-label="Graficos de navegacion">
+    <article class="analytics-chart-card">
+      <div class="analytics-panel-head"><span>Resumen</span><h2>Actividad registrada</h2></div>
+      <div class="analytics-chart-frame"><canvas id="analyticsSummaryChart"></canvas></div>
+    </article>
+    <article class="analytics-chart-card">
+      <div class="analytics-panel-head"><span>Distribucion</span><h2>Paginas principales</h2></div>
+      <div class="analytics-chart-frame"><canvas id="analyticsPagesChart"></canvas></div>
+    </article>
+  </section>
+
+  <section class="analytics-grid">
+    <article class="analytics-panel">
+      <div class="analytics-panel-head"><span>Interes</span><h2>Paginas mas visitadas</h2></div>
+      <div class="analytics-list <%= analytics.topPages.length > 7 ? 'is-scrollable' : '' %>">
+        <% if (!analytics.topPages.length) { %><p class="analytics-empty">Todavia no hay datos publicos.</p><% } %>
+        <% analytics.topPages.forEach((item, index) => { %>
+          <div><b><%= String(index + 1).padStart(2, '0') %></b><span><%= item.ruta %></span><strong><%= item.total %></strong></div>
+        <% }) %>
+      </div>
+    </article>
+
+    <article class="analytics-panel">
+      <div class="analytics-panel-head"><span>Acciones</span><h2>Elementos mas utilizados</h2></div>
+      <div class="analytics-list analytics-clicks <%= analytics.topClicks.length > 7 ? 'is-scrollable' : '' %>">
+        <% if (!analytics.topClicks.length) { %><p class="analytics-empty">Todavia no hay clics registrados.</p><% } %>
+        <% analytics.topClicks.forEach((item, index) => { %>
+          <div>
+            <b><%= String(index + 1).padStart(2, '0') %></b>
+            <span><strong><%= item.etiqueta %></strong><small><%= item.destino || item.ruta %></small></span>
+            <strong><%= item.total %></strong>
+          </div>
+        <% }) %>
+      </div>
+    </article>
+  </section>
+</section>
+
+<dialog class="analytics-reset-dialog" id="analyticsResetDialog">
+  <form method="POST" action="/admin/analitica/eliminar">
+    <span>Accion irreversible</span>
+    <h2>Eliminar toda la analitica</h2>
+    <p>Se borraran visitas, paginas vistas y clics registrados. Esta accion no afecta usuarios, pedidos ni ventas.</p>
+    <div>
+      <button class="btn btn-outline" type="button" data-close-analytics-reset>Conservar datos</button>
+      <button class="btn btn-danger" type="submit">Eliminar definitivamente</button>
+    </div>
+  </form>
+</dialog>
+<script id="analyticsChartData" type="application/json"><%- chartPayload %></script>
+<script src="/js/admin-analytics.js"></script>
+
+<%- include('partials/footer') %>

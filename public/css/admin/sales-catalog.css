@@ -1,0 +1,108 @@
+.sales-proof-field {
+  display: grid;
+  gap: .45rem;
+  border: 1px dashed color-mix(in srgb, var(--primary) 32%, var(--glass-border));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--primary) 5%, var(--surface));
+  padding: .85rem;
+}
+
+.sales-proof-field[hidden],
+.sales-cash-note[hidden] {
+  display: none !important;
+}
+
+.sales-cash-note {
+  border: 1px solid color-mix(in srgb, var(--success) 35%, var(--glass-border));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--success) 9%, var(--surface));
+  color: var(--text-muted);
+  font-weight: 850;
+  padding: .8rem;
+}
+
+.sales-proof-field input::file-selector-button {
+  border: 0;
+  border-radius: 999px;
+  background: var(--primary);
+  color: white;
+  font-weight: 900;
+  padding: .62rem 1rem;
+  margin-right: .75rem;
+  cursor: pointer;
+}
+
+.sales-proof-field span {
+  color: var(--text-muted);
+  font-size: .82rem;
+}
+
+.sales-category {
+  display: grid;
+  gap: .65rem;
+}
+
+.sales-product[hidden],
+.sales-category[hidden],
+.sales-subcategory[hidden] {
+  display: none !important;
+}
+
+.sales-category h3,
+.sales-subcategory > strong {
+  color: var(--primary-strong);
+}
+
+.sales-category h3 {
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: .45rem;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+}
+
+.sales-subcategory {
+  display: grid;
+  gap: .55rem;
+  border-left: 3px solid color-mix(in srgb, var(--secondary) 75%, var(--primary));
+  padding-left: .7rem;
+}
+
+.sales-product {
+  grid-template-columns: 68px minmax(0, 1fr) 100px 130px;
+}
+
+.sales-product:not(.is-consult) {
+  grid-template-columns: 68px minmax(0, 1fr) 100px;
+}
+
+.sales-product-media {
+  width: 68px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--surface-soft);
+}
+
+.sales-product-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sales-product-media span {
+  color: var(--text-muted);
+  font-size: .72rem;
+}
+
+.sales-product.is-consult {
+  border-color: color-mix(in srgb, var(--secondary) 42%, var(--glass-border));
+}
+
+@media (max-width: 720px) {
+  .sales-product,
+  .sales-product:not(.is-consult) {
+    grid-template-columns: 58px minmax(0, 1fr);
+  }
+}

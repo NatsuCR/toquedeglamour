@@ -1,0 +1,108 @@
+@media (max-width: 820px) {
+  .store-hero {
+    min-height: min(680px, calc(100dvh - 82px));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: .65rem;
+    padding: 1rem;
+    touch-action: pan-y;
+  }
+
+  .store-hero h1 {
+    max-width: 10ch;
+    margin: .55rem 0 .7rem;
+    font-size: clamp(2.35rem, 12vw, 3.7rem);
+    line-height: .96;
+  }
+
+  .store-hero p {
+    font-size: 1rem;
+    line-height: 1.48;
+  }
+
+  .hero-eyebrow {
+    font-size: .68rem !important;
+    letter-spacing: .08em;
+  }
+
+  .hero-actions {
+    width: 100%;
+    gap: .55rem;
+    margin-top: 1rem;
+  }
+
+  .hero-actions a {
+    width: 100%;
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-service-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .45rem;
+    margin-top: .85rem;
+  }
+
+  .hero-service-row span {
+    min-height: 38px;
+    display: grid;
+    place-items: center;
+    padding: .4rem;
+    text-align: center;
+  }
+
+  .hero-service-row span:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .hero-zoom-btn {
+    width: 100%;
+    min-height: 44px;
+    position: static;
+    margin: 0;
+  }
+
+  .hero-arrow {
+    display: none;
+  }
+
+  .hero-dots {
+    position: static;
+    align-self: center;
+    order: 4;
+    margin-top: .1rem;
+    transform: none;
+  }
+
+  .hero-dots button,
+  .hero-dots button.is-active {
+    width: 9px;
+    height: 9px;
+    min-width: 9px;
+    min-height: 9px;
+    border-radius: 50%;
+    padding: 0;
+  }
+
+  .hero-dots button.is-active {
+    width: 11px;
+    height: 11px;
+    min-width: 11px;
+    min-height: 11px;
+  }
+}
+
+@media (max-width: 380px) {
+  .store-hero {
+    min-height: 690px;
+    padding-inline: .8rem;
+  }
+
+  .store-hero h1 {
+    font-size: 2.55rem;
+  }
+}

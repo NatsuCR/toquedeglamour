@@ -13,9 +13,14 @@
 
   <section class="dashboard-mini">
     <article>
-      <span>Pedidos</span>
+      <span>Ventas online</span>
       <strong><%= stats.pedidos %></strong>
       <small>Ordenes activas</small>
+    </article>
+    <article>
+      <span>Ventas en local</span>
+      <strong><%= stats.ventasLocal %></strong>
+      <small>Registros presenciales</small>
     </article>
     <article>
       <span>Clientes</span>
@@ -31,6 +36,16 @@
       <span>IVA</span>
       <strong><%= stats.ivaActivo ? 'Activo' : 'Inactivo' %></strong>
       <small><%= stats.ivaPorcentaje %>% aplicado a productos</small>
+    </article>
+    <article>
+      <span>Visitas</span>
+      <strong><%= stats.visitas %></strong>
+      <small>Sesiones generales</small>
+    </article>
+    <article>
+      <span>Visitantes unicos</span>
+      <strong><%= stats.visitantesUnicos %></strong>
+      <small>Navegadores reconocidos</small>
     </article>
   </section>
 
@@ -83,6 +98,7 @@
       <a href="/admin/pedidos" class="btn">Pedidos</a>
       <a href="/admin/productos" class="btn btn-outline">Productos</a>
       <a href="/admin/finanzas" class="btn btn-outline">Gastos e IVA</a>
+      <a href="/admin/analitica" class="btn btn-outline">Analitica web</a>
     </div>
   </section>
 </section>

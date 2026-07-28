@@ -1,0 +1,74 @@
+.order-tools {
+  display: grid;
+  gap: .75rem;
+  margin-bottom: 1rem;
+}
+
+.order-search {
+  display: grid;
+  gap: .35rem;
+  color: var(--text-muted);
+  font-size: .8rem;
+  font-weight: 900;
+}
+
+.order-search input {
+  min-height: 44px;
+}
+
+.order-tabs {
+  display: flex;
+  gap: .55rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  padding-bottom: .25rem;
+}
+
+.order-tabs button {
+  min-height: 40px;
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+  background: var(--surface-strong);
+  padding: .55rem .8rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.order-tabs button span {
+  margin-left: .25rem;
+  color: var(--secondary);
+}
+
+.order-tabs button.is-active {
+  border-color: var(--primary);
+  color: #fff;
+  background: var(--primary-strong);
+}
+
+.order-list.is-scrollable {
+  max-height: 1120px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding-right: .35rem;
+}
+
+.order-filter-empty {
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-card);
+  color: var(--text-muted);
+  background: var(--surface);
+  padding: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .order-list {
+    max-height: 72dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+}

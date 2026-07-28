@@ -1,0 +1,61 @@
+body {
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--bg-color) 92%, var(--accent) 8%), var(--bg-color) 45%),
+    repeating-linear-gradient(90deg, transparent 0 42px, color-mix(in srgb, var(--secondary) 4%, transparent) 43px);
+}
+
+.admin-sidebar {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 96%, var(--primary) 4%), var(--surface));
+}
+
+.admin-brand {
+  border-top: 3px solid var(--secondary);
+}
+
+.admin-nav a {
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-nav a::before {
+  content: "";
+  width: 3px;
+  height: 0;
+  position: absolute;
+  left: 0;
+  border-radius: 999px;
+  background: var(--secondary);
+  transition: height 180ms ease;
+}
+
+.admin-nav a:hover::before,
+.admin-nav a.active::before {
+  height: 58%;
+}
+
+.admin-page-hero,
+.dashboard-hero,
+.finance-hero {
+  border-top: 3px solid color-mix(in srgb, var(--secondary) 78%, var(--primary)) !important;
+}
+
+.btn {
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .admin-sidebar {
+  background: linear-gradient(180deg, #20141d, #140e13);
+}
+
+[data-theme="dark"] .admin-page-hero,
+[data-theme="dark"] .admin-form-panel,
+[data-theme="dark"] .admin-list-panel,
+[data-theme="dark"] .sales-register,
+[data-theme="dark"] .sales-history {
+  background: linear-gradient(145deg, #241720, #1a1218) !important;
+}

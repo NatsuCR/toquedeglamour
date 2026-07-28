@@ -23,11 +23,15 @@
       <div class="slider-track" id="<%= sliderId %>">
         <% items.forEach((p, index) => { %>
           <% const consulta = p.tipoVenta === 'CONSULTA'; %>
+          <% const stock = Number(p.stock || 0); %>
+          <% const lowStock = stock > 0 && stock <= 5; %>
           <div class="slider-item">
             <a href="/producto/<%= p.id %>" style="text-decoration:none; color:inherit; display:block; position:relative; height:100%;">
-              <% if (mostrarBadge && index < 3) { %>
-                <div class="highlight-badge">Nuevo</div>
-              <% } %>
+              <div class="home-card-badges">
+                <% if (mostrarBadge && index < 3) { %><span>Nuevo</span><% } %>
+                <% if (consulta) { %><span class="is-consult">Por consulta</span><% } %>
+                <% if (!consulta && stock <= 0) { %><span class="is-empty">Agotado</span><% } %>
+              </div>
               <article class="glass-card card-hover-effect">
                 <% if (p.imagenUrl) { %>
                   <img src="<%= p.imagenUrl %>" alt="<%= p.nombre %>" class="card-img" loading="lazy">
@@ -36,8 +40,18 @@
                 <% } %>
                 <% if (p.marca) { %><span class="card-brand"><%= p.marca %></span><% } %>
                 <span class="card-category"><%= p.subcategoria?.nombre || p.categoria?.nombre || 'General' %></span>
+                <span class="home-card-sku">SKU: PRD-<%= String(p.id).padStart(4, '0') %></span>
                 <h3 class="card-title"><%= p.nombre %></h3>
-                <p class="card-price"><%= consulta ? 'Precio a consultar' : formatMoney(p.precio) %></p>
+                <div class="home-card-foot">
+                  <p class="card-price"><%= consulta ? 'Precio a consultar' : formatMoney(p.precio) %></p>
+                  <% if (consulta) { %>
+                    <span class="stock-consult">Cita</span>
+                  <% } else if (stock > 0) { %>
+                    <span class="<%= lowStock ? 'stock-low' : 'stock-ok' %>"><%= stock %> uds</span>
+                  <% } else { %>
+                    <span class="stock-empty">Sin stock</span>
+                  <% } %>
+                </div>
               </article>
             </a>
           </div>

@@ -1,0 +1,41 @@
+<div class="sales-product-list" data-sales-products>
+  <% productos.forEach((cat) => { %>
+    <section class="sales-category" data-sales-group>
+      <h3><%= cat.nombre %></h3>
+      <% cat.subcategorias.forEach((sub) => { %>
+        <div class="sales-subcategory" data-sales-group>
+          <strong><%= sub.nombre %></strong>
+          <% sub.productos.forEach((p) => {
+            const consulta = p.tipoVenta === 'CONSULTA';
+            const sku = `PRD-${String(p.id).padStart(4, '0')}`;
+            const image = p.imagenes?.[0]?.ruta || '';
+            const search = [p.nombre, p.marca, sku, cat.nombre, sub.nombre].join(' ').toLowerCase();
+          %>
+            <article class="sales-product <%= consulta ? 'is-consult' : '' %>" data-search="<%= search %>">
+              <div class="sales-product-media">
+                <% if (image) { %><img src="<%= image %>" alt="<%= p.nombre %>"><% } else { %><span>Sin imagen</span><% } %>
+              </div>
+              <div class="sales-product-info">
+                <small><%= sku %> - <%= p.marca || 'Sin marca' %></small>
+                <strong><%= p.nombre %></strong>
+                <span>
+                  <%= consulta ? 'Precio acordado por consulta' : `${formatMoney(p.precio)} - ${p.stock} disponibles` %>
+                </span>
+              </div>
+              <label>Cantidad
+                <input type="number" min="0" <%= consulta ? '' : `max="${p.stock}" ${p.stock <= 0 ? 'disabled' : ''}` %>
+                  value="0" data-sale-qty data-id="<%= p.id %>" data-price="<%= Number(p.precio || 0) %>"
+                  data-consult="<%= consulta ? 'true' : 'false' %>">
+              </label>
+              <% if (consulta) { %>
+                <label>Precio acordado
+                  <input type="number" min="0" step="5" placeholder="CRC" data-sale-price data-id="<%= p.id %>">
+                </label>
+              <% } %>
+            </article>
+          <% }) %>
+        </div>
+      <% }) %>
+    </section>
+  <% }) %>
+</div>

@@ -9,6 +9,7 @@ import { ProfileSettingsController } from '../controllers/profile-settings.contr
 import { SoporteController } from '../controllers/soporte.controller.js';
 import { LegalController } from '../controllers/legal.controller.js';
 import { BrandCollaborationController } from '../controllers/brand-collaboration.controller.js';
+import { AnalyticsController } from '../controllers/analytics.controller.js';
 import {
   requireClientAuth,
   redirectIfClientAuthenticated,
@@ -25,6 +26,7 @@ const clienteVerificado = [requireClientAuth, requireClientVerified];
 const soporteUpload = [requireClientAuth, uploadSoporte.array('adjuntos', 4), handleSupportUploadError];
 
 router.use(injectUserState);
+router.post('/analitica/evento', AnalyticsController.recordClick);
 
 router.get('/', ClientController.renderIndex);
 router.get('/catalogo', ClientController.renderCatalogo);

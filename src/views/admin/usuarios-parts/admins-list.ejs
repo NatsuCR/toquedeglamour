@@ -1,9 +1,9 @@
 <div class="users-card">
-  <div class="form-panel-head"><h2>Administradores</h2><p>Cuentas con permisos de gestion.</p></div>
+  <div class="form-panel-head"><h2>Equipo interno</h2><p>Administradores y empleados autorizados.</p></div>
   <div class="admin-list-grid">
     <% administradores.forEach((item) => { %>
       <article class="admin-user-row">
-        <span><strong><%= item.correo %></strong><br><small>ID <%= item.id %></small></span>
+        <span><strong><%= item.correo %></strong><br><small>ID <%= item.id %> · <%= item.rol === 'EMPLEADO' ? 'Empleado' : 'Administrador' %></small></span>
         <% if (item.id !== admin.id) { %>
           <form action="/admin/usuarios/admins/<%= item.id %>/eliminar" method="POST">
             <button class="btn btn-danger" type="submit">Eliminar</button>

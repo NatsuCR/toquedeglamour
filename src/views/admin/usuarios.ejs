@@ -9,7 +9,7 @@
     </div>
     <div class="users-stats">
       <strong><%= clientes.length %></strong><span>clientes</span>
-      <strong><%= administradores.length %></strong><span>admins</span>
+      <strong><%= administradores.length %></strong><span>equipo</span>
     </div>
   </header>
 
@@ -35,10 +35,15 @@
     </form>
 
     <form action="/admin/usuarios/admins" method="POST" class="users-card admin-form-panel">
-      <div class="form-panel-head"><h2>Crear administrador</h2><p>Acceso al panel interno.</p></div>
+      <div class="form-panel-head"><h2>Crear acceso interno</h2><p>Asigna permisos segun sus funciones.</p></div>
       <label>Correo<input type="email" name="correo" class="form-control" required></label>
       <label>Contrasena<input type="password" name="password" class="form-control" required></label>
-      <button class="btn" type="submit">Crear administrador</button>
+      <fieldset class="role-choice">
+        <legend>Rol</legend>
+        <label><input type="radio" name="rol" value="ADMINISTRADOR" checked><span><strong>Administrador</strong><small>Acceso completo y sin comision.</small></span></label>
+        <label><input type="radio" name="rol" value="EMPLEADO"><span><strong>Empleado</strong><small>Registra ventas y recibe 10% de comision.</small></span></label>
+      </fieldset>
+      <button class="btn" type="submit">Crear acceso</button>
     </form>
   </div>
 

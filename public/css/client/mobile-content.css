@@ -1,0 +1,81 @@
+@media (max-width: 760px) {
+  .catalog-hero,
+  .catalog-layout,
+  .catalog-summary,
+  .cart-layout,
+  .cart-hero,
+  .checkout-grid,
+  .form-grid,
+  .choice-grid,
+  .account-hero,
+  .account-grid,
+  .account-hero-stats,
+  .order-detail-grid,
+  .product-detail-shell,
+  .legal-shell {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .catalog-filter,
+  .cart-summary,
+  .summary-panel {
+    position: static;
+  }
+
+  .catalog-product-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .catalog-results {
+    max-height: 76dvh;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+
+  .cart-item {
+    grid-template-columns: 74px minmax(0, 1fr);
+    gap: .7rem;
+  }
+
+  .cart-item-media {
+    width: 74px;
+  }
+
+  .cart-item-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cart-summary,
+  .checkout-panel,
+  .summary-panel,
+  .account-card,
+  .support-card,
+  .order-card {
+    padding: .85rem;
+  }
+
+  .order-head,
+  .mini-item,
+  .order-meta {
+    display: grid;
+  }
+
+  .phase-track {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .support-layout,
+  .support-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .lightbox-dialog,
+  .brand-lightbox-dialog {
+    width: calc(100vw - 1rem);
+    max-height: 90dvh;
+  }
+}

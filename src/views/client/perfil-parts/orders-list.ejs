@@ -9,7 +9,7 @@
     <a class="nav-btn" href="/catalogo">Ir al catalogo</a>
   </div>
 <% } else { %>
-  <div class="order-list">
+  <div class="order-list <%= pedidos.length > 3 ? 'is-scrollable' : '' %>" data-order-list>
     <% pedidos.forEach((pedido) => { %>
       <%- include('./order-card', { pedido, user, faseLabels, estadoLabels }) %>
     <% }) %>

@@ -1,0 +1,71 @@
+.home-card-badges {
+  position: absolute;
+  top: .7rem;
+  right: .7rem;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .35rem;
+  max-width: calc(100% - 1.4rem);
+}
+
+.home-card-badges:empty {
+  display: none;
+}
+
+.home-card-badges span,
+.home-card-foot > span {
+  border-radius: var(--radius-pill);
+  padding: .28rem .52rem;
+  font-size: .69rem;
+  font-weight: 950;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.home-card-badges span {
+  color: #fff;
+  background: var(--primary-strong);
+  box-shadow: 0 5px 14px rgba(50, 18, 31, .16);
+}
+
+.home-card-badges .is-consult {
+  color: var(--primary-strong);
+  background: #ffd4df;
+}
+
+.home-card-badges .is-empty {
+  background: var(--danger);
+}
+
+.home-card-sku {
+  color: var(--text-muted);
+  font-size: .72rem;
+  font-weight: 850;
+  letter-spacing: .04em;
+}
+
+.home-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .55rem;
+  margin-top: auto;
+}
+
+.home-card-foot .card-price {
+  margin: 0;
+  line-height: 1.15;
+}
+
+@media (max-width: 560px) {
+  .home-card-badges {
+    top: .6rem;
+    right: .6rem;
+  }
+
+  .home-card-foot {
+    align-items: flex-end;
+  }
+}
