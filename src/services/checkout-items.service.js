@@ -21,10 +21,13 @@ export async function prepararItemsPedido(tx, carrito) {
       throw new Error(`Stock insuficiente para ${item.nombre || 'un producto'}.`);
     }
 
-    await tx.producto.update({
-      where: { id: productoId },
+    const updated = await tx.producto.updateMany({
+      where: { id: productoId, stock: { gte: cantidad } },
       data: { stock: { decrement: cantidad } }
     });
+    if (updated.count !== 1) {
+      throw new Error(`Stock insuficiente para ${producto.nombre}.`);
+    }
 
     const precioUnitario = roundMoney(producto.precio);
     const pesoUnitarioGramos = Number.parseInt(producto.pesoGramos, 10) || 250;
