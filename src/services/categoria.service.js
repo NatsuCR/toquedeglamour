@@ -24,7 +24,7 @@ export class CategoriaService {
           include: {
             productos: {
               orderBy: { nombre: 'asc' },
-              select: { id: true, nombre: true, marca: true, tipoVenta: true }
+              select: { id: true, nombre: true, slug: true, marca: true, tipoVenta: true }
             }
           }
         }

@@ -1,6 +1,7 @@
 import prisma from '../config/db.js';
 import { roundMoney } from '../utils/money.js';
 import { dateRange } from './finance-expenses.service.js';
+import { emptyFlowRow } from './finance-summary-utils.service.js';
 
 export class FinanceSalesDataService {
   static async list(query = {}) {
@@ -35,7 +36,7 @@ export class FinanceSalesDataService {
     };
     sales.forEach((sale) => {
       const date = sale.creadoEn.toISOString().split('T')[0];
-      result.porFecha[date] ||= { ingresos: 0, costos: 0, gastos: 0, comisiones: 0, iva: 0, neta: 0 };
+      result.porFecha[date] ||= emptyFlowRow();
       result.ventasLocal = (result.ventasLocal || 0) + roundMoney(sale.total);
       result.cantidadVentasLocal = (result.cantidadVentasLocal || 0) + 1;
       result.totalSinIva += roundMoney(sale.subtotal);
@@ -70,7 +71,7 @@ export function mergeFinanceSummary(base, extra) {
     });
   });
   Object.entries(extra.porFecha).forEach(([date, values]) => {
-    base.porFecha[date] ||= { ingresos: 0, costos: 0, gastos: 0, comisiones: 0, iva: 0, neta: 0 };
+    base.porFecha[date] ||= emptyFlowRow();
     Object.entries(values).forEach(([key, value]) => {
       base.porFecha[date][key] = (base.porFecha[date][key] || 0) + value;
     });

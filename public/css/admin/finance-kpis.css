@@ -45,6 +45,9 @@
 }
 
 .finance-kpi.cost::before,
-.finance-kpi.expense::before {
+.finance-kpi.expense::before,
+.finance-kpi.loss::before {
   background: var(--warning);
 }
+
+.finance-kpi.loss::before { background: var(--danger); }

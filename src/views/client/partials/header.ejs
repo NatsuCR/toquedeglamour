@@ -4,9 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= typeof title !== 'undefined' ? title + ' - Toque de Glamour' : 'Toque de Glamour | Cosmeticos y belleza' %></title>
-  <meta name="description" content="Cosmeticos, maquillaje, cuidado personal y bienestar con envios en Costa Rica.">
-  <meta name="robots" content="index, follow">
+  <% const pageTitle = typeof title !== 'undefined' ? `${title} - Toque de Glamour` : 'Toque de Glamour | Cosméticos y belleza'; %>
+  <% const pageDescription = typeof metaDescription !== 'undefined' ? metaDescription : 'Cosméticos, maquillaje, salud, decoración y bienestar con envíos en Costa Rica.'; %>
+  <% const canonicalUrl = `${siteUrl || ''}${typeof canonical !== 'undefined' ? canonical : canonicalPath || '/'}`; %>
+  <title><%= pageTitle %></title>
+  <meta name="description" content="<%= pageDescription %>">
+  <meta name="robots" content="<%= typeof robots !== 'undefined' ? robots : 'index, follow' %>">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+  <meta property="og:title" content="<%= pageTitle %>">
+  <meta property="og:description" content="<%= pageDescription %>">
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:type" content="website">
   <link rel="icon" href="/favicon.ico">
   <script>
     (function () {
@@ -25,6 +33,7 @@
   </style>
   <script src="/js/theme.js" defer></script>
   <script src="/js/public-nav.js" defer></script>
+  <script src="/js/catalog-menu-flyout.js" defer></script>
   <script src="/js/site-analytics.js" defer></script>
 </head>
 <body>

@@ -12,7 +12,7 @@
       <% const consulta = p.tipoVenta === 'CONSULTA'; %>
       <% const lowStock = stock > 0 && stock <= 5; %>
       <a
-        href="/producto/<%= p.id %>"
+        href="/producto/<%= p.id %>/<%= p.slug %>"
         class="catalog-product-link <%= index >= 6 ? 'is-catalog-hidden' : '' %>"
         data-catalog-item>
         <article class="catalog-product-card">

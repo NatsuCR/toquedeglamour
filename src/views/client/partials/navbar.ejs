@@ -50,10 +50,14 @@
     </div>
 
     <div class="nav-actions">
-      <select id="themeSelector" class="theme-select nav-item" aria-label="Tema visual">
-        <option value="light">Claro</option>
-        <option value="dark">Oscuro</option>
-      </select>
+      <label class="theme-control">
+        <span class="sr-only">Tema visual</span>
+        <select id="themeSelector" class="theme-select nav-item" aria-label="Tema visual">
+          <option value="light">Claro</option>
+          <option value="dark">Oscuro</option>
+        </select>
+        <span class="theme-control-icon" data-theme-icon aria-hidden="true">☀</span>
+      </label>
       <% if (typeof cliente !== 'undefined' && cliente) { %>
         <a href="/perfil" class="nav-item">Mi Cuenta</a>
         <a href="/logout" class="nav-btn-outline">Salir</a>

@@ -10,6 +10,7 @@ import { SoporteController } from '../controllers/soporte.controller.js';
 import { LegalController } from '../controllers/legal.controller.js';
 import { BrandCollaborationController } from '../controllers/brand-collaboration.controller.js';
 import { AnalyticsController } from '../controllers/analytics.controller.js';
+import { SeoController } from '../controllers/seo.controller.js';
 import {
   requireClientAuth,
   redirectIfClientAuthenticated,
@@ -27,9 +28,15 @@ const soporteUpload = [requireClientAuth, uploadSoporte.array('adjuntos', 4), ha
 
 router.use(injectUserState);
 router.post('/analitica/evento', AnalyticsController.recordClick);
+router.get('/sitemap.xml', SeoController.sitemap);
+router.get('/robots.txt', SeoController.robots);
+router.get('/404', SeoController.notFound);
 
 router.get('/', ClientController.renderIndex);
 router.get('/catalogo', ClientController.renderCatalogo);
+router.get('/catalogo/marca/:marcaSlug', ClientController.renderCatalogoMarca);
+router.get('/catalogo/categoria/:categoriaSlug', ClientController.renderCatalogoCategoria);
+router.get('/catalogo/categoria/:categoriaSlug/:subcategoriaSlug', ClientController.renderCatalogoSubcategoria);
 router.get('/marcas', BrandCollaborationController.publico);
 router.get('/quienes-somos', ClientController.renderQuienesSomos);
 router.get('/ubicacion', ClientController.renderUbicacion);
@@ -78,5 +85,6 @@ router.get('/verificar', ClientAuthController.renderVerificar);
 router.post('/verificar', ClientAuthController.processVerificar);
 router.get('/logout', clienteActivo, ClientAuthController.logout);
 router.get('/producto/:id', ClientController.renderProductoDetalle);
+router.get('/producto/:id/:slug', ClientController.renderProductoDetalle);
 
 export default router;

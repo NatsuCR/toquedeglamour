@@ -10,6 +10,7 @@ import { FinanceController } from '../controllers/finance.controller.js';
 import { BrandCollaborationController } from '../controllers/brand-collaboration.controller.js';
 import { SalesController } from '../controllers/sales.controller.js';
 import { AnalyticsController } from '../controllers/analytics.controller.js';
+import { InventoryLossController } from '../controllers/inventory-loss.controller.js';
 import { requireOwnerRole } from '../middlewares/role.middleware.js';
 import {
   requireAdminAuth,
@@ -68,6 +69,8 @@ router.get('/productos', admin, ProductoController.listar);
 router.post('/productos', productUpload, ProductoController.crear);
 router.put('/productos/:id', productUpload, ProductoController.actualizar);
 router.delete('/productos/:id', admin, ProductoController.eliminar);
+router.get('/mermas', admin, InventoryLossController.render);
+router.post('/mermas', admin, InventoryLossController.create);
 
 router.get('/usuarios', admin, AdminUsuariosController.listar);
 router.post('/usuarios/clientes', admin, AdminUsuariosController.crearCliente);

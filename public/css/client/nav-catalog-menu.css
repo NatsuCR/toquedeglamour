@@ -2,6 +2,15 @@
   width: 260px;
 }
 
+.catalog-menu.is-scrollable,
+.catalog-submenu.is-scrollable,
+.catalog-product-submenu.is-scrollable {
+  max-height: 270px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
 .catalog-menu-item {
   position: relative;
 }
@@ -30,9 +39,9 @@
 
 .catalog-submenu,
 .catalog-product-submenu {
-  position: absolute;
-  top: -0.55rem;
-  left: calc(100% - 1px);
+  position: fixed;
+  top: var(--flyout-top, 90px);
+  left: var(--flyout-left, 280px);
   z-index: 130;
   min-width: 245px;
   display: grid;
@@ -44,8 +53,21 @@
   padding: 0.55rem;
   visibility: hidden;
   pointer-events: none;
-  transform: translateX(8px);
-  transition: transform 160ms ease, visibility 0s linear 160ms;
+  opacity: 0;
+  transition: opacity 160ms ease, visibility 0s linear 160ms;
+}
+
+.catalog-menu.is-scrollable::-webkit-scrollbar,
+.catalog-submenu.is-scrollable::-webkit-scrollbar,
+.catalog-product-submenu.is-scrollable::-webkit-scrollbar { width: 8px; }
+
+.catalog-menu.is-scrollable::-webkit-scrollbar-thumb,
+.catalog-submenu.is-scrollable::-webkit-scrollbar-thumb,
+.catalog-product-submenu.is-scrollable::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--primary) 58%, transparent);
+  background-clip: content-box;
 }
 
 .catalog-menu-item:hover > .catalog-submenu,
@@ -54,7 +76,7 @@
 .catalog-menu-item:focus-within > .catalog-product-submenu {
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(0);
+  opacity: 1;
   transition-delay: 0s;
 }
 

@@ -26,7 +26,7 @@
           <% const stock = Number(p.stock || 0); %>
           <% const lowStock = stock > 0 && stock <= 5; %>
           <div class="slider-item">
-            <a href="/producto/<%= p.id %>" style="text-decoration:none; color:inherit; display:block; position:relative; height:100%;">
+            <a href="/producto/<%= p.id %>/<%= p.slug %>" style="text-decoration:none; color:inherit; display:block; position:relative; height:100%;">
               <div class="home-card-badges">
                 <% if (mostrarBadge && index < 3) { %><span>Nuevo</span><% } %>
                 <% if (consulta) { %><span class="is-consult">Por consulta</span><% } %>

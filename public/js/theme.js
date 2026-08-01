@@ -14,6 +14,9 @@
       root.setAttribute('data-theme', 'light');
     }
     localStorage.setItem(storageKey, theme);
+    document.querySelectorAll('[data-theme-icon]').forEach((icon) => {
+      icon.textContent = theme === 'dark' ? '☾' : '☀';
+    });
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -22,6 +25,7 @@
 
     const current = root.getAttribute('data-theme') || 'light';
     selector.value = current === 'dark' ? 'dark' : 'light';
+    applyTheme(selector.value);
     selector.addEventListener('change', (event) => {
       applyTheme(event.target.value);
     });

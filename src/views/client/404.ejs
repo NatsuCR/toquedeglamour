@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+
+<section class="not-found-page">
+  <div class="not-found-code" aria-hidden="true">404</div>
+  <div class="not-found-copy">
+    <span>Página no encontrada</span>
+    <h1>Este rincón no está disponible</h1>
+    <p>Puede que el enlace haya cambiado o que el producto ya no forme parte del catálogo.</p>
+    <form class="not-found-search" action="/catalogo" method="GET">
+      <label for="notFoundSearch">Buscar en la tienda</label>
+      <div>
+        <input id="notFoundSearch" type="search" name="q" placeholder="Producto, marca o SKU">
+        <button class="nav-btn" type="submit">Buscar</button>
+      </div>
+    </form>
+    <div class="not-found-actions">
+      <a class="nav-btn" href="/catalogo">Ir al catálogo</a>
+      <a class="nav-btn-outline" href="/">Volver al inicio</a>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

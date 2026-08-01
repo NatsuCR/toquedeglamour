@@ -1,11 +1,9 @@
 let evolucionChartInstance = null;
 let productosChartInstance = null;
 let categoriasChartInstance = null;
-
 function roundMoney(value) {
   return Math.round((Number(value) || 0) / 5) * 5;
 }
-
 function formatMoneyJS(value) {
   return new Intl.NumberFormat('es-CR', {
     style: 'currency',
@@ -13,17 +11,14 @@ function formatMoneyJS(value) {
     maximumFractionDigits: 0
   }).format(roundMoney(value));
 }
-
 function chartColor() {
   return document.documentElement.getAttribute('data-theme') === 'dark'
     || localStorage.getItem('theme') === 'dark' ? '#f8d7e4' : '#4b2434';
 }
-
 if (window.Chart) {
   Chart.defaults.color = chartColor();
   Chart.defaults.font.family = "'Outfit', sans-serif";
 }
-
 async function cargarEstadisticas() {
   const btn = document.getElementById('btnFiltrar');
   btn.textContent = '...';
@@ -47,13 +42,11 @@ async function cargarEstadisticas() {
     btn.disabled = false;
   }
 }
-
 function limpiarFiltros() {
   document.getElementById('fechaInicio').value = '';
   document.getElementById('fechaFin').value = '';
   cargarEstadisticas();
 }
-
 function setMoney(id, value) {
   const target = document.getElementById(id);
   if (target) target.textContent = formatMoneyJS(value);
@@ -82,6 +75,7 @@ function renderEvolucionChart(evo) {
         { label: 'Ventas sin IVA', data: labels.map((l) => evo[l].ingresos), backgroundColor: '#7b2446' },
         { label: 'Costos productos', data: labels.map((l) => evo[l].costos), backgroundColor: '#c7964a' },
         { label: 'Gastos adicionales', data: labels.map((l) => evo[l].gastos), backgroundColor: '#356d84' },
+        { label: 'Mermas de inventario', data: labels.map((l) => evo[l].perdidas || 0), backgroundColor: '#b4233f' },
         { label: 'Ganancia neta', data: labels.map((l) => evo[l].neta), type: 'line', borderColor: '#10b981', borderWidth: 3, tension: .35 }
       ]
     },

@@ -62,10 +62,12 @@ export function details(sale, source) {
       categoria: [product.categoria?.nombre || '', product.subcategoria?.nombre || '']
         .filter(Boolean).join(' / '),
       cantidad: item.cantidad, unidad: 'Unid',
-      precioUnitario: roundMoney(item.precioUnitario), subtotal,
+      precioUnitario: roundMoney(item.precioUnitario),
+      costoUnitario: roundMoney(item.costoUnitario),
+      subtotal,
       tarifaIva: rate, iva: roundMoney(subtotal * rate),
       totalLinea: subtotal + roundMoney(subtotal * rate),
-      costo: roundMoney(item.costoUnitario) * item.cantidad
+      costoTotal: roundMoney(item.costoUnitario) * item.cantidad
     };
   });
 }

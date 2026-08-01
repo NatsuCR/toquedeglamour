@@ -14,9 +14,11 @@ function setFlash(req, type, text) {
 }
 
 function filtros(req) {
+  const origin = `${req.protocol}://${req.get('host')}`;
   return {
     fechaInicio: req.query.fechaInicio || '',
-    fechaFin: req.query.fechaFin || ''
+    fechaFin: req.query.fechaFin || '',
+    siteUrl: origin
   };
 }
 

@@ -2,14 +2,33 @@ import ExcelJS from 'exceljs';
 import {
   DETAIL_COLUMNS,
   EXPENSE_COLUMNS,
+  LOSS_COLUMNS,
   SALES_COLUMNS,
   SUMMARY_COLUMNS
 } from './finance-export-columns.js';
+import { addFinanceCover } from './finance-export-cover.service.js';
 
 const HEADER = '7B2446';
-const GOLD = 'C7964A';
 const PALE = 'F8EAF0';
-const MONEY = '"₡"#,##0';
+const MONEY = '"\u20a1"#,##0';
+const PERCENT = '0.00%';
+
+const SUMMARY_LABELS = {
+  totalConIva: ['Total con IVA', 'dinero'],
+  totalSinIva: ['Total sin IVA', 'dinero'],
+  ivaEstimado: ['IVA estimado', 'dinero'],
+  gananciaTotal: ['Ganancia total', 'dinero'],
+  gananciaNeta: ['Ganancia neta', 'dinero'],
+  costosProductos: ['Costos de productos', 'dinero'],
+  gastosAdicionales: ['Gastos adicionales', 'dinero'],
+  perdidasInventario: ['Perdidas de inventario', 'dinero'],
+  unidadesPerdidas: ['Unidades perdidas', 'cantidad'],
+  comisionesEmpleados: ['Comisiones de empleados', 'dinero'],
+  montoVentasLocal: ['Monto de ventas presenciales', 'dinero'],
+  cantidadVentasLocal: ['Ventas presenciales registradas', 'cantidad'],
+  ivaPorcentaje: ['Porcentaje de IVA', 'porcentaje'],
+  ivaActivo: ['IVA activo', 'estado']
+};
 
 function styleSheet(sheet) {
   sheet.views = [{ state: 'frozen', ySplit: 1 }];
@@ -26,7 +45,8 @@ function styleSheet(sheet) {
         cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: `FF${PALE}` } };
       });
     }
-    row.alignment = { vertical: 'top', wrapText: true };
+    row.height = index === 1 ? 30 : 24;
+    row.alignment = { vertical: 'middle', wrapText: index === 1 };
   });
 }
 
@@ -42,21 +62,37 @@ function moneyColumns(sheet, keys) {
   keys.forEach((key) => { sheet.getColumn(key).numFmt = MONEY; });
 }
 
+function linkColumn(sheet, key) {
+  sheet.getColumn(key).eachCell((cell, index) => {
+    if (index === 1 || !cell.value?.hyperlink) return;
+    cell.font = { color: { argb: 'FF0563C1' }, underline: true };
+  });
+}
+
+function summaryRows(kpis) {
+  return Object.entries(kpis).map(([key, value]) => {
+    const [label, type] = SUMMARY_LABELS[key] || [key, 'valor'];
+    return {
+      indicador: label,
+      valor: type === 'porcentaje' ? Number(value || 0) / 100 : value,
+      tipo: type
+    };
+  });
+}
+
+function styleSummary(sheet) {
+  moneyColumns(sheet, ['valor']);
+  sheet.eachRow((row, index) => {
+    if (index === 1) return;
+    const type = row.getCell('tipo').value;
+    if (type === 'cantidad') row.getCell('valor').numFmt = '#,##0';
+    if (type === 'porcentaje') row.getCell('valor').numFmt = PERCENT;
+    if (type === 'estado') row.getCell('valor').numFmt = 'General';
+  });
+}
+
 function addReadme(workbook, data) {
-  const sheet = workbook.addWorksheet('LEAME', { properties: { tabColor: { argb: `FF${GOLD}` } } });
-  sheet.columns = [{ width: 28 }, { width: 92 }];
-  sheet.addRows([
-    ['Reporte', 'Control financiero y auxiliar de comprobantes - Toque de Glamour'],
-    ['Periodo', `${data.query.fechaInicio || 'Inicio'} a ${data.query.fechaFin || 'Actualidad'}`],
-    ['Normativa de referencia', 'Comprobantes electronicos de Costa Rica, estructura version 4.4.'],
-    ['Alcance', 'Libro interno para conciliacion, inventario, IVA, costos y comisiones.'],
-    ['Importante', 'No sustituye la factura o tiquete electronico XML firmado y validado por Hacienda.'],
-    ['Campos pendientes oficiales', 'Clave de 50 digitos, consecutivo, actividad economica, datos del emisor y respuesta de Hacienda.'],
-    ['Criterio de comision', '10% del subtotal sin IVA para ventas registradas por empleados; administrador 0%.'],
-    ['Cancelaciones', 'Los pedidos rechazados se conservan para auditoria, pero no integran los indicadores financieros.']
-  ]);
-  sheet.getColumn(1).font = { bold: true, color: { argb: `FF${HEADER}` } };
-  sheet.eachRow((row) => { row.alignment = { vertical: 'top', wrapText: true }; });
+  return addFinanceCover(workbook, data);
 }
 
 export class FinanceExportWorkbookService {
@@ -65,19 +101,21 @@ export class FinanceExportWorkbookService {
     workbook.creator = 'Toque de Glamour';
     workbook.created = new Date();
     addReadme(workbook, data);
-    const kpis = Object.entries(data.summary.kpis).filter(([, value]) => typeof value === 'number');
-    const summary = addRows(workbook, 'Resumen', SUMMARY_COLUMNS,
-      kpis.map(([key, value]) => ({ indicador: key, monto: value })));
-    moneyColumns(summary, ['monto']);
+    const summary = addRows(workbook, 'Resumen', SUMMARY_COLUMNS, summaryRows(data.summary.kpis));
+    styleSummary(summary);
     const sales = addRows(workbook, 'Ventas', SALES_COLUMNS, data.sales);
     moneyColumns(sales, ['subtotalProductos', 'envio', 'baseSinIva', 'iva', 'total', 'costos', 'comision', 'neto']);
     sales.getColumn('fecha').numFmt = 'dd/mm/yyyy hh:mm';
     const detail = addRows(workbook, 'Detalle productos', DETAIL_COLUMNS, data.detail);
-    moneyColumns(detail, ['precioUnitario', 'subtotal', 'iva', 'totalLinea', 'costo']);
+    moneyColumns(detail, ['precioUnitario', 'costoUnitario', 'subtotal', 'iva', 'totalLinea', 'costoTotal']);
     detail.getColumn('tarifaIva').numFmt = '0.00%';
-    const expenses = addRows(workbook, 'Gastos', EXPENSE_COLUMNS, data.expenses);
+    const expenses = addRows(workbook, 'Gastos adicionales', EXPENSE_COLUMNS, data.expenses);
     moneyColumns(expenses, ['monto']);
+    linkColumn(expenses, 'comprobante');
     expenses.getColumn('fecha').numFmt = 'dd/mm/yyyy';
+    const losses = addRows(workbook, 'Mermas inventario', LOSS_COLUMNS, data.losses);
+    moneyColumns(losses, ['costoUnitario', 'montoPerdida']);
+    losses.getColumn('fecha').numFmt = 'dd/mm/yyyy hh:mm';
     return workbook.xlsx.writeBuffer();
   }
 }

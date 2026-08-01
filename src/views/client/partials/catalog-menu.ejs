@@ -1,17 +1,17 @@
-<div class="nav-dropdown-menu catalog-menu" aria-label="Categorias del catalogo">
+<div class="nav-dropdown-menu catalog-menu <%= (catalogoMenu || []).length > 4 ? 'is-scrollable' : '' %>" aria-label="Categorias del catálogo">
   <a class="catalog-menu-link" href="/catalogo">Todo el catalogo</a>
   <% (catalogoMenu || []).forEach((c) => { %>
     <div class="catalog-menu-item <%= (c.subcategorias || []).length ? 'has-children' : '' %>">
-      <a class="catalog-menu-link" href="/catalogo?cat=<%= c.slug %>">Catalogo de <%= c.nombre %></a>
+      <a class="catalog-menu-link" href="/catalogo/categoria/<%= c.slug %>">Catálogo de <%= c.nombre %></a>
       <% if ((c.subcategorias || []).length) { %>
-        <div class="catalog-submenu">
+        <div class="catalog-submenu <%= c.subcategorias.length > 4 ? 'is-scrollable' : '' %>">
           <% c.subcategorias.forEach((s) => { %>
             <div class="catalog-menu-item <%= (s.productos || []).length ? 'has-children' : '' %>">
-              <a class="catalog-menu-link" href="/catalogo?cat=<%= c.slug %>&subcat=<%= s.slug %>"><%= s.nombre %></a>
+              <a class="catalog-menu-link" href="/catalogo/categoria/<%= c.slug %>/<%= s.slug %>"><%= s.nombre %></a>
               <% if ((s.productos || []).length) { %>
-                <div class="catalog-product-submenu">
+                <div class="catalog-product-submenu <%= s.productos.length > 4 ? 'is-scrollable' : '' %>">
                   <% s.productos.forEach((p) => { %>
-                    <a href="/producto/<%= p.id %>">
+                    <a href="/producto/<%= p.id %>/<%= p.slug %>">
                       <% if (p.marca) { %><span><%= p.marca %></span><% } %>
                       <%= p.nombre %>
                     </a>

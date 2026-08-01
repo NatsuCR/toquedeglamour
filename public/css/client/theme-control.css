@@ -1,0 +1,35 @@
+.theme-control {
+  position: relative;
+  display: block;
+}
+
+.theme-control .theme-select {
+  width: 126px !important;
+  padding-right: 2.35rem !important;
+  appearance: none;
+}
+
+.theme-control-icon {
+  position: absolute;
+  top: 50%;
+  right: .8rem;
+  color: var(--secondary);
+  font-size: 1.05rem;
+  line-height: 1;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 820px) {
+  .theme-control,
+  .theme-control .theme-select { width: 100% !important; }
+}

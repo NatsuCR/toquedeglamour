@@ -14,6 +14,7 @@ model UsuarioAdmin {
   rol          RolPersonal       @default(ADMINISTRADOR)
   creadoEn     DateTime          @default(now()) @map("creado_en")
   ventas       VentaPresencial[]
+  mermas       MermaInventario[]
 
   @@map("usuario_admin")
 }
@@ -102,6 +103,7 @@ model Producto {
   itemsPedido          ItemPedido[]
   itemsVentaPresencial ItemVentaPresencial[]
   vistas               VistaProducto[]
+  mermas               MermaInventario[]
 
   @@map("productos")
 }
@@ -315,6 +317,23 @@ model GastoAdicional {
   creadoEn          DateTime @default(now()) @map("creado_en")
 
   @@map("gastos_adicionales")
+}
+
+model MermaInventario {
+  id            Int          @id @default(autoincrement())
+  productoId    Int          @map("producto_id")
+  producto      Producto     @relation(fields: [productoId], references: [id])
+  registradoPor Int          @map("registrado_por")
+  administrador UsuarioAdmin @relation(fields: [registradoPor], references: [id])
+  cantidad      Int
+  costoUnitario Decimal      @map("costo_unitario") @db.Decimal(10, 2)
+  montoPerdida  Decimal      @map("monto_perdida") @db.Decimal(10, 2)
+  motivo        String       @db.Text
+  creadoEn      DateTime     @default(now()) @map("creado_en")
+
+  @@index([creadoEn])
+  @@index([productoId])
+  @@map("mermas_inventario")
 }
 
 enum MetodoPagoPresencial {

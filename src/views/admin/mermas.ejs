@@ -1,0 +1,60 @@
+<%- include('partials/header') %>
+
+<section class="loss-page">
+  <header class="admin-page-hero">
+    <div>
+      <span>Control de inventario</span>
+      <h1>Productos dañados o perdidos</h1>
+      <p>Descuenta existencias con trazabilidad y registra su costo como pérdida financiera.</p>
+    </div>
+    <a class="btn btn-outline" href="/admin/productos">Ver inventario</a>
+  </header>
+
+  <% if (flash) { %><div class="admin-alert is-<%= flash.type %>"><%= flash.text %></div><% } %>
+
+  <section class="loss-kpis">
+    <article><span>Unidades perdidas</span><strong><%= totals.units %></strong></article>
+    <article><span>Pérdida acumulada</span><strong><%= formatMoney(totals.amount) %></strong></article>
+    <article><span>Registros</span><strong><%= losses.length %></strong></article>
+  </section>
+
+  <div class="loss-layout">
+    <form class="loss-form" method="POST" action="/admin/mermas">
+      <div class="form-panel-head">
+        <div><span>Nueva merma</span><h2>Restar stock</h2></div>
+      </div>
+      <label>Producto
+        <select name="productoId" data-loss-product required>
+          <option value="">Selecciona un producto</option>
+          <% products.forEach((product) => { %>
+            <option value="<%= product.id %>" data-stock="<%= product.stock %>" data-cost="<%= product.costo %>">
+              PRD-<%= String(product.id).padStart(4, '0') %> · <%= product.nombre %> · <%= product.stock %> uds
+            </option>
+          <% }) %>
+        </select>
+      </label>
+      <label>Cantidad a retirar<input type="number" name="cantidad" min="1" step="1" data-loss-quantity required></label>
+      <label>Motivo<textarea name="motivo" rows="4" minlength="5" placeholder="Ej. Producto dañado durante almacenamiento" required></textarea></label>
+      <div class="loss-preview" data-loss-preview>Selecciona un producto para calcular la pérdida.</div>
+      <button class="btn btn-danger" type="submit">Registrar pérdida y restar stock</button>
+    </form>
+
+    <section class="loss-history">
+      <div class="form-panel-head"><div><span>Auditoría</span><h2>Historial de mermas</h2></div></div>
+      <div class="loss-list <%= losses.length > 5 ? 'is-scrollable' : '' %>">
+        <% if (!losses.length) { %><p class="loss-empty">No hay pérdidas registradas.</p><% } %>
+        <% losses.forEach((loss) => { %>
+          <article>
+            <div><strong><%= loss.producto.nombre %></strong><small>PRD-<%= String(loss.productoId).padStart(4, '0') %> · <%= loss.cantidad %> uds</small></div>
+            <div><strong><%= formatMoney(loss.montoPerdida) %></strong><small><%= loss.creadoEn.toLocaleString('es-CR') %></small></div>
+            <p><%= loss.motivo %></p>
+            <small>Registrado por <%= loss.administrador.correo %></small>
+          </article>
+        <% }) %>
+      </div>
+    </section>
+  </div>
+</section>
+
+<script src="/js/admin-inventory-loss.js" defer></script>
+<%- include('partials/footer') %>

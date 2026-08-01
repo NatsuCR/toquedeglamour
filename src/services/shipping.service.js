@@ -1,4 +1,4 @@
-export const BASE_SHIPPING_COST = 5000;
+export const BASE_SHIPPING_COST = 4000;
 export const BASE_WEIGHT_LIMIT_GRAMS = 2000;
 export const EXTRA_KG_COST = 1000;
 

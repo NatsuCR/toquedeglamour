@@ -8,6 +8,7 @@
   ['Ganancia neta', k.gananciaNeta, 'net'],
   ['Costos de productos', k.costosProductos, 'cost'],
   ['Gastos adicionales', k.gastosAdicionales, 'expense'],
+  ['Pérdidas de inventario', k.perdidasInventario, 'loss'],
   ['Ventas presenciales', k.montoVentasLocal, 'income'],
   ['Comisiones empleados', k.comisionesEmpleados, 'expense']
 ]; %>
@@ -17,7 +18,7 @@
     <div>
       <span>Control financiero</span>
       <h1>Finanzas</h1>
-      <p>Ventas, costos, IVA y gastos adicionales reunidos en una vista clara para administrar mejor la tienda.</p>
+      <p>Ventas, costos, IVA, gastos y pérdidas de inventario reunidos en una vista clara.</p>
     </div>
     <a class="finance-export" href="/admin/finanzas/exportar?fechaInicio=<%= filtros.fechaInicio %>&fechaFin=<%= filtros.fechaFin %>">Exportar Excel fiscal</a>
   </section>

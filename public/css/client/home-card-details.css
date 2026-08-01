@@ -36,7 +36,23 @@
 }
 
 .home-card-badges .is-empty {
-  background: var(--danger);
+  color: #fff;
+  background: #c9183f;
+}
+
+[data-theme="dark"] .home-card-badges span {
+  color: #fff;
+  background: #7c1d45;
+}
+
+[data-theme="dark"] .home-card-badges .is-consult {
+  color: #34101e;
+  background: #ffc4d8;
+}
+
+[data-theme="dark"] .home-card-badges .is-empty {
+  color: #fff;
+  background: #c9183f;
 }
 
 .home-card-sku {

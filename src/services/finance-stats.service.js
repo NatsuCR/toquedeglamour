@@ -1,116 +1,61 @@
 import prisma from '../config/db.js';
-import { roundMoney } from '../utils/money.js';
 import { FinanceSettingsService } from './finance-settings.service.js';
-import { FinanceExpensesService, dateRange } from './finance-expenses.service.js';
+import { FinanceExpensesService } from './finance-expenses.service.js';
 import { FinanceSalesDataService, mergeFinanceSummary } from './finance-sales-data.service.js';
-
-function pedidoWhere(query = {}) {
-  const { from, to } = dateRange(query);
-  const where = { estado: { not: 'RECHAZADO' } };
-  if (from || to) where.creadoEn = {};
-  if (from) where.creadoEn.gte = from;
-  if (to) where.creadoEn.lte = to;
-  return where;
-}
-function emptyKpis(settings) {
-  return {
-    totalConIva: 0,
-    totalSinIva: 0,
-    ivaEstimado: 0,
-    gananciaTotal: 0,
-    gananciaNeta: 0,
-    costosProductos: 0,
-    gastosAdicionales: 0,
-    comisionesEmpleados: 0, montoVentasLocal: 0, cantidadVentasLocal: 0,
-    ivaActivo: settings.ivaActivo,
-    ivaPorcentaje: settings.ivaPorcentaje
-  };
-}
-function sumarPedidos(pedidos) {
-  let totalSinIva = 0;
-  let totalConIva = 0;
-  let ivaEstimado = 0;
-  let costosProductos = 0;
-  const porFecha = {};
-  const productos = {};
-  const categorias = {};
-  pedidos.forEach((pedido) => {
-    const fecha = pedido.creadoEn.toISOString().split('T')[0];
-    porFecha[fecha] ||= { ingresos: 0, costos: 0, gastos: 0, iva: 0, neta: 0 };
-    const total = roundMoney(pedido.total);
-    const base = roundMoney(pedido.subtotal) + roundMoney(pedido.costoEnvio || 0);
-    const iva = Math.max(0, total - base);
-    totalConIva += total;
-    totalSinIva += total - iva;
-    ivaEstimado += iva;
-    porFecha[fecha].ingresos += total - iva;
-    porFecha[fecha].iva += iva;
-    pedido.items.forEach((item) => {
-      const costo = roundMoney(item.costoUnitario || 0) * item.cantidad;
-      const venta = roundMoney(item.precioUnitario) * item.cantidad;
-      costosProductos += costo;
-      porFecha[fecha].costos += costo;
-      const prod = item.producto?.nombre || `Producto #${item.productoId}`;
-      productos[prod] = (productos[prod] || 0) + item.cantidad;
-      const cat = item.producto?.categoria?.nombre || 'Sin categoria';
-      categorias[cat] = (categorias[cat] || 0) + venta - costo;
-    });
-  });
-  return { totalSinIva, totalConIva, ivaEstimado, costosProductos, porFecha, productos, categorias };
-}
-function aplicarGastos(porFecha, gastos) {
-  gastos.forEach((gasto) => {
-    const fecha = gasto.fecha.toISOString().split('T')[0];
-    porFecha[fecha] ||= { ingresos: 0, costos: 0, gastos: 0, iva: 0, neta: 0 };
-    porFecha[fecha].gastos += gasto.monto;
-  });
-}
-function top(map, valueKey) {
-  return Object.entries(map)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([nombre, value]) => ({ nombre, [valueKey]: value }));
-}
+import { InventoryLossService } from './inventory-loss.service.js';
+import {
+  applyExpenses,
+  applyLosses,
+  emptyFinanceKpis,
+  orderWhere,
+  sumOrders,
+  topFinanceEntries
+} from './finance-summary-utils.service.js';
 
 export class FinanceStatsService {
   static async resumen(query = {}) {
-    const [settings, gastos, pedidos, ventasPresenciales] = await Promise.all([
+    const [settings, expenses, orders, localSales, losses] = await Promise.all([
       FinanceSettingsService.obtener(),
       FinanceExpensesService.listar(query),
       prisma.pedido.findMany({
-        where: pedidoWhere(query),
+        where: orderWhere(query),
         include: { items: { include: { producto: { include: { categoria: true } } } } },
         orderBy: { creadoEn: 'asc' }
       }),
-      FinanceSalesDataService.list(query)
+      FinanceSalesDataService.list(query),
+      InventoryLossService.list(query)
     ]);
-    const ventas = FinanceSalesDataService.summarize(ventasPresenciales);
-    const base = mergeFinanceSummary(sumarPedidos(pedidos), ventas);
-    aplicarGastos(base.porFecha, gastos);
-    const gastosAdicionales = gastos.reduce((sum, gasto) => sum + gasto.monto, 0);
-    const gananciaTotal = base.totalSinIva - base.costosProductos;
+    const sales = FinanceSalesDataService.summarize(localSales);
+    const base = mergeFinanceSummary(sumOrders(orders), sales);
+    applyExpenses(base.porFecha, expenses);
+    applyLosses(base.porFecha, losses);
+    const extraExpenses = expenses.reduce((sum, item) => sum + item.monto, 0);
+    const lossSummary = InventoryLossService.summarize(losses);
+    const grossProfit = base.totalSinIva - base.costosProductos;
     const kpis = {
-      ...emptyKpis(settings),
+      ...emptyFinanceKpis(settings),
       totalSinIva: base.totalSinIva,
       totalConIva: base.totalConIva,
       ivaEstimado: base.ivaEstimado,
       costosProductos: base.costosProductos,
-      gastosAdicionales,
-      comisionesEmpleados: ventas.comisiones,
-      montoVentasLocal: ventas.ventasLocal,
-      cantidadVentasLocal: ventas.cantidadVentasLocal,
-      gananciaTotal,
-      gananciaNeta: gananciaTotal - gastosAdicionales - ventas.comisiones
+      gastosAdicionales: extraExpenses,
+      perdidasInventario: lossSummary.amount,
+      unidadesPerdidas: lossSummary.units,
+      comisionesEmpleados: sales.comisiones,
+      montoVentasLocal: sales.ventasLocal,
+      cantidadVentasLocal: sales.cantidadVentasLocal,
+      gananciaTotal: grossProfit,
+      gananciaNeta: grossProfit - extraExpenses - sales.comisiones - lossSummary.amount
     };
     Object.values(base.porFecha).forEach((row) => {
-      row.neta = row.ingresos - row.costos - row.gastos - (row.comisiones || 0);
+      row.neta = row.ingresos - row.costos - row.gastos - row.comisiones - row.perdidas;
     });
     return {
       kpis,
       graficos: {
         evolucion: base.porFecha,
-        topProductos: top(base.productos, 'cantidad'),
-        topCategorias: top(base.categorias, 'ganancia')
+        topProductos: topFinanceEntries(base.productos, 'cantidad'),
+        topCategorias: topFinanceEntries(base.categorias, 'ganancia')
       }
     };
   }

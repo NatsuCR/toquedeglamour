@@ -12,10 +12,12 @@ import { injectSiteSettings } from './middlewares/site-settings.middleware.js';
 import { formatMoneyCRC } from './utils/money.js';
 import { formatWeight } from './services/shipping.service.js';
 import { trackSiteVisit } from './middlewares/analytics.middleware.js';
+import { SeoController } from './controllers/seo.controller.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
+app.set('trust proxy', 1);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -66,9 +68,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-app.use((req, res) => {
-  res.status(404).json({ error: 'Ruta no encontrada (404)' });
-});
+app.use(SeoController.notFound);
 
 app.use((err, req, res, next) => {
   console.error('[Error App]:', err.message);

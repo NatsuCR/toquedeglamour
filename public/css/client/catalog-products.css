@@ -81,12 +81,28 @@
 }
 
 .catalog-card-badges .is-empty {
-  background: var(--danger);
+  color: #fff;
+  background: #c9183f;
 }
 
 .catalog-card-badges .is-consult {
   color: var(--primary-strong);
   background: #ffd4df;
+}
+
+[data-theme="dark"] .catalog-card-badges span {
+  color: #fff;
+  background: #7c1d45;
+}
+
+[data-theme="dark"] .catalog-card-badges .is-consult {
+  color: #34101e;
+  background: #ffc4d8;
+}
+
+[data-theme="dark"] .catalog-card-badges .is-empty {
+  color: #fff;
+  background: #c9183f;
 }
 
 .catalog-product-body {

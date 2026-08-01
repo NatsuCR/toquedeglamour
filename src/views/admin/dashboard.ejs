@@ -33,6 +33,11 @@
       <small>Productos con 5 o menos</small>
     </article>
     <article>
+      <span>Merma de inventario</span>
+      <strong><%= stats.unidadesPerdidas %></strong>
+      <small><%= formatMoney(stats.perdidasInventario) %> en pérdidas</small>
+    </article>
+    <article>
       <span>IVA</span>
       <strong><%= stats.ivaActivo ? 'Activo' : 'Inactivo' %></strong>
       <small><%= stats.ivaPorcentaje %>% aplicado a productos</small>
@@ -61,13 +66,14 @@
       <div class="chart-head">
         <span>Finanzas</span>
         <h2>Ventas, costos y ganancia neta</h2>
-        <p>La barra morada es lo vendido sin IVA. La dorada y la azul son salidas. La linea verde es lo que queda.</p>
+        <p>Compara ventas con costos, gastos, mermas y la ganancia neta que queda.</p>
       </div>
       <div class="chart-frame"><canvas id="evolucionChart"></canvas></div>
       <div class="chart-guide">
         <span><i class="income"></i>Ventas</span>
         <span><i class="cost"></i>Costos</span>
         <span><i class="expense"></i>Gastos</span>
+        <span><i class="loss"></i>Mermas</span>
         <span><i class="net"></i>Ganancia neta</span>
       </div>
     </div>
@@ -97,6 +103,7 @@
     <div class="dashboard-actions">
       <a href="/admin/pedidos" class="btn">Pedidos</a>
       <a href="/admin/productos" class="btn btn-outline">Productos</a>
+      <a href="/admin/mermas" class="btn btn-outline">Restar stock</a>
       <a href="/admin/finanzas" class="btn btn-outline">Gastos e IVA</a>
       <a href="/admin/analitica" class="btn btn-outline">Analitica web</a>
     </div>

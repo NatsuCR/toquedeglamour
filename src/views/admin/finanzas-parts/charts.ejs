@@ -4,6 +4,7 @@
     ['Ventas sin IVA', k.totalSinIva, 'money'],
     ['Costos productos', k.costosProductos, 'money'],
     ['Gastos adicionales', k.gastosAdicionales, 'money'],
+    ['Productos perdidos', k.perdidasInventario, 'money'],
     ['Ganancia neta', k.gananciaNeta, 'money']
   ];
   const products = (resumen.graficos.topProductos || []).map((item) => [item.nombre, item.cantidad, 'units']);
@@ -18,7 +19,7 @@
     <div class="finance-chart-head">
       <span>Lectura rapida</span>
       <h2>Flujo del dinero</h2>
-      <p>Lo que entro por ventas comparado contra costos, gastos y ganancia neta.</p>
+      <p>Ventas comparadas contra costos, gastos, mermas y ganancia neta.</p>
     </div>
     <div class="finance-chart-frame">
       <div class="finance-bars">
@@ -56,6 +57,7 @@
     <span>Como leerlo</span>
     <p><strong>Ventas sin IVA</strong> es el dinero base de productos y envio.</p>
     <p><strong>Costos</strong> es lo que costo comprar o producir esos productos.</p>
-    <p><strong>Ganancia neta</strong> es ventas menos costos y gastos adicionales.</p>
+    <p><strong>Productos perdidos</strong> usa el costo de las unidades dañadas o extraviadas.</p>
+    <p><strong>Ganancia neta</strong> es ventas menos costos, gastos, comisiones y mermas.</p>
   </article>
 </section>
