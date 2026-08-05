@@ -2,9 +2,11 @@
   const sections = [
     ['Descripción del producto', producto.descripcion || 'Sin descripción detallada.'],
     ['Modo de uso', producto.modoUso],
-    ['Detalles técnicos del producto', producto.detallesTecnicos],
-    ['Precauciones', producto.precauciones]
+    ['Detalles técnicos del producto', producto.detallesTecnicos]
   ];
+  if (producto.incluyePrecauciones) {
+    sections.push(['Precauciones', producto.precauciones]);
+  }
   if (producto.incluyeSostenibilidad) {
     sections.push(['Sostenibilidad', producto.sostenibilidad]);
   }

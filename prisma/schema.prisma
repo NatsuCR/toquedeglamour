@@ -98,6 +98,7 @@ model Producto {
   modoUso               String?               @map("modo_uso") @db.Text
   detallesTecnicos      String?               @map("detalles_tecnicos") @db.Text
   precauciones          String?               @db.Text
+  incluyePrecauciones   Boolean               @default(true) @map("incluye_precauciones")
   sostenibilidad        String?               @db.Text
   incluyeSostenibilidad Boolean               @default(false) @map("incluye_sostenibilidad")
   resultadosComprobados String?               @map("resultados_comprobados") @db.Text

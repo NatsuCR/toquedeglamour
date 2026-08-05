@@ -62,6 +62,7 @@ function abrirProductoEditar(btn) {
   form.modoUso.value = product.modoUso || '';
   form.detallesTecnicos.value = product.detallesTecnicos || '';
   form.precauciones.value = product.precauciones || '';
+  form.incluyePrecauciones.value = product.incluyePrecauciones === false ? 'false' : 'true';
   form.incluyeSostenibilidad.value = product.incluyeSostenibilidad === false ? 'false' : 'true';
   form.sostenibilidad.value = product.sostenibilidad || '';
   form.resultadosComprobados.value = product.resultadosComprobados || '';

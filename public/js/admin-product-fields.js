@@ -12,6 +12,7 @@ function actualizarCamposProducto() {
   if (!form) return;
   const consultation = form.tipoVenta.value === 'CONSULTA';
   const cosmetic = !consultation && form.tipoProducto.value === 'COSMETICO';
+  const precautions = !consultation && form.incluyePrecauciones.value === 'true';
   const sustainable = !consultation && form.incluyeSostenibilidad.value === 'true';
 
   form.querySelectorAll('[data-direct-field]').forEach((field) => {
@@ -19,6 +20,8 @@ function actualizarCamposProducto() {
   });
   setFieldState(form.querySelector('[data-direct-content]'), !consultation, true);
   setFieldState(form.querySelector('[data-cosmetic-field]'), cosmetic, cosmetic);
+  setFieldState(form.querySelector('[data-precautions-option]'), !consultation, false);
+  setFieldState(form.querySelector('[data-precautions-field]'), precautions, precautions);
   setFieldState(form.querySelector('[data-sustainability-option]'), !consultation, false);
   setFieldState(form.querySelector('[data-sustainability-field]'), sustainable, sustainable);
   document.getElementById('consultaNotice').hidden = !consultation;
@@ -28,5 +31,6 @@ function actualizarCamposProducto() {
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('tipoVentaSelect')?.addEventListener('change', actualizarCamposProducto);
   document.getElementById('tipoProductoSelect')?.addEventListener('change', actualizarCamposProducto);
+  document.getElementById('precautionsSelect')?.addEventListener('change', actualizarCamposProducto);
   document.getElementById('sustainabilitySelect')?.addEventListener('change', actualizarCamposProducto);
 });

@@ -15,13 +15,19 @@
     <label class="field-full">Detalles técnicos del producto
       <textarea name="detallesTecnicos" class="form-control" rows="3" required></textarea>
     </label>
-    <label class="field-full">Precauciones
-      <textarea name="precauciones" class="form-control" rows="3" required></textarea>
-    </label>
     <label class="field-full" data-cosmetic-field>Resultados comprobados
       <textarea name="resultadosComprobados" class="form-control" rows="3" required></textarea>
     </label>
   </div>
+  <label data-precautions-option>Información de precauciones
+    <select name="incluyePrecauciones" class="form-control" id="precautionsSelect">
+      <option value="true">Sí, este producto incluye precauciones</option>
+      <option value="false">No aplica para este producto</option>
+    </select>
+  </label>
+  <label data-precautions-field>Precauciones
+    <textarea name="precauciones" class="form-control" rows="3" required></textarea>
+  </label>
   <label data-sustainability-option>Información de sostenibilidad
     <select name="incluyeSostenibilidad" class="form-control" id="sustainabilitySelect">
       <option value="true">Sí, este producto incluye sostenibilidad</option>

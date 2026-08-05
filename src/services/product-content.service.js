@@ -14,9 +14,18 @@ function includesSustainability(data, existing, consultation) {
   return existing?.incluyeSostenibilidad ?? Boolean(existing?.sostenibilidad);
 }
 
+function includesPrecautions(data, existing, consultation) {
+  if (consultation) return false;
+  if (data.incluyePrecauciones !== undefined) {
+    return String(data.incluyePrecauciones) === 'true';
+  }
+  return existing?.incluyePrecauciones ?? Boolean(existing?.precauciones);
+}
+
 export function productContent(data, existing = null, consultation = false) {
   const type = consultation ? 'GENERAL' : productType(data, existing);
   const sustainable = includesSustainability(data, existing, consultation);
+  const precautions = includesPrecautions(data, existing, consultation);
   const value = (field) => {
     if (consultation && field !== 'descripcion') return null;
     if (data[field] !== undefined) return clean(data[field]) || null;
@@ -28,7 +37,8 @@ export function productContent(data, existing = null, consultation = false) {
     descripcion: value('descripcion') || 'Sin descripcion',
     modoUso: value('modoUso'),
     detallesTecnicos: value('detallesTecnicos'),
-    precauciones: value('precauciones'),
+    precauciones: precautions ? value('precauciones') : null,
+    incluyePrecauciones: precautions,
     sostenibilidad: sustainable ? value('sostenibilidad') : null,
     incluyeSostenibilidad: sustainable,
     resultadosComprobados: type === 'COSMETICO'
@@ -47,9 +57,12 @@ export function missingProductFields(data, existing = null) {
     missing.push('descripcion');
   }
   if (consultation) return missing;
-  ['modoUso', 'detallesTecnicos', 'precauciones'].forEach((field) => {
+  ['modoUso', 'detallesTecnicos'].forEach((field) => {
     if (!content[field]) missing.push(field);
   });
+  if (content.incluyePrecauciones && !content.precauciones) {
+    missing.push('precauciones');
+  }
   if (content.incluyeSostenibilidad && !content.sostenibilidad) {
     missing.push('sostenibilidad');
   }
