@@ -12,6 +12,7 @@
     <section>
       <span>Cliente</span>
       <strong><%= venta.clienteNombre || 'Consumidor final' %></strong>
+      <p>Correo: <%= venta.clienteCorreo || 'No indicado' %></p>
       <p>Cedula: <%= venta.clienteCedula || 'No indicada' %></p>
     </section>
     <section>
@@ -49,4 +50,37 @@
     <span>Comprobantes</span>
     <%- include('sale-proofs', { adjuntos: venta.adjuntos || [] }) %>
   </section>
+
+  <div class="sales-detail-actions">
+    <button class="btn" type="button" data-edit-sale="<%= venta.id %>">Editar venta</button>
+  </div>
+
+  <form class="sales-edit-form" method="POST" action="/admin/ventas/<%= venta.id %>?_method=PUT"
+    enctype="multipart/form-data" data-sale-edit-form="<%= venta.id %>" hidden>
+    <div class="sales-edit-head">
+      <div><span>Correccion administrativa</span><h3>Editar datos y comprobantes</h3></div>
+      <p>Los productos, cantidades y totales permanecen protegidos.</p>
+    </div>
+    <div class="sales-edit-grid">
+      <label>Cliente<input name="clienteNombre" value="<%= venta.clienteNombre || '' %>" placeholder="Consumidor final"></label>
+      <label>Correo<input type="email" name="clienteCorreo" value="<%= venta.clienteCorreo || '' %>" placeholder="cliente@correo.com"></label>
+      <label>Cedula<input name="clienteCedula" value="<%= venta.clienteCedula || '' %>" placeholder="Identificacion"></label>
+      <label>Metodo de pago<select name="metodoPago">
+        <% ['EFECTIVO', 'SINPE', 'TARJETA', 'TRANSFERENCIA', 'OTRO'].forEach((method) => { %>
+          <option value="<%= method %>" <%= venta.metodoPago === method ? 'selected' : '' %>><%= method %></option>
+        <% }) %>
+      </select></label>
+      <label class="field-full">Nota interna (opcional)
+        <textarea name="notas" rows="3"><%= venta.notas || '' %></textarea>
+      </label>
+      <label class="field-full sales-edit-files">Agregar factura o comprobante
+        <input type="file" name="comprobantes" accept="image/*,.pdf" multiple>
+        <small>Los archivos nuevos se agregan; los comprobantes anteriores se conservan.</small>
+      </label>
+    </div>
+    <div class="form-actions">
+      <button class="btn" type="submit">Guardar cambios</button>
+      <button class="btn btn-outline" type="button" data-cancel-sale-edit="<%= venta.id %>">Cancelar</button>
+    </div>
+  </form>
 </dialog>

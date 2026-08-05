@@ -4,6 +4,11 @@
   gap: 1rem;
 }
 
+.catalog-product-grid > *,
+.catalog-product-link {
+  min-width: 0;
+}
+
 .catalog-product-link {
   color: inherit;
   text-decoration: none;
@@ -103,33 +108,4 @@
 [data-theme="dark"] .catalog-card-badges .is-empty {
   color: #fff;
   background: #c9183f;
-}
-
-.catalog-product-body {
-  display: grid;
-  gap: .68rem;
-  padding: .95rem;
-}
-
-.catalog-sku {
-  color: var(--text-muted);
-  font-size: .76rem;
-  font-weight: 850;
-  letter-spacing: .04em;
-}
-
-.catalog-brand {
-  width: max-content;
-  color: var(--primary-strong);
-  background: color-mix(in srgb, var(--primary) 10%, transparent);
-  padding: .28rem .58rem;
-}
-
-.catalog-category {
-  width: max-content;
-  color: var(--secondary);
-  background: color-mix(in srgb, var(--secondary) 12%, transparent);
-  padding: .28rem .55rem;
-  letter-spacing: .08em;
-  text-transform: uppercase;
 }

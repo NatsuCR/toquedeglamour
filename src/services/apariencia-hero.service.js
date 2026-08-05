@@ -44,8 +44,15 @@ export function prepareHeroSlides(settings, data, files, defaults) {
   const titles = list(data.heroSlideTitle);
   const texts = list(data.heroSlideText);
   const removed = new Set(list(data.removeHeroImages).map(String));
+  const replacementIndexes = list(data.heroReplacementIndexes);
+  const replacements = files.heroReplacements || [];
+  const replacementMap = new Map(replacementIndexes.map((value, index) => [
+    Number.parseInt(value, 10), replacements[index]
+  ]));
   let slides = current.map((slide, index) => ({
-    image: slide.image,
+    image: replacementMap.has(index)
+      ? `/uploads/branding/${replacementMap.get(index).filename}`
+      : slide.image,
     eyebrow: clean(eyebrows[index], slide.eyebrow),
     title: clean(titles[index], slide.title),
     text: clean(texts[index], slide.text)

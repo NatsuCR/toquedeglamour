@@ -6,7 +6,7 @@ const FEATURED_BRANDS = [
   'Nutriplus',
   'Farmasi',
   'Nutriplus+',
-  'Drape Ross',
+  'Drapes Ross',
   'Dr. C. Tuna'
 ];
 
@@ -49,11 +49,13 @@ export class SeoCatalogService {
     const [categories, products, brands] = await Promise.all([
       prisma.categoria.findMany({
         select: {
-          slug: true,
-          subcategorias: { select: { slug: true } }
+          slug: true, creadoEn: true,
+          subcategorias: { select: { slug: true, creadoEn: true } }
         }
       }),
-      prisma.producto.findMany({ select: { id: true, slug: true } }),
+      prisma.producto.findMany({
+        select: { id: true, slug: true, actualizadoEn: true, imagenes: { select: { ruta: true } } }
+      }),
       this.brands()
     ]);
     return { categories, products, brands };

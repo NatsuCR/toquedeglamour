@@ -1,0 +1,30 @@
+.product-content-fields {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--surface) 94%, var(--secondary));
+  padding: 1rem;
+}
+
+.product-content-fields > label,
+.product-content-fields [data-direct-content] label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--text-muted);
+  font-weight: 800;
+}
+
+.compact-head {
+  margin: 0;
+}
+
+.compact-head h3 {
+  margin: 0.2rem 0 0;
+  color: var(--text-main);
+}
+
+[hidden] {
+  display: none !important;
+}

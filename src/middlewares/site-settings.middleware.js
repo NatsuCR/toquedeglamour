@@ -1,5 +1,6 @@
 import { AparienciaService } from '../services/apariencia.service.js';
 import { CategoriaService } from '../services/categoria.service.js';
+import { SeoCatalogService } from '../services/seo-catalog.service.js';
 
 export async function injectSiteSettings(req, res, next) {
   res.locals.siteUrl = String(process.env.SITE_URL || `${req.protocol}://${req.get('host')}`).replace(/\/$/, '');
@@ -17,6 +18,11 @@ export async function injectSiteSettings(req, res, next) {
     res.locals.catalogoMenu = await CategoriaService.obtenerMenu();
   } catch (error) {
     res.locals.catalogoMenu = [];
+  }
+  try {
+    res.locals.seoBrands = await SeoCatalogService.brands();
+  } catch (error) {
+    res.locals.seoBrands = [];
   }
   next();
 }

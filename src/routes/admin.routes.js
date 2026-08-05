@@ -40,6 +40,7 @@ router.get('/', staff, (req, res) => {
 router.get('/logout', staff, AdminController.logout);
 router.get('/ventas', staff, SalesController.render);
 router.post('/ventas', salesUpload, SalesController.create);
+router.put('/ventas/:id', salesUpload, SalesController.update);
 router.get('/dashboard', admin, AdminController.renderDashboard);
 router.get('/analitica', admin, AnalyticsController.renderAdmin);
 router.post('/analitica/eliminar', admin, AnalyticsController.clearAll);
@@ -56,6 +57,7 @@ router.post('/anuncios', admin, AnnouncementController.enviar);
 
 router.get('/marcas', admin, BrandCollaborationController.admin);
 router.post('/marcas', brandUpload, BrandCollaborationController.crear);
+router.put('/marcas/:id', brandUpload, BrandCollaborationController.actualizar);
 router.post('/marcas/:id/eliminar', admin, BrandCollaborationController.eliminar);
 
 router.get('/categorias', admin, CategoriaController.listar);

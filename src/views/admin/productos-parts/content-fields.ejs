@@ -1,0 +1,34 @@
+<section class="product-content-fields">
+  <div class="form-panel-head compact-head">
+    <div>
+      <span>Información para el cliente</span>
+      <h3>Contenido del producto</h3>
+    </div>
+  </div>
+  <label>Descripción del producto
+    <textarea name="descripcion" class="form-control" rows="4" required></textarea>
+  </label>
+  <div class="admin-form-grid" data-direct-content>
+    <label class="field-full">Modo de uso
+      <textarea name="modoUso" class="form-control" rows="3" required></textarea>
+    </label>
+    <label class="field-full">Detalles técnicos del producto
+      <textarea name="detallesTecnicos" class="form-control" rows="3" required></textarea>
+    </label>
+    <label class="field-full">Precauciones
+      <textarea name="precauciones" class="form-control" rows="3" required></textarea>
+    </label>
+    <label class="field-full" data-cosmetic-field>Resultados comprobados
+      <textarea name="resultadosComprobados" class="form-control" rows="3" required></textarea>
+    </label>
+  </div>
+  <label data-sustainability-option>Información de sostenibilidad
+    <select name="incluyeSostenibilidad" class="form-control" id="sustainabilitySelect">
+      <option value="true">Sí, este producto incluye sostenibilidad</option>
+      <option value="false">No aplica para este producto</option>
+    </select>
+  </label>
+  <label data-sustainability-field>Sostenibilidad
+    <textarea name="sostenibilidad" class="form-control" rows="3" required></textarea>
+  </label>
+</section>

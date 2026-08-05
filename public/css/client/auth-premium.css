@@ -45,6 +45,10 @@
   color: var(--text-muted) !important;
 }
 
+[data-theme="dark"] .auth-footer span {
+  color: #fff7fa !important;
+}
+
 .auth-alert {
   border: 1px solid;
   border-radius: 10px;

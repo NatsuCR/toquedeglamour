@@ -1,0 +1,32 @@
+<% const dynamicBrands = (seoBrands || []).map((brand) => brand.name).join(', '); %>
+<% const defaultKeywords = ['cosméticos', 'salud', 'hogar', 'belleza', 'maquillaje', 'nutrición', dynamicBrands, 'Costa Rica'].filter(Boolean).join(', '); %>
+<% const keywordItems = [seoKeywords || defaultKeywords, dynamicBrands].filter(Boolean).join(',').split(',').map((item) => item.trim()).filter(Boolean); %>
+<% const pageKeywords = [...new Map(keywordItems.map((item) => [item.toLowerCase(), item])).values()].join(', '); %>
+<meta name="description" content="<%= pageDescription %>">
+<meta name="keywords" content="<%= pageKeywords %>">
+<meta name="author" content="Toque de Glamour">
+<meta name="application-name" content="Toque de Glamour">
+<meta name="theme-color" content="#7b2446">
+<meta name="robots" content="<%= robots || 'index, follow, max-image-preview:large' %>">
+<link rel="canonical" href="<%= canonicalUrl %>">
+<meta property="og:locale" content="es_CR">
+<meta property="og:site_name" content="Toque de Glamour">
+<meta property="og:title" content="<%= pageTitle %>">
+<meta property="og:description" content="<%= pageDescription %>">
+<meta property="og:url" content="<%= canonicalUrl %>">
+<meta property="og:type" content="<%= metaType || 'website' %>">
+<meta property="og:image" content="<%= socialImage %>">
+<meta property="og:image:alt" content="Toque de Glamour, tienda de cosméticos, salud, hogar y belleza">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<%= pageTitle %>">
+<meta name="twitter:description" content="<%= pageDescription %>">
+<meta name="twitter:image" content="<%= socialImage %>">
+<% if (seoProduct && seoProduct.tipoVenta === 'DIRECTA') { %>
+  <meta property="product:price:amount" content="<%= Number(seoProduct.precio || 0).toFixed(2) %>">
+  <meta property="product:price:currency" content="CRC">
+  <meta property="product:availability" content="<%= seoProduct.stock > 0 ? 'in stock' : 'out of stock' %>">
+<% } %>
+<%- include('store-schema', { siteUrl, visual, socialImage, seoBrands }) %>
+<% if (seoProduct) { %>
+  <%- include('product-schema', { producto: seoProduct, canonicalUrl, siteUrl }) %>
+<% } %>

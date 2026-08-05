@@ -4,15 +4,16 @@ import {
   borrarImagenes,
   datosProducto,
   imagenesCreate,
-  requiereVentaDirecta,
-  tieneImagenesNuevas
+  requiereVentaDirecta
 } from './producto.helpers.js';
 import { ProductoQueryService } from './producto-query.service.js';
+import { ProductImageService } from './product-image.service.js';
 import { borrarUploads } from './producto-upload.service.js';
+import { missingProductFields } from './product-content.service.js';
 
 export class ProductoService extends ProductoQueryService {
   static async crear(data, imagenFiles) {
-    if (!data.nombre || !data.categoriaId || requiereVentaDirecta(data)) {
+    if (requiereVentaDirecta(data) || missingProductFields(data).length) {
       borrarUploads(imagenFiles);
       throw new Error('Completa nombre, categoria y datos de venta requeridos.');
     }
@@ -36,19 +37,22 @@ export class ProductoService extends ProductoQueryService {
       borrarUploads(imagenFiles);
       throw new Error('Producto no encontrado.');
     }
+    if (requiereVentaDirecta(data) || missingProductFields(data, existe).length) {
+      borrarUploads(imagenFiles);
+      throw new Error('Completa los datos y el contenido requeridos para este producto.');
+    }
     await this.validarSubcategoriaConUploads(
       data.categoriaId || existe.categoriaId,
       data.subcategoriaId,
       imagenFiles
     );
     const productoData = this.datosConUploads(data, existe, imagenFiles);
-    if (tieneImagenesNuevas(imagenFiles)) {
-      borrarImagenes(existe.imagenes);
-      await prisma.imagenProducto.deleteMany({ where: { productoId: pid } });
-    }
-    return prisma.producto.update({
-      where: { id: pid },
-      data: { ...productoData, imagenes: imagenesCreate(imagenFiles) }
+    return ProductImageService.update({
+      productId: pid,
+      productData: productoData,
+      existingImages: existe.imagenes,
+      newFiles: imagenFiles,
+      removeImageIds: data.removeImageIds
     });
   }
 

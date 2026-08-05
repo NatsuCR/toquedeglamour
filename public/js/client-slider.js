@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return item.getBoundingClientRect().width + gap;
     };
 
-    const getDesktopMax = () => Math.max(0, track.scrollWidth - wrapper.clientWidth);
+    const getDesktopMax = () => Math.max(0, track.scrollWidth - track.clientWidth);
     const getMobileMax = () => Math.max(0, track.scrollWidth - track.clientWidth);
 
     const updateButtons = () => {
@@ -40,17 +40,20 @@ document.addEventListener('DOMContentLoaded', () => {
         track.classList.remove('is-sliding');
         button?.classList.remove('is-active');
         updateButtons();
-      }, 700);
+      }, 460);
     };
 
     const move = (direction, button) => {
       const sign = direction === 'next' ? 1 : -1;
-      startMotion(direction, button);
       if (mobileQuery.matches) {
+        startMotion(direction, button);
         track.scrollBy({ left: getStep() * sign, behavior: 'smooth' });
         return;
       }
-      offset = Math.max(0, Math.min(offset + getStep() * sign, getDesktopMax()));
+      const nextOffset = Math.max(0, Math.min(offset + getStep() * sign, getDesktopMax()));
+      if (Math.abs(nextOffset - offset) < 1) return updateButtons();
+      offset = nextOffset;
+      startMotion(direction, button);
       track.style.transform = `translateX(-${offset}px)`;
       updateButtons();
     };
@@ -72,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.addEventListener('resize', syncMode);
+    new ResizeObserver(syncMode).observe(wrapper);
     syncMode();
   });
 });

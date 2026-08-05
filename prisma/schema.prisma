@@ -80,30 +80,43 @@ enum TipoVentaProducto {
   CONSULTA @map("consulta")
 }
 
+enum TipoProducto {
+  GENERAL   @map("general")
+  COSMETICO @map("cosmetico")
+}
+
 model Producto {
-  id                   Int                   @id @default(autoincrement())
-  categoriaId          Int                   @map("categoria_id")
-  categoria            Categoria             @relation(fields: [categoriaId], references: [id])
-  subcategoriaId       Int?                  @map("subcategoria_id")
-  subcategoria         Subcategoria?         @relation(fields: [subcategoriaId], references: [id], onDelete: SetNull)
-  nombre               String
-  marca                String?
-  slug                 String                @unique
-  descripcion          String                @db.Text
-  precio               Decimal?              @db.Decimal(10, 2)
-  costo                Decimal               @default(0.00) @db.Decimal(10, 2)
-  stock                Int                   @default(0)
-  pesoGramos           Int                   @default(250) @map("peso_gramos")
-  tipoVenta            TipoVentaProducto     @default(DIRECTA) @map("tipo_venta")
-  textoAlternativoImg  String                @map("texto_alternativo_img")
-  creadoEn             DateTime              @default(now()) @map("creado_en")
-  esNuevo              Boolean               @default(false) @map("es_nuevo")
-  fechaNuevo           DateTime?             @map("fecha_nuevo")
-  imagenes             ImagenProducto[]
-  itemsPedido          ItemPedido[]
-  itemsVentaPresencial ItemVentaPresencial[]
-  vistas               VistaProducto[]
-  mermas               MermaInventario[]
+  id                    Int                   @id @default(autoincrement())
+  categoriaId           Int                   @map("categoria_id")
+  categoria             Categoria             @relation(fields: [categoriaId], references: [id])
+  subcategoriaId        Int?                  @map("subcategoria_id")
+  subcategoria          Subcategoria?         @relation(fields: [subcategoriaId], references: [id], onDelete: SetNull)
+  nombre                String
+  marca                 String?
+  slug                  String                @unique
+  descripcion           String                @db.Text
+  modoUso               String?               @map("modo_uso") @db.Text
+  detallesTecnicos      String?               @map("detalles_tecnicos") @db.Text
+  precauciones          String?               @db.Text
+  sostenibilidad        String?               @db.Text
+  incluyeSostenibilidad Boolean               @default(false) @map("incluye_sostenibilidad")
+  resultadosComprobados String?               @map("resultados_comprobados") @db.Text
+  precio                Decimal?              @db.Decimal(10, 2)
+  costo                 Decimal               @default(0.00) @db.Decimal(10, 2)
+  stock                 Int                   @default(0)
+  pesoGramos            Int                   @default(250) @map("peso_gramos")
+  tipoVenta             TipoVentaProducto     @default(DIRECTA) @map("tipo_venta")
+  tipoProducto          TipoProducto          @default(GENERAL) @map("tipo_producto")
+  textoAlternativoImg   String                @map("texto_alternativo_img")
+  creadoEn              DateTime              @default(now()) @map("creado_en")
+  actualizadoEn         DateTime              @default(now()) @updatedAt @map("actualizado_en")
+  esNuevo               Boolean               @default(false) @map("es_nuevo")
+  fechaNuevo            DateTime?             @map("fecha_nuevo")
+  imagenes              ImagenProducto[]
+  itemsPedido           ItemPedido[]
+  itemsVentaPresencial  ItemVentaPresencial[]
+  vistas                VistaProducto[]
+  mermas                MermaInventario[]
 
   @@map("productos")
 }
@@ -350,6 +363,7 @@ model VentaPresencial {
   vendedorId    Int                      @map("vendedor_id")
   vendedor      UsuarioAdmin             @relation(fields: [vendedorId], references: [id])
   clienteNombre String?                  @map("cliente_nombre")
+  clienteCorreo String?                  @map("cliente_correo")
   clienteCedula String?                  @map("cliente_cedula")
   metodoPago    MetodoPagoPresencial     @map("metodo_pago")
   subtotal      Decimal                  @db.Decimal(10, 2)

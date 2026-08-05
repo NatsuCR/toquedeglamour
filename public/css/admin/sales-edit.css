@@ -1,0 +1,75 @@
+.sales-detail-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.sales-edit-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+  border: 1px solid color-mix(in srgb, var(--secondary) 45%, var(--line));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
+  padding: 1rem;
+}
+
+.sales-edit-form[hidden] {
+  display: none;
+}
+
+.sales-edit-head,
+.sales-edit-grid {
+  display: grid;
+  gap: .8rem;
+}
+
+.sales-edit-head {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+}
+
+.sales-edit-head span {
+  color: var(--secondary);
+  font-size: .75rem;
+  font-weight: 950;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.sales-edit-head p,
+.sales-edit-files small {
+  color: var(--text-muted);
+}
+
+.sales-edit-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sales-edit-grid label {
+  display: grid;
+  gap: .4rem;
+  font-weight: 850;
+}
+
+.sales-edit-grid input,
+.sales-edit-grid select,
+.sales-edit-grid textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-main);
+  padding: .75rem;
+}
+
+.sales-edit-grid .field-full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 720px) {
+  .sales-edit-head,
+  .sales-edit-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

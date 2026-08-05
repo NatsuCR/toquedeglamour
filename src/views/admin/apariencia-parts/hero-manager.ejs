@@ -1,0 +1,64 @@
+<div class="appearance-hero-panel">
+  <div class="appearance-section-title">
+    <span>Portada del inicio</span>
+    <strong><%= heroSlides.length %> <%= heroSlides.length === 1 ? 'imagen activa' : 'imagenes activas' %></strong>
+    <p>Edita el mensaje de cada imagen o agrega nuevas portadas.</p>
+  </div>
+  <div class="hero-gallery-preview <%= heroSlides.length > 3 ? 'is-scrollable' : '' %>">
+    <% heroSlides.forEach((slide, index) => { %>
+      <article class="hero-image-tile" data-hero-card="<%= index %>">
+        <div class="hero-slide-media">
+          <img src="<%= slide.image %>" alt="Portada <%= index + 1 %>">
+          <span><%= String(index + 1).padStart(2, '0') %></span>
+        </div>
+        <div class="hero-slide-summary">
+          <span><%= index === 0 ? 'Portada principal' : 'Portada ' + (index + 1) %></span>
+          <h3 data-hero-title-summary><%= slide.title %></h3>
+          <p data-hero-eyebrow-summary><%= slide.eyebrow %></p>
+          <p data-hero-text-summary><%= slide.text %></p>
+          <input type="hidden" name="heroSlideEyebrow" value="<%= slide.eyebrow %>">
+          <input type="hidden" name="heroSlideTitle" value="<%= slide.title %>">
+          <input type="hidden" name="heroSlideText" value="<%= slide.text %>">
+          <input class="hero-replacement-input" type="file" name="heroReplacements"
+            accept="image/jpeg,image/png,image/webp" data-hero-replacement="<%= index %>">
+          <input type="hidden" name="heroReplacementIndexes" value="<%= index %>" disabled>
+          <button class="btn btn-outline" type="button" data-edit-hero="<%= index %>">Editar portada</button>
+          <% if (heroSlides.length > 1) { %>
+            <label class="remove-hero-image">
+              <input type="checkbox" name="removeHeroImages" value="<%= slide.image %>">
+              Quitar esta portada
+            </label>
+          <% } %>
+        </div>
+      </article>
+    <% }) %>
+  </div>
+  <label for="heroImagesInput">Agregar portadas</label>
+  <input id="heroImagesInput" type="file" name="heroImages" class="form-control"
+    accept="image/jpeg,image/png,image/webp" multiple>
+  <div id="newHeroSlideFields" class="new-hero-slide-fields"></div>
+  <small class="appearance-hint">Las portadas cambian automaticamente cada 5 segundos.</small>
+  <input type="hidden" name="heroImageUrl" value="<%= v('heroImageUrl') %>">
+  <input type="hidden" name="heroImagesJson" value="<%= JSON.stringify(heroImages) %>">
+  <input type="hidden" name="heroSlidesJson" value="<%= JSON.stringify(heroSlides) %>">
+  <dialog id="heroEditModal" class="hero-edit-modal">
+    <header>
+      <div><span>Portada del inicio</span><h2>Editar mensaje</h2></div>
+      <button type="button" data-close-hero aria-label="Cerrar">X</button>
+    </header>
+    <img id="heroEditPreview" alt="Vista previa de la portada">
+    <button class="btn btn-outline hero-replace-button" type="button" data-replace-hero>
+      Reemplazar imagen
+    </button>
+    <small id="heroReplacementName" class="appearance-hint">La imagen actual se conserva.</small>
+    <div class="hero-edit-fields">
+      <label>Texto superior<input id="heroEditEyebrow"></label>
+      <label>Titulo<input id="heroEditTitle" required></label>
+      <label>Descripcion<textarea id="heroEditText" rows="4"></textarea></label>
+    </div>
+    <div class="form-actions">
+      <button class="btn" type="button" data-save-hero>Aplicar cambios</button>
+      <button class="btn btn-outline" type="button" data-close-hero>Cancelar</button>
+    </div>
+  </dialog>
+</div>

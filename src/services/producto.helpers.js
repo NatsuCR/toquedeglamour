@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { roundMoney } from '../utils/money.js';
 import { parseProductWeight } from './product-weight.service.js';
+import { productContent } from './product-content.service.js';
 
 export const includeProducto = {
   categoria: true,
@@ -34,13 +35,11 @@ export function datosProducto(data, existente = null) {
     marca: data.marca !== undefined
       ? (data.marca.trim() || null)
       : existente?.marca,
-    descripcion: data.descripcion !== undefined
-      ? (data.descripcion.trim() || 'Sin descripcion')
-      : existente?.descripcion,
+    ...productContent(data, existente, consulta),
     precio: consulta ? null : valorMoney(data.precio, existente?.precio),
     costo: consulta ? 0 : valorMoney(data.costo, existente?.costo || 0),
     stock: consulta ? 0 : valorEntero(data.stock, existente?.stock || 0),
-    pesoGramos: parseProductWeight(data.pesoGramos, existente?.pesoGramos),
+    pesoGramos: consulta ? 0 : parseProductWeight(data.pesoGramos, existente?.pesoGramos),
     categoriaId: data.categoriaId ? Number.parseInt(data.categoriaId, 10) : existente?.categoriaId,
     subcategoriaId: data.subcategoriaId ? Number.parseInt(data.subcategoriaId, 10) : null,
     tipoVenta: tipo,

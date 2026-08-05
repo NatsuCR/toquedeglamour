@@ -100,6 +100,7 @@ export class SalesService {
           codigo: `VP-${Date.now()}-${seller.id}`,
           vendedorId: seller.id,
           clienteNombre: clean(data.clienteNombre) || null,
+          clienteCorreo: clean(data.clienteCorreo).toLowerCase() || null,
           clienteCedula: clean(data.clienteCedula) || null,
           metodoPago: PAYMENT_METHODS.has(data.metodoPago) ? data.metodoPago : 'EFECTIVO',
           subtotal,

@@ -1,0 +1,27 @@
+<%
+  const sections = [
+    ['Descripción del producto', producto.descripcion || 'Sin descripción detallada.'],
+    ['Modo de uso', producto.modoUso],
+    ['Detalles técnicos del producto', producto.detallesTecnicos],
+    ['Precauciones', producto.precauciones]
+  ];
+  if (producto.incluyeSostenibilidad) {
+    sections.push(['Sostenibilidad', producto.sostenibilidad]);
+  }
+  if (producto.tipoProducto === 'COSMETICO') {
+    sections.push(['Resultados comprobados', producto.resultadosComprobados]);
+  }
+  const visibleSections = consulta ? sections.slice(0, 1) : sections.filter((item) => item[1]);
+%>
+
+<section class="product-detail-content" aria-label="Información del producto">
+  <% visibleSections.forEach(([title, content], index) => { %>
+    <details class="product-content-item" <%= index === 0 ? 'open' : '' %>>
+      <summary>
+        <span><%= title %></span>
+        <span class="product-content-icon" aria-hidden="true">+</span>
+      </summary>
+      <p><%= content %></p>
+    </details>
+  <% }) %>
+</section>

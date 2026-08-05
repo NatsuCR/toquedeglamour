@@ -2,6 +2,7 @@ import { SalesService } from '../services/sales.service.js';
 import { FinanceSettingsService } from '../services/finance-settings.service.js';
 import { buildSalesCatalog } from '../services/sales-catalog.service.js';
 import { deleteSaleProofs } from '../middlewares/sales-proof-upload.middleware.js';
+import { SalesUpdateService } from '../services/sales-update.service.js';
 
 function takeFlash(req) {
   const flash = req.session.salesFlash || null;
@@ -45,6 +46,17 @@ export class SalesController {
       console.error('Error registrando venta presencial:', error.message);
       deleteSaleProofs(req.files);
       redirect(req, res, 'error', error.message || 'No se pudo registrar la venta.');
+    }
+  }
+
+  static async update(req, res) {
+    try {
+      const venta = await SalesUpdateService.update(req.params.id, req.body, req.files);
+      redirect(req, res, 'success', `Venta ${venta.codigo} actualizada correctamente.`);
+    } catch (error) {
+      console.error('Error actualizando venta presencial:', error.message);
+      deleteSaleProofs(req.files);
+      redirect(req, res, 'error', error.message || 'No se pudo actualizar la venta.');
     }
   }
 }

@@ -28,7 +28,7 @@
       </button>
 
       <% if (imagenesProducto.length > 1) { %>
-        <div class="product-thumbs" aria-label="Imagenes del producto">
+        <div class="product-thumbs" aria-label="Imágenes del producto">
           <% imagenesProducto.forEach((img, index) => { %>
             <button
               type="button"
@@ -50,25 +50,23 @@
     <% if (producto.marca) { %><span class="product-brand"><%= producto.marca %></span><% } %>
     <span class="card-category"><%= categoria %></span>
     <p class="product-sku">SKU: <%= sku %></p>
-    <p class="product-sku">Peso: <%= producto.pesoGramos || 250 %> g</p>
+    <% if (!consulta) { %><p class="product-sku">Peso: <%= producto.pesoGramos || 250 %> g</p><% } %>
     <h1><%= producto.nombre %></h1>
 
     <div class="product-detail-price">
       <%= consulta ? 'Precio a consultar' : formatMoney(Number(producto.precio || 0)) %>
     </div>
 
-    <div class="product-detail-copy">
-      <h2>Descripcion del producto</h2>
-      <p><%= producto.descripcion || 'Sin descripcion detallada.' %></p>
-    </div>
+    <%- include('producto-parts/content', { producto, consulta }) %>
 
     <div class="product-detail-action">
       <% if (consulta) { %>
         <div class="consult-box">
           Este articulo se coordina por consulta para definir detalles, medidas, tiempo de entrega y precio final.
         </div>
-        <a class="nav-btn" href="<%= consultaWhatsapp %>" target="_blank" rel="noopener">
-          Solicitar consulta
+        <a class="whatsapp-consult-btn" href="<%= consultaWhatsapp %>" target="_blank" rel="noopener">
+          <span class="whatsapp-consult-icon" aria-hidden="true">WA</span>
+          Solicitar consulta por WhatsApp
         </a>
       <% } else if (producto.stock > 0) { %>
         <p class="stock-ok-text">En stock (<%= producto.stock %> disponibles)</p>

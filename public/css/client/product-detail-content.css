@@ -1,0 +1,93 @@
+.product-detail-content {
+  display: grid;
+  border-block: 1px solid var(--line);
+}
+
+.product-content-item {
+  border-bottom: 1px solid var(--line);
+}
+
+.product-content-item:last-child {
+  border-bottom: 0;
+}
+
+.product-content-item summary {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  list-style: none;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.product-content-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.product-content-item p {
+  margin: 0;
+  padding: 0 0 1rem;
+  white-space: pre-line;
+  line-height: 1.7;
+}
+
+.product-content-icon {
+  flex: 0 0 auto;
+  font-size: 1.25rem;
+  transition: transform 180ms ease;
+}
+
+.product-content-item[open] .product-content-icon {
+  transform: rotate(45deg);
+}
+
+.whatsapp-consult-btn {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: var(--radius-pill);
+  color: #fff;
+  background: #128c4a;
+  padding: 0.75rem 1rem;
+  font-weight: 900;
+  text-decoration: none;
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.whatsapp-consult-btn:hover,
+.whatsapp-consult-btn:focus-visible {
+  color: #fff;
+  background: #0f7a40;
+  transform: translateY(-1px);
+}
+
+.whatsapp-consult-btn span {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  font-size: 0.72rem;
+}
+
+html:not([data-theme="dark"]) .product-detail-info h1,
+html:not([data-theme="dark"]) .product-content-item summary,
+html:not([data-theme="dark"]) .product-content-item p {
+  color: #171015;
+}
+
+[data-theme="dark"] .product-detail-info h1,
+[data-theme="dark"] .product-content-item summary,
+[data-theme="dark"] .product-content-item p {
+  color: #fff;
+}
+
+.product-detail-price {
+  color: var(--secondary) !important;
+}

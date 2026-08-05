@@ -25,15 +25,24 @@
           <td><span class="<%= consulta ? 'admin-badge' : 'money-success' %>"><%= consulta ? 'A consultar' : formatMoney(Number(p.precio || 0)) %></span></td>
           <td><% if (consulta) { %><span class="muted">-</span><% } else { %><span class="<%= margen >= 0 ? 'money-success' : 'money-danger' %>"><%= margen >= 0 ? '+' : '-' %><%= formatMoney(Math.abs(margen)) %></span><% } %></td>
           <td><span class="<%= consulta ? 'admin-badge' : (p.stock <= 5 ? 'money-danger' : 'money-success') %>"><%= consulta ? 'Consulta' : `${p.stock}${p.stock <= 5 ? ' bajo' : ''}` %></span></td>
-          <td><span class="admin-badge"><%= p.pesoGramos || 250 %> g</span></td>
+          <td><span class="admin-badge"><%= consulta ? 'No aplica' : `${p.pesoGramos || 250} g` %></span></td>
           <td><% if (p.esNuevo) { %><span class="admin-badge">Nuevo</span><% } else { %><span class="muted">-</span><% } %></td>
           <td class="row-actions">
+            <% const editData = {
+              id: p.id, nombre: p.nombre, marca: p.marca || '', categoriaId: p.categoriaId,
+              subcategoriaId: p.subcategoriaId || '', tipoVenta: p.tipoVenta || 'DIRECTA',
+              tipoProducto: p.tipoProducto || 'GENERAL',
+              precio: p.precio || '', costo: p.costo || 0, stock: p.stock,
+              pesoGramos: consulta ? '' : (p.pesoGramos || 250), esNuevo: p.esNuevo,
+              descripcion: p.descripcion || '', modoUso: p.modoUso || '',
+              detallesTecnicos: p.detallesTecnicos || '', precauciones: p.precauciones || '',
+              incluyeSostenibilidad: p.incluyeSostenibilidad !== false,
+              sostenibilidad: p.sostenibilidad || '',
+              resultadosComprobados: p.resultadosComprobados || '',
+              imagenes: p.imagenes || []
+            }; %>
             <button type="button" class="btn btn-outline btn-sm btn-editar"
-              data-id="<%= p.id %>" data-nombre="<%= p.nombre %>" data-marca="<%= p.marca || '' %>" data-cat="<%= p.categoriaId %>"
-              data-subcat="<%= p.subcategoriaId || '' %>" data-tipo="<%= p.tipoVenta || 'DIRECTA' %>"
-              data-precio="<%= p.precio || '' %>" data-costo="<%= p.costo || 0 %>" data-stock="<%= p.stock %>"
-              data-peso="<%= p.pesoGramos || 250 %>"
-              data-nuevo="<%= p.esNuevo %>" data-desc="<%= p.descripcion || '' %>"
+              data-product="<%= encodeURIComponent(JSON.stringify(editData)) %>"
               onclick="abrirProductoEditar(this)">Editar</button>
             <form method="POST" action="/admin/productos/<%= p.id %>?_method=DELETE">
               <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Eliminar producto?');">Eliminar</button>

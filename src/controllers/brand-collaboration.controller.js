@@ -4,7 +4,13 @@ export class BrandCollaborationController {
   static async publico(req, res) {
     try {
       const colaboraciones = await BrandCollaborationService.listar();
-      res.render('client/marcas', { user: res.locals.cliente, colaboraciones, title: 'Marcas' });
+      const marcas = colaboraciones.map((item) => item.marca).filter(Boolean);
+      res.render('client/marcas', {
+        user: res.locals.cliente, colaboraciones,
+        title: 'Marcas y colaboraciones', canonical: '/marcas',
+        metaDescription: `Conoce las marcas de Toque de Glamour: ${marcas.join(', ')} y más opciones de belleza, nutrición y hogar en Costa Rica.`,
+        seoKeywords: [...marcas, 'Nutriplus', 'Farmasi', 'Dr. C. Tuna', 'Drapes Ross'].join(', ')
+      });
     } catch (error) {
       console.error(error);
       res.status(500).send('Error cargando marcas.');
@@ -34,6 +40,15 @@ export class BrandCollaborationController {
     try {
       await BrandCollaborationService.eliminar(req.params.id);
       res.redirect('/admin/marcas?success=Colaboracion+eliminada');
+    } catch (error) {
+      res.redirect(`/admin/marcas?error=${encodeURIComponent(error.message)}`);
+    }
+  }
+
+  static async actualizar(req, res) {
+    try {
+      await BrandCollaborationService.actualizar(req.params.id, req.body, req.file);
+      res.redirect('/admin/marcas?success=Colaboracion+actualizada');
     } catch (error) {
       res.redirect(`/admin/marcas?error=${encodeURIComponent(error.message)}`);
     }

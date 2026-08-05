@@ -68,6 +68,28 @@ export class BrandCollaborationService {
     await this.guardar([nueva, ...items]);
   }
 
+  static async actualizar(id, data, file) {
+    const items = await this.listar({ incluirInactivas: true });
+    const index = items.findIndex((item) => item.id === id);
+    if (index < 0) throw new Error('La colaboracion no existe.');
+    const actual = items[index];
+    const editada = normalize({
+      ...actual,
+      marca: data.marca,
+      titulo: data.titulo,
+      descripcion: data.descripcion,
+      enlace: data.enlace || '/catalogo',
+      imagenUrl: file ? `/uploads/marcas/${file.filename}` : actual.imagenUrl,
+      activa: data.activa === 'on'
+    });
+    if (!editada.marca || !editada.titulo || !editada.descripcion) {
+      throw new Error('Completa marca, titulo y descripcion.');
+    }
+    items[index] = editada;
+    await this.guardar(items);
+    return editada;
+  }
+
   static async eliminar(id) {
     const items = await this.listar({ incluirInactivas: true });
     await this.guardar(items.filter((item) => item.id !== id));

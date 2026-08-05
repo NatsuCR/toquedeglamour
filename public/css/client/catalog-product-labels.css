@@ -1,0 +1,36 @@
+.catalog-product-body {
+  min-width: 0;
+  display: grid;
+  gap: .68rem;
+  padding: .95rem;
+}
+
+.catalog-sku {
+  color: var(--text-muted);
+  font-size: .76rem;
+  font-weight: 850;
+  letter-spacing: .04em;
+}
+
+.catalog-brand,
+.catalog-category {
+  width: fit-content;
+  max-width: 100%;
+  padding: .28rem .58rem;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.catalog-brand {
+  color: var(--primary-strong);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+.catalog-category {
+  min-height: 2.15rem;
+  color: var(--secondary);
+  background: color-mix(in srgb, var(--secondary) 12%, transparent);
+  line-height: 1.25;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}

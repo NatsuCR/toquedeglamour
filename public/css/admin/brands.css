@@ -68,7 +68,10 @@
   line-height: 1.55;
 }
 
-.brand-admin-card form {
+.brand-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
   margin-top: .75rem;
 }
 

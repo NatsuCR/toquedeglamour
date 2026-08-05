@@ -60,9 +60,13 @@
               <span><%= colab.activa ? 'Visible' : 'Oculta' %></span>
               <h3><%= colab.titulo %></h3>
               <p><%= colab.descripcion %></p>
-              <form method="POST" action="/admin/marcas/<%= colab.id %>/eliminar">
-                <button class="btn btn-danger" type="submit">Eliminar</button>
-              </form>
+              <div class="brand-card-actions">
+                <button class="btn btn-outline" type="button"
+                  data-edit-brand="<%= encodeURIComponent(JSON.stringify(colab)) %>">Editar</button>
+                <form method="POST" action="/admin/marcas/<%= colab.id %>/eliminar">
+                  <button class="btn btn-danger" type="submit">Eliminar</button>
+                </form>
+              </div>
             </div>
           </article>
         <% }) %>
@@ -70,5 +74,32 @@
     </section>
   </div>
 </section>
+
+<dialog id="brandEditModal" class="brand-edit-modal">
+  <form id="brandEditForm" method="POST" enctype="multipart/form-data">
+    <header>
+      <div><span>Colaboracion</span><h2>Editar marca</h2><p>Corrige la informacion sin eliminar la alianza.</p></div>
+      <button type="button" data-close-brand aria-label="Cerrar">X</button>
+    </header>
+    <img id="brandEditPreview" alt="Imagen actual de la colaboracion">
+    <div class="admin-form-grid one-column">
+      <label>Marca<input name="marca" required></label>
+      <label>Titulo<input name="titulo" required></label>
+      <label>Enlace<input name="enlace" placeholder="/catalogo"></label>
+      <label>Descripcion<textarea name="descripcion" rows="5" required></textarea></label>
+    </div>
+    <label class="admin-file-field">Reemplazar imagen (opcional)
+      <input type="file" name="imagen" accept="image/jpeg,image/png,image/webp">
+      <small>Si no eliges un archivo, se conserva la imagen actual.</small>
+    </label>
+    <label class="brand-active-toggle"><input type="checkbox" name="activa">Mostrar en la tienda</label>
+    <div class="form-actions">
+      <button class="btn" type="submit">Guardar cambios</button>
+      <button class="btn btn-outline" type="button" data-close-brand>Cancelar</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="/js/admin-brands.js" defer></script>
 
 <%- include('partials/footer') %>

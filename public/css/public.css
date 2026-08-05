@@ -14,9 +14,12 @@
 @import url("/css/client/catalog-filter.css");
 @import url("/css/client/catalog-mobile-filter.css");
 @import url("/css/client/catalog-products.css");
+@import url("/css/client/catalog-product-labels.css");
 @import url("/css/client/catalog-card-details.css");
+@import url("/css/client/catalog-mobile-cards.css");
 @import url("/css/client/catalog-load-more.css");
 @import url("/css/client/product-detail.css");
+@import url("/css/client/product-detail-content.css");
 @import url("/css/client/product-gallery.css");
 @import url("/css/client/brands.css");
 @import url("/css/client/brand-description.css");
@@ -70,5 +73,6 @@
 @import url("/css/client/auth-form.css");
 @import url("/css/client/mobile-home-slider.css");
 @import url("/css/client/mobile-hero.css");
+@import url("/css/client/home-hero-stability.css");
 @import url("/css/client/not-found.css");
 @import url("/css/client/theme-control.css");

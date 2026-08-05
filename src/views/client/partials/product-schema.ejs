@@ -1,0 +1,45 @@
+<%
+  const images = (producto.imagenes || []).map((item) => item.ruta)
+    .filter(Boolean).map((route) => /^https?:\/\//.test(route) ? route : `${siteUrl}${route}`);
+  const category = [producto.categoria?.nombre, producto.subcategoria?.nombre]
+    .filter(Boolean).join(' > ');
+  const productId = `${canonicalUrl}#product`;
+  const product = {
+    '@type': 'Product',
+    '@id': productId,
+    name: producto.nombre,
+    url: canonicalUrl,
+    description: producto.descripcion,
+    sku: `PRD-${String(producto.id).padStart(4, '0')}`,
+    image: images,
+    category,
+    brand: producto.marca ? { '@type': 'Brand', name: producto.marca } : undefined
+  };
+  if (producto.tipoVenta === 'DIRECTA') {
+    product.offers = {
+      '@type': 'Offer',
+      url: canonicalUrl,
+      priceCurrency: 'CRC',
+      price: Number(producto.precio || 0).toFixed(2),
+      availability: producto.stock > 0
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      itemCondition: 'https://schema.org/NewCondition'
+    };
+  }
+  const crumbs = [
+    ['Inicio', `${siteUrl}/`], ['Catálogo', `${siteUrl}/catalogo`],
+    producto.categoria && [producto.categoria.nombre,
+      `${siteUrl}/catalogo/categoria/${producto.categoria.slug}`],
+    producto.subcategoria && [producto.subcategoria.nombre,
+      `${siteUrl}/catalogo/categoria/${producto.categoria.slug}/${producto.subcategoria.slug}`],
+    [producto.nombre, canonicalUrl]
+  ].filter(Boolean).map(([name, item], index) => ({
+    '@type': 'ListItem', position: index + 1, name, item
+  }));
+  const schema = {
+    '@context': 'https://schema.org',
+    '@graph': [product, { '@type': 'BreadcrumbList', itemListElement: crumbs }]
+  };
+%>
+<script type="application/ld+json"><%- JSON.stringify(schema).replace(/</g, '\\u003c') %></script>

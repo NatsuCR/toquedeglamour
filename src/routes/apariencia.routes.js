@@ -14,7 +14,8 @@ router.post(
   uploadBrandingImages.fields([
     { name: 'logo', maxCount: 1 },
     { name: 'heroImage', maxCount: 1 },
-    { name: 'heroImages', maxCount: 8 }
+    { name: 'heroImages', maxCount: 8 },
+    { name: 'heroReplacements', maxCount: 8 }
   ]),
   handleBrandingUploadError,
   AparienciaController.update

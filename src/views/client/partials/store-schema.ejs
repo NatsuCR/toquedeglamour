@@ -1,0 +1,42 @@
+<%
+  const logoPath = visual.logoUrl || '/img/toque-de-glamour.png';
+  const logoUrl = /^https?:\/\//.test(logoPath) ? logoPath : `${siteUrl}${logoPath}`;
+  const knownBrands = (seoBrands || []).map((brand) => brand.name);
+  const storeSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': ['OnlineStore', 'Store'],
+        '@id': `${siteUrl}/#store`,
+        name: 'Toque de Glamour',
+        url: siteUrl,
+        logo: logoUrl,
+        image: socialImage,
+        description: 'Tienda de cosméticos, salud, nutrición, hogar y belleza en Costa Rica.',
+        telephone: '+50685203998',
+        currenciesAccepted: 'CRC',
+        paymentAccepted: 'SINPE Móvil, transferencia bancaria, efectivo',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Muelle de San Carlos',
+          addressRegion: 'Alajuela',
+          addressCountry: 'CR'
+        },
+        knowsAbout: [
+          'Cosméticos', 'Maquillaje', 'Nutrición', 'Salud',
+          'Decoración para el hogar', ...knownBrands
+        ],
+        brand: knownBrands.map((name) => ({ '@type': 'Brand', name }))
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${siteUrl}/#website`,
+        name: 'Toque de Glamour',
+        url: siteUrl,
+        inLanguage: 'es-CR',
+        publisher: { '@id': `${siteUrl}/#store` }
+      }
+    ]
+  };
+%>
+<script type="application/ld+json"><%- JSON.stringify(storeSchema).replace(/</g, '\\u003c') %></script>

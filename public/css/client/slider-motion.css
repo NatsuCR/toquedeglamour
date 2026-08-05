@@ -3,7 +3,7 @@
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   transform: translateX(0);
-  transition: transform 680ms ease-in-out;
+  transition: transform 420ms ease-in-out;
   will-change: transform;
 }
 
@@ -17,11 +17,11 @@
 }
 
 .slider-track.is-sliding[data-direction="next"] .glass-card {
-  animation: productGlideNext 680ms ease-in-out both;
+  animation: productGlideNext 420ms ease-in-out both;
 }
 
 .slider-track.is-sliding[data-direction="prev"] .glass-card {
-  animation: productGlidePrev 680ms ease-in-out both;
+  animation: productGlidePrev 420ms ease-in-out both;
 }
 
 .slider-track:hover .glass-card {

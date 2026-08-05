@@ -6,20 +6,6 @@ function productForm() {
   return document.getElementById('formPrincipal');
 }
 
-function ventaInputs() {
-  return ['precioInput', 'costoInput', 'stockInput'].map((id) => document.getElementById(id));
-}
-
-function actualizarTipoVenta() {
-  const consulta = document.getElementById('tipoVentaSelect').value === 'CONSULTA';
-  ventaInputs().forEach((input) => {
-    input.required = !consulta;
-    input.disabled = consulta;
-    if (consulta) input.value = '';
-  });
-  document.getElementById('consultaNotice').hidden = !consulta;
-}
-
 function actualizarSubcategorias(selected = '') {
   const categoriaId = productForm().categoriaId.value;
   const select = document.getElementById('subcategoriaSelect');
@@ -39,10 +25,11 @@ function abrirProductoCrear() {
   document.getElementById('formTitle').innerText = 'Crear producto';
   form.action = '/admin/productos';
   form.reset();
+  clearProductImages();
   form.pesoGramos.value = 250;
   document.getElementById('imgInput').required = true;
   document.getElementById('imgHint').hidden = true;
-  actualizarTipoVenta();
+  actualizarCamposProducto();
   actualizarSubcategorias();
   form.nombre.focus();
 }
@@ -54,29 +41,39 @@ function cerrarProductoForm() {
 
 function abrirProductoEditar(btn) {
   const form = productForm();
+  const product = decodeProductData(btn);
+  if (!product) return;
   productPanel().classList.remove('is-hidden');
   document.body.classList.add('admin-modal-open');
   document.getElementById('formTitle').innerText = 'Editar producto';
-  form.action = `/admin/productos/${btn.dataset.id}?_method=PUT`;
-  form.nombre.value = btn.dataset.nombre;
-  form.marca.value = btn.dataset.marca || '';
-  form.tipoVenta.value = btn.dataset.tipo || 'DIRECTA';
-  form.categoriaId.value = btn.dataset.cat;
-  actualizarSubcategorias(btn.dataset.subcat || '');
-  form.precio.value = btn.dataset.precio;
-  form.costo.value = btn.dataset.costo;
-  form.stock.value = btn.dataset.stock;
-  form.pesoGramos.value = btn.dataset.peso || 250;
-  form.descripcion.value = btn.dataset.desc;
-  document.getElementById('checkNuevo').checked = btn.dataset.nuevo === 'true';
+  form.reset();
+  form.action = `/admin/productos/${product.id}?_method=PUT`;
+  form.nombre.value = product.nombre;
+  form.marca.value = product.marca || '';
+  form.tipoVenta.value = product.tipoVenta || 'DIRECTA';
+  form.tipoProducto.value = product.tipoProducto || 'GENERAL';
+  form.categoriaId.value = product.categoriaId;
+  actualizarSubcategorias(String(product.subcategoriaId || ''));
+  form.precio.value = product.precio;
+  form.costo.value = product.costo;
+  form.stock.value = product.stock;
+  form.pesoGramos.value = product.tipoVenta === 'CONSULTA' ? '' : (product.pesoGramos || 250);
+  form.descripcion.value = product.descripcion;
+  form.modoUso.value = product.modoUso || '';
+  form.detallesTecnicos.value = product.detallesTecnicos || '';
+  form.precauciones.value = product.precauciones || '';
+  form.incluyeSostenibilidad.value = product.incluyeSostenibilidad === false ? 'false' : 'true';
+  form.sostenibilidad.value = product.sostenibilidad || '';
+  form.resultadosComprobados.value = product.resultadosComprobados || '';
+  document.getElementById('checkNuevo').checked = product.esNuevo === true;
+  renderProductImages(product.imagenes || []);
   document.getElementById('imgInput').required = false;
   document.getElementById('imgHint').hidden = false;
-  actualizarTipoVenta();
+  actualizarCamposProducto();
   form.nombre.focus();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('tipoVentaSelect')?.addEventListener('change', actualizarTipoVenta);
   document.getElementById('categoriaSelect')?.addEventListener('change', () => actualizarSubcategorias());
 });
 

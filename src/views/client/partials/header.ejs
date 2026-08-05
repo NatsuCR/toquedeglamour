@@ -4,17 +4,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <% const pageTitle = typeof title !== 'undefined' ? `${title} - Toque de Glamour` : 'Toque de Glamour | Cosméticos y belleza'; %>
-  <% const pageDescription = typeof metaDescription !== 'undefined' ? metaDescription : 'Cosméticos, maquillaje, salud, decoración y bienestar con envíos en Costa Rica.'; %>
+  <% const pageTitle = typeof title !== 'undefined' ? `${title} | Toque de Glamour` : 'Toque de Glamour | Cosméticos, salud, hogar y belleza'; %>
+  <% const pageDescription = typeof metaDescription !== 'undefined' ? metaDescription : 'Cosméticos, maquillaje, salud, nutrición, hogar y belleza con entregas en Costa Rica.'; %>
   <% const canonicalUrl = `${siteUrl || ''}${typeof canonical !== 'undefined' ? canonical : canonicalPath || '/'}`; %>
+  <% const imagePath = typeof metaImage !== 'undefined' && metaImage ? metaImage : visual.heroImageUrl || visual.logoUrl || '/img/toque-de-glamour.png'; %>
+  <% const socialImage = /^https?:\/\//.test(imagePath) ? imagePath : `${siteUrl || ''}${imagePath}`; %>
   <title><%= pageTitle %></title>
-  <meta name="description" content="<%= pageDescription %>">
-  <meta name="robots" content="<%= typeof robots !== 'undefined' ? robots : 'index, follow' %>">
-  <link rel="canonical" href="<%= canonicalUrl %>">
-  <meta property="og:title" content="<%= pageTitle %>">
-  <meta property="og:description" content="<%= pageDescription %>">
-  <meta property="og:url" content="<%= canonicalUrl %>">
-  <meta property="og:type" content="website">
+  <%- include('seo-meta', {
+    pageTitle, pageDescription, canonicalUrl, socialImage, visual, siteUrl,
+    robots: typeof robots !== 'undefined' ? robots : undefined,
+    metaType: typeof metaType !== 'undefined' ? metaType : undefined,
+    seoKeywords: typeof seoKeywords !== 'undefined' ? seoKeywords : undefined,
+    seoProduct: typeof seoProduct !== 'undefined' ? seoProduct : undefined,
+    seoBrands: typeof seoBrands !== 'undefined' ? seoBrands : []
+  }) %>
   <link rel="icon" href="/favicon.ico">
   <script>
     (function () {

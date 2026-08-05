@@ -13,7 +13,23 @@ document.addEventListener('click', (event) => {
     preview.hidden = !preview.hidden;
     proof.textContent = preview.hidden ? 'Cargar comprobante' : 'Cerrar comprobante';
   }
+  const edit = event.target.closest('[data-edit-sale]');
+  if (edit) toggleSaleEdit(edit.dataset.editSale, true);
+  const cancelEdit = event.target.closest('[data-cancel-sale-edit]');
+  if (cancelEdit) toggleSaleEdit(cancelEdit.dataset.cancelSaleEdit, false);
 });
+
+function toggleSaleEdit(id, visible) {
+  const form = document.querySelector(`[data-sale-edit-form="${id}"]`);
+  const button = document.querySelector(`#saleModal-${id} [data-edit-sale]`);
+  if (!form) return;
+  form.hidden = !visible;
+  if (button) button.hidden = visible;
+  if (visible) {
+    form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    form.querySelector('input')?.focus();
+  }
+}
 
 document.addEventListener('keydown', (event) => {
   if (event.key !== 'Escape') return;
