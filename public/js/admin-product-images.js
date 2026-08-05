@@ -1,9 +1,27 @@
 function decodeProductData(button) {
   try {
-    return JSON.parse(decodeURIComponent(button.dataset.product || ''));
+    if (button.dataset.product) {
+      return JSON.parse(decodeURIComponent(button.dataset.product));
+    }
   } catch {
-    return null;
+    // Continue with the legacy attributes used before version 0.05.
   }
+  return {
+    id: button.dataset.id,
+    nombre: button.dataset.nombre || '',
+    marca: button.dataset.marca || '',
+    categoriaId: button.dataset.cat || '',
+    subcategoriaId: button.dataset.subcat || '',
+    tipoVenta: button.dataset.tipo || 'DIRECTA',
+    tipoProducto: button.dataset.tipoProducto || 'GENERAL',
+    precio: button.dataset.precio || '',
+    costo: button.dataset.costo || 0,
+    stock: button.dataset.stock || 0,
+    pesoGramos: button.dataset.peso || 250,
+    esNuevo: button.dataset.nuevo === 'true',
+    descripcion: button.dataset.desc || '',
+    imagenes: []
+  };
 }
 
 function renderProductImages(images = []) {

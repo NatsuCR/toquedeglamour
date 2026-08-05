@@ -43,6 +43,12 @@
               imagenes: p.imagenes || []
             }; %>
             <button type="button" class="btn btn-outline btn-sm btn-editar"
+              data-id="<%= p.id %>" data-nombre="<%= p.nombre %>" data-marca="<%= p.marca || '' %>"
+              data-cat="<%= p.categoriaId %>" data-subcat="<%= p.subcategoriaId || '' %>"
+              data-tipo="<%= p.tipoVenta || 'DIRECTA' %>" data-tipo-producto="<%= p.tipoProducto || 'GENERAL' %>"
+              data-precio="<%= p.precio || '' %>" data-costo="<%= p.costo || 0 %>" data-stock="<%= p.stock %>"
+              data-peso="<%= consulta ? '' : (p.pesoGramos || 250) %>" data-nuevo="<%= p.esNuevo %>"
+              data-desc="<%= p.descripcion || '' %>"
               data-product="<%= encodeURIComponent(JSON.stringify(editData)) %>"
               onclick="abrirProductoEditar(this)">Editar</button>
             <form method="POST" action="/admin/productos/<%= p.id %>?_method=DELETE">
