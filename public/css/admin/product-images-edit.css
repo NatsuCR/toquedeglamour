@@ -20,10 +20,13 @@
 }
 
 .product-existing-grid {
-  max-height: 380px;
-  overflow-y: auto;
   padding: .15rem .45rem .15rem 0;
   scrollbar-gutter: stable;
+}
+
+.product-existing-grid.is-scrollable {
+  max-height: 255px;
+  overflow-y: auto;
 }
 
 .product-existing-card {
@@ -35,12 +38,17 @@
   background: var(--surface);
   box-shadow: 0 10px 24px rgba(84, 23, 45, .08);
   transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+  cursor: pointer;
 }
 
 .product-existing-card:hover { transform: translateY(-2px); }
+.product-existing-card:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--primary) 30%, transparent);
+  outline-offset: 2px;
+}
 .product-existing-card.is-marked {
   border-color: var(--danger);
-  background: color-mix(in srgb, var(--danger) 7%, var(--surface));
+  background: color-mix(in srgb, var(--danger) 14%, var(--surface));
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--danger) 18%, transparent);
 }
 
@@ -78,10 +86,9 @@
   border: 1px solid color-mix(in srgb, var(--danger) 28%, var(--glass-border));
   border-radius: 7px;
   color: var(--danger);
-  cursor: pointer;
   font-weight: 800;
 }
-.product-remove-toggle input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.product-remove-input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .product-remove-check {
   position: relative;
   flex: 0 0 22px;
@@ -91,8 +98,8 @@
   border-radius: 6px;
   background: var(--surface);
 }
-.product-remove-toggle input:checked + .product-remove-check { border-color: var(--danger); background: var(--danger); }
-.product-remove-toggle input:checked + .product-remove-check::after {
+.product-existing-card.is-marked .product-remove-check { border-color: var(--danger); background: var(--danger); }
+.product-existing-card.is-marked .product-remove-check::after {
   position: absolute;
   top: 3px;
   left: 7px;
@@ -103,9 +110,9 @@
   content: "";
   transform: rotate(45deg);
 }
-.product-remove-toggle:has(input:focus-visible) { outline: 3px solid color-mix(in srgb, var(--primary) 28%, transparent); }
 
 @media (max-width: 520px) {
   .product-existing-images { padding: .8rem; }
   .product-existing-grid, .product-new-images { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .product-existing-grid.is-scrollable { max-height: 410px; }
 }

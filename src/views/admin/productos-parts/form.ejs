@@ -49,7 +49,7 @@
       <section id="existingProductImages" class="product-existing-images" hidden>
         <div>
           <strong>Imágenes actuales</strong>
-          <small>Conservan este orden. Marca solo las que deseas quitar.</small>
+          <small>Toca una imagen para seleccionarla. Las seleccionadas se quitaran al guardar.</small>
         </div>
         <div id="existingProductImagesGrid" class="product-existing-grid"></div>
       </section>
@@ -65,7 +65,12 @@
         <input type="file" name="imagenes" id="imgInput" accept="image/jpeg, image/png, image/webp" multiple required>
         <small>JPG, PNG o WebP. Al crear, la primera será la principal; al editar, se agregarán al final.</small>
       </label>
-      <p id="productImageSelectionStatus" class="product-upload-status" aria-live="polite"></p>
+      <div class="product-upload-feedback">
+        <p id="productImageSelectionStatus" class="product-upload-status" aria-live="polite"></p>
+        <button id="clearProductImageSelection" class="product-upload-clear" type="button" hidden>
+          Quitar todas
+        </button>
+      </div>
       <div id="newProductImagesPreview" class="product-new-images" aria-live="polite"></div>
 
       <label class="check-row product-feature-toggle">

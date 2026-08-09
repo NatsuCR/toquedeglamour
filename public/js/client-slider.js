@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const next = container.querySelector('.slider-btn-right');
     let offset = 0;
     let motionTimer = null;
+    let autoplayTimer = null;
+    let autoplayStopped = false;
+    let touchStartX = 0;
 
     const getStep = () => {
       const item = track.querySelector('.slider-item');
@@ -18,13 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
       return item.getBoundingClientRect().width + gap;
     };
 
-    const getDesktopMax = () => Math.max(0, track.scrollWidth - track.clientWidth);
-    const getMobileMax = () => Math.max(0, track.scrollWidth - track.clientWidth);
+    const getMax = () => Math.max(0, track.scrollWidth
+      - (mobileQuery.matches ? track.clientWidth : wrapper.clientWidth));
 
     const updateButtons = () => {
       if (!prev || !next) return;
       const position = mobileQuery.matches ? track.scrollLeft : offset;
-      const max = mobileQuery.matches ? getMobileMax() : getDesktopMax();
+      const max = getMax();
       prev.disabled = position <= 1;
       next.disabled = position >= max - 1;
     };
@@ -50,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         track.scrollBy({ left: getStep() * sign, behavior: 'smooth' });
         return;
       }
-      const nextOffset = Math.max(0, Math.min(offset + getStep() * sign, getDesktopMax()));
+      const nextOffset = Math.max(0, Math.min(offset + getStep() * sign, getMax()));
       if (Math.abs(nextOffset - offset) < 1) return updateButtons();
       offset = nextOffset;
       startMotion(direction, button);
@@ -58,8 +61,42 @@ document.addEventListener('DOMContentLoaded', () => {
       updateButtons();
     };
 
-    next?.addEventListener('click', () => move('next', next));
-    prev?.addEventListener('click', () => move('prev', prev));
+    const moveToStart = () => {
+      startMotion('prev');
+      if (mobileQuery.matches) {
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        offset = 0;
+        track.style.transform = 'translateX(0)';
+      }
+      updateButtons();
+    };
+
+    const stopAutoplay = () => {
+      autoplayStopped = true; window.clearInterval(autoplayTimer);
+    };
+
+    const startAutoplay = () => {
+      window.clearInterval(autoplayTimer);
+      if (autoplayStopped || getMax() <= 1) return;
+      autoplayTimer = window.setInterval(() => {
+        const max = getMax();
+        const position = mobileQuery.matches ? track.scrollLeft : offset;
+        if (position >= max - 1) moveToStart();
+        else move('next');
+      }, 5000);
+    };
+
+    next?.addEventListener('click', () => { stopAutoplay(); move('next', next); });
+    prev?.addEventListener('click', () => { stopAutoplay(); move('prev', prev); });
+    track.addEventListener('touchstart', (event) => { touchStartX = event.touches[0]?.clientX || 0; }, { passive: true });
+    track.addEventListener('touchend', (event) => {
+      const endX = event.changedTouches[0]?.clientX || touchStartX;
+      if (Math.abs(endX - touchStartX) > 20) stopAutoplay();
+    }, { passive: true });
+    track.addEventListener('wheel', (event) => {
+      if (Math.abs(event.deltaX) > 1) stopAutoplay();
+    }, { passive: true });
     track.addEventListener('scroll', updateButtons, { passive: true });
 
     const syncMode = () => {
@@ -68,10 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
         track.style.transform = 'none';
       } else {
         track.scrollLeft = 0;
-        offset = Math.min(offset, getDesktopMax());
+        offset = Math.min(offset, getMax());
         track.style.transform = `translateX(-${offset}px)`;
       }
       updateButtons();
+      if (!autoplayTimer) startAutoplay();
     };
 
     window.addEventListener('resize', syncMode);

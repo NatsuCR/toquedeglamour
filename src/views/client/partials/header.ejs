@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('google-tag-manager-head', { gtmId }) %>
   <% const pageTitle = typeof title !== 'undefined' ? `${title} | Toque de Glamour` : 'Toque de Glamour | Cosméticos, salud, hogar y belleza'; %>
   <% const pageDescription = typeof metaDescription !== 'undefined' ? metaDescription : 'Cosméticos, maquillaje, salud, nutrición, hogar y belleza con entregas en Costa Rica.'; %>
   <% const canonicalUrl = `${siteUrl || ''}${typeof canonical !== 'undefined' ? canonical : canonicalPath || '/'}`; %>
@@ -50,6 +51,7 @@
 
 </head>
 <body>
+  <%- include('google-tag-manager-body', { gtmId }) %>
   <nav class="public-nav animate__animated animate__fadeInDown">
     <%- include('navbar', { visual }) %>
   </nav>

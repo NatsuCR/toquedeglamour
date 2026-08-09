@@ -26,6 +26,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.locals.formatMoney = formatMoneyCRC;
 app.locals.formatWeight = formatWeight;
+app.locals.gtmId = process.env.GTM_ID || 'GTM-WD3FHLB3';
 
 app.use(helmet({
   contentSecurityPolicy: false,

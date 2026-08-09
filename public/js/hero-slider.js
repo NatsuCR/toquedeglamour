@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let index = 0;
   let timer = null;
   let touchStartX = 0;
+  let autoplayStopped = false;
 
   const syncZoom = () => {
     if (!zoom || !slides[index]) return;
@@ -46,45 +47,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const start = () => {
     window.clearInterval(timer);
-    if (reduceMotion || slides.length < 2) return;
+    if (autoplayStopped || slides.length < 2) return;
     timer = window.setInterval(() => update(index + 1), 5000);
   };
 
-  const restart = () => {
-    start();
+  const stopAutoplay = () => {
+    autoplayStopped = true;
+    window.clearInterval(timer);
   };
 
   update(0);
   if (slides.length < 2) return;
 
   prev?.addEventListener('click', () => {
+    stopAutoplay();
     update(index - 1);
-    restart();
   });
 
   next?.addEventListener('click', () => {
+    stopAutoplay();
     update(index + 1);
-    restart();
   });
 
   dots.forEach((dot) => {
     dot.addEventListener('click', () => {
+      stopAutoplay();
       update(Number(dot.dataset.heroDot || 0));
-      restart();
     });
   });
 
-  hero.addEventListener('mouseenter', () => window.clearInterval(timer));
-  hero.addEventListener('mouseleave', start);
   hero.addEventListener('touchstart', (event) => {
     touchStartX = event.touches[0]?.clientX || 0;
-    window.clearInterval(timer);
   }, { passive: true });
   hero.addEventListener('touchend', (event) => {
     const endX = event.changedTouches[0]?.clientX || touchStartX;
     const distance = endX - touchStartX;
-    if (Math.abs(distance) > 45) update(index + (distance < 0 ? 1 : -1));
-    start();
+    if (Math.abs(distance) <= 45) return;
+    stopAutoplay();
+    update(index + (distance < 0 ? 1 : -1));
   }, { passive: true });
   start();
 });

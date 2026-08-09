@@ -30,9 +30,14 @@ function renderProductImages(images = []) {
   if (!shell || !grid) return;
   grid.replaceChildren();
   shell.hidden = images.length === 0;
+  grid.classList.toggle('is-scrollable', images.length > 5);
   images.forEach((image, index) => {
     const card = document.createElement('article');
     card.className = 'product-existing-card';
+    card.tabIndex = 0;
+    card.setAttribute('role', 'checkbox');
+    card.setAttribute('aria-checked', 'false');
+    card.setAttribute('aria-label', `Seleccionar imagen ${index + 1} para quitar`);
     const img = document.createElement('img');
     img.src = image.ruta;
     img.alt = `Imagen ${index + 1} del producto`;
@@ -43,70 +48,44 @@ function renderProductImages(images = []) {
     badge.textContent = image.principal ? 'Principal' : String(index + 1).padStart(2, '0');
     const title = document.createElement('strong');
     title.textContent = `Imagen ${index + 1}`;
-    const label = document.createElement('label');
-    label.className = 'product-remove-toggle';
+    const removeControl = document.createElement('div');
+    removeControl.className = 'product-remove-toggle';
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.name = 'removeImageIds';
     checkbox.value = image.id;
+    checkbox.className = 'product-remove-input';
     const check = document.createElement('span');
     check.className = 'product-remove-check';
     const labelText = document.createElement('span');
-    labelText.textContent = 'Quitar';
-    label.append(checkbox, check, labelText);
-    checkbox.addEventListener('change', () => {
+    labelText.textContent = 'Seleccionar';
+    const selectedBadge = document.createElement('span');
+    selectedBadge.className = 'product-selected-badge';
+    selectedBadge.textContent = 'Se quitara al guardar';
+    removeControl.append(checkbox, check, labelText);
+    const syncState = () => {
       card.classList.toggle('is-marked', checkbox.checked);
-      labelText.textContent = checkbox.checked ? 'Marcada para quitar' : 'Quitar';
+      card.setAttribute('aria-checked', String(checkbox.checked));
+      labelText.textContent = checkbox.checked ? 'Seleccionada' : 'Seleccionar';
+    };
+    const toggleCard = () => {
+      checkbox.checked = !checkbox.checked;
+      checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+    };
+    checkbox.addEventListener('change', syncState);
+    card.addEventListener('click', toggleCard);
+    card.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      toggleCard();
     });
-    copy.append(title, label);
-    card.append(img, badge, copy);
+    copy.append(title, removeControl);
+    card.append(img, badge, selectedBadge, copy);
     grid.append(card);
   });
 }
 
 function clearProductImages() {
   renderProductImages([]);
-  const preview = document.getElementById('newProductImagesPreview');
-  if (preview) preview.replaceChildren();
-  updateImageSelectionStatus(0);
+  window.clearNewProductImageSelection?.();
 }
-
-let productPreviewUrls = [];
-
-function updateImageSelectionStatus(count) {
-  const status = document.getElementById('productImageSelectionStatus');
-  if (!status) return;
-  status.textContent = count === 1
-    ? '1 imagen lista para agregar'
-    : count > 1 ? `${count} imágenes listas para agregar` : '';
-}
-
-function renderNewImagePreviews(files) {
-  const preview = document.getElementById('newProductImagesPreview');
-  if (!preview) return;
-  productPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
-  productPreviewUrls = [];
-  preview.replaceChildren();
-  files.forEach((file, index) => {
-    const item = document.createElement('article');
-    item.className = 'product-new-image-card';
-    const image = document.createElement('img');
-    const url = URL.createObjectURL(file);
-    productPreviewUrls.push(url);
-    image.src = url;
-    image.alt = `Vista previa de ${file.name}`;
-    const badge = document.createElement('strong');
-    badge.textContent = index === 0 ? 'Primera nueva' : `Nueva ${index + 1}`;
-    const copy = document.createElement('span');
-    copy.textContent = file.name;
-    item.append(image, badge, copy);
-    preview.append(item);
-  });
-  updateImageSelectionStatus(files.length);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('imgInput')?.addEventListener('change', (event) => {
-    renderNewImagePreviews(Array.from(event.target.files || []));
-  });
-});
