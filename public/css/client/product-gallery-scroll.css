@@ -1,0 +1,29 @@
+.product-thumbs.is-scrollable {
+  display: flex;
+  width: 100%;
+  overflow-x: auto;
+  padding: 0.15rem 0 0.55rem;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--surface-soft);
+}
+
+.product-thumbs.is-scrollable button {
+  flex: 0 0 68px;
+  scroll-snap-align: start;
+}
+
+.product-thumbs.is-scrollable::-webkit-scrollbar {
+  height: 7px;
+}
+
+.product-thumbs.is-scrollable::-webkit-scrollbar-track {
+  border-radius: var(--radius-pill);
+  background: var(--surface-soft);
+}
+
+.product-thumbs.is-scrollable::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+}

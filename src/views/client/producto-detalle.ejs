@@ -35,7 +35,7 @@
       </div>
 
       <% if (imagenesProducto.length > 1) { %>
-        <div class="product-thumbs" aria-label="Imágenes del producto">
+        <div class="product-thumbs <%= imagenesProducto.length > 6 ? 'is-scrollable' : '' %>" aria-label="Imágenes del producto">
           <% imagenesProducto.forEach((img, index) => { %>
             <button
               type="button"
