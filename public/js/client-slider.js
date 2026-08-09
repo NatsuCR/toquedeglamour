@@ -21,8 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return item.getBoundingClientRect().width + gap;
     };
 
-    const getMax = () => Math.max(0, track.scrollWidth
-      - (mobileQuery.matches ? track.clientWidth : wrapper.clientWidth));
+    const getMax = () => Math.max(0, track.scrollWidth - track.clientWidth);
 
     const updateButtons = () => {
       if (!prev || !next) return;
