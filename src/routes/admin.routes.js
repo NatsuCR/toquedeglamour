@@ -38,6 +38,7 @@ router.get('/', staff, (req, res) => {
   res.redirect(res.locals.admin.rol === 'EMPLEADO' ? '/admin/ventas' : '/admin/dashboard');
 });
 router.get('/logout', staff, AdminController.logout);
+router.post('/session/activity', staff, AdminController.activity);
 router.get('/ventas', staff, SalesController.render);
 router.post('/ventas', salesUpload, SalesController.create);
 router.put('/ventas/:id', salesUpload, SalesController.update);

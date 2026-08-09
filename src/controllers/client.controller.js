@@ -1,6 +1,8 @@
 import { ProductoService } from '../services/producto.service.js';
 import { SeoCatalogService } from '../services/seo-catalog.service.js';
-import { ClientSeoService, aboutMeta, locationMeta } from '../services/client-seo.service.js';
+import {
+  ClientSeoService, aboutMeta, internationalMeta, locationMeta
+} from '../services/client-seo.service.js';
 
 function getFilters(req, overrides = {}) {
   return {
@@ -83,6 +85,13 @@ export class ClientController {
 
   static renderQuienesSomos(req, res) {
     res.render('client/quienes-somos', { user: res.locals.cliente, ...aboutMeta });
+  }
+
+  static renderInternacional(req, res) {
+    res.render('client/internacional', {
+      user: res.locals.cliente,
+      ...internationalMeta
+    });
   }
 
   static renderUbicacion(req, res) {

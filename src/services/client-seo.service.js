@@ -60,6 +60,14 @@ export const aboutMeta = {
   metaDescription: 'Conoce Toque de Glamour, tienda de cosméticos, salud, nutrición, hogar y belleza en San Carlos, Costa Rica.'
 };
 
+export const internationalMeta = {
+  title: 'Pedidos internacionales de Farmasi',
+  canonical: '/internacional',
+  metaImage: '/img/farmasi-internacional.png',
+  metaDescription: 'Compra productos Farmasi desde otros paises mediante la tienda oficial internacional vinculada con Toque de Glamour.',
+  seoKeywords: 'Farmasi internacional, comprar Farmasi, Farmasi USA, productos Farmasi, Toque de Glamour'
+};
+
 export const locationMeta = {
   title: 'Ubicación en San Carlos', canonical: '/ubicacion',
   metaDescription: 'Visita Toque de Glamour en Muelle de San Carlos, Alajuela, Costa Rica.'

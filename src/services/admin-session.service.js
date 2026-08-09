@@ -1,4 +1,5 @@
 import { AnalyticsRecordService } from './analytics-record.service.js';
+import { startAdminActivity } from './admin-inactivity.service.js';
 
 export async function startAdminSession(req, admin) {
   try {
@@ -13,6 +14,7 @@ export async function startAdminSession(req, admin) {
       req.session.adminId = admin.id;
       req.session.adminCorreo = admin.correo;
       req.session.adminRol = admin.rol || 'ADMINISTRADOR';
+      startAdminActivity(req);
       const destination = admin.rol === 'EMPLEADO'
         ? '/admin/ventas'
         : '/admin/dashboard';

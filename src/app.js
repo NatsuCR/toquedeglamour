@@ -12,12 +12,14 @@ import { injectSiteSettings } from './middlewares/site-settings.middleware.js';
 import { formatMoneyCRC } from './utils/money.js';
 import { formatWeight } from './services/shipping.service.js';
 import { trackSiteVisit } from './middlewares/analytics.middleware.js';
+import { rejectKnownExploitProbe } from './middlewares/security-probe.middleware.js';
 import { SeoController } from './controllers/seo.controller.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 app.set('trust proxy', 1);
+app.disable('x-powered-by');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -53,6 +55,7 @@ app.use(session({
   }
 }));
 
+app.use(rejectKnownExploitProbe);
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(trackSiteVisit);
 app.use(injectSiteSettings);

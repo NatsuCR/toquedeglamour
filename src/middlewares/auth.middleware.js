@@ -1,4 +1,5 @@
 // src/middlewares/auth.middleware.js
+import { validateAdminActivity } from '../services/admin-inactivity.service.js';
 /**
  * ============================================================================
  * MIDDLEWARES DE AUTENTICACIÓN Y AUTORIZACIÓN
@@ -9,7 +10,6 @@
  * Cumple con la separación de responsabilidades: los controladores no deben
  * encargarse de validar la sesión manualmente.
  */
-
 /**
  * Middleware para proteger rutas exclusivas del Administrador.
  * Verifica que exista una sesión activa y que el rol o identificador
@@ -36,6 +36,7 @@ export const requireAdminAuth = (req, res, next) => {
     return res.redirect('/admin/login');
   }
 
+  if (!validateAdminActivity(req, res)) return;
   // Si está autenticado, agregamos la info del admin a res.locals
   // para que esté disponible automáticamente en las vistas EJS
   res.locals.admin = {

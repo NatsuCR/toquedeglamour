@@ -38,6 +38,8 @@ router.get('/catalogo/marca/:marcaSlug', ClientController.renderCatalogoMarca);
 router.get('/catalogo/categoria/:categoriaSlug', ClientController.renderCatalogoCategoria);
 router.get('/catalogo/categoria/:categoriaSlug/:subcategoriaSlug', ClientController.renderCatalogoSubcategoria);
 router.get('/marcas', BrandCollaborationController.publico);
+router.get('/internacional', ClientController.renderInternacional);
+router.get('/internacionales', (req, res) => res.redirect(301, '/internacional'));
 router.get('/quienes-somos', ClientController.renderQuienesSomos);
 router.get('/ubicacion', ClientController.renderUbicacion);
 router.get('/terminos-condiciones', LegalController.terminos);

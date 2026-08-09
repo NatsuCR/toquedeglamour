@@ -3,6 +3,7 @@ import { SitemapService } from '../services/sitemap.service.js';
 export class SeoController {
   static async sitemap(req, res) {
     try {
+      res.set('Cache-Control', 'no-cache, must-revalidate');
       res.type('application/xml').send(await SitemapService.xml(req));
     } catch (error) {
       console.error('Error generando sitemap:', error.message);
@@ -11,6 +12,7 @@ export class SeoController {
   }
 
   static robots(req, res) {
+    res.set('Cache-Control', 'no-cache, must-revalidate');
     res.type('text/plain').send(SitemapService.robots(req));
   }
 

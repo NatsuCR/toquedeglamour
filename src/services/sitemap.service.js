@@ -1,7 +1,7 @@
 import { SeoCatalogService } from './seo-catalog.service.js';
 
 const PUBLIC_ROUTES = [
-  '/', '/catalogo', '/marcas', '/quienes-somos', '/ubicacion',
+  '/', '/catalogo', '/marcas', '/internacional', '/quienes-somos', '/ubicacion',
   '/terminos-condiciones', '/politica-privacidad', '/politica-envios',
   '/cambios-devoluciones'
 ];

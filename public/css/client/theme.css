@@ -14,7 +14,7 @@
   --surface: rgba(255, 255, 255, 0.86);
   --surface-strong: #ffffff;
   --text-main: #321a25;
-  --text-muted: #7d6470;
+  --text-muted: #21151b;
   --glass-border: rgba(123, 36, 70, 0.16);
   --line: rgba(123, 36, 70, 0.12);
   --danger: #b4233f;
@@ -39,7 +39,7 @@
   --surface: rgba(32, 22, 29, 0.86);
   --surface-strong: #20161d;
   --text-main: #fff4f8;
-  --text-muted: #ceb7c1;
+  --text-muted: #fff4f8;
   --glass-border: rgba(255, 244, 248, 0.14);
   --line: rgba(255, 244, 248, 0.12);
   --danger: #ff8ca0;

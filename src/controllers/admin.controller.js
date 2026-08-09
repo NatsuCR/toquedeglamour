@@ -4,15 +4,22 @@ import prisma from '../config/db.js';
 import { FinanceStatsService } from '../services/finance-stats.service.js';
 import { AnalyticsReportService } from '../services/analytics-report.service.js';
 import { startAdminSession } from '../services/admin-session.service.js';
+import { touchAdminActivity } from '../services/admin-inactivity.service.js';
 
 export class AdminController {
   static renderLoginForm(req, res) {
-    const error = req.session.loginError || null;
+    const error = req.session.loginError || (req.query.inactividad
+      ? 'Tu sesion se cerro despues de 3 horas sin actividad.'
+      : null);
     delete req.session.loginError;
     if (req.xhr || req.headers.accept?.includes('application/json')) {
       return res.status(200).json({ message: 'Por favor inicia sesion en /admin/login' });
     }
     res.render('admin/login', { error, admin: null });
+  }
+
+  static activity(req, res) {
+    touchAdminActivity(req, res);
   }
 
   static async processLogin(req, res) {
