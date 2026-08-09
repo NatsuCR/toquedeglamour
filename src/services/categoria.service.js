@@ -56,7 +56,6 @@ export class CategoriaService {
     if (!existe) throw new Error('Categoria no encontrada.');
     const nombre = data.nombre ? data.nombre.trim() : existe.nombre;
     const cambioNombre = nombre !== existe.nombre;
-
     return prisma.categoria.update({
       where: { id: cid },
       data: {
@@ -75,13 +74,11 @@ export class CategoriaService {
     }
     return prisma.categoria.delete({ where: { id: cid } });
   }
-
   static async crearSubcategoria(categoriaId, data) {
     const cid = Number.parseInt(categoriaId, 10);
     if (!data.nombre) throw new Error('El nombre de la subcategoria es obligatorio.');
     const categoria = await prisma.categoria.findUnique({ where: { id: cid } });
     if (!categoria) throw new Error('Categoria no encontrada.');
-
     return prisma.subcategoria.create({
       data: {
         categoriaId: cid,
@@ -91,7 +88,26 @@ export class CategoriaService {
       }
     });
   }
-
+  static async actualizarSubcategoria(id, data) {
+    const sid = Number.parseInt(id, 10);
+    const nombre = String(data.nombre || '').trim();
+    if (!nombre) throw new Error('El nombre de la subcategoria es obligatorio.');
+    const existe = await prisma.subcategoria.findUnique({
+      where: { id: sid },
+      include: { categoria: { select: { nombre: true } } }
+    });
+    if (!existe) throw new Error('Subcategoria no encontrada.');
+    const cambioNombre = nombre !== existe.nombre;
+    return prisma.subcategoria.update({
+      where: { id: sid },
+      data: {
+        nombre,
+        slug: cambioNombre
+          ? await uniqueSlug(prisma.subcategoria, `${existe.categoria.nombre} ${nombre}`, sid)
+          : existe.slug
+      }
+    });
+  }
   static async eliminarSubcategoria(id) {
     const sid = Number.parseInt(id, 10);
     const productos = await prisma.producto.count({ where: { subcategoriaId: sid } });

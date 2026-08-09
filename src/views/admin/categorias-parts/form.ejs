@@ -22,3 +22,26 @@
     </form>
   </div>
 </section>
+
+<section id="subcategoryFormPanel" class="admin-modal-shell is-hidden" role="dialog" aria-modal="true">
+  <div class="admin-modal-backdrop" onclick="cerrarSubcategoriaForm()"></div>
+  <div class="admin-modal-card admin-modal-card-sm">
+    <div class="form-panel-head">
+      <div>
+        <span>Subcategoria</span>
+        <h2>Editar subcategoria</h2>
+        <p>Corrige el nombre sin perder los productos asociados.</p>
+      </div>
+      <button class="admin-modal-close" type="button" onclick="cerrarSubcategoriaForm()" aria-label="Cerrar">X</button>
+    </div>
+    <form id="subcategoryEditForm" method="POST">
+      <div class="admin-form-grid one-column">
+        <label>Nombre<input type="text" name="nombre" class="form-control" required></label>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn">Guardar cambios</button>
+        <button type="button" class="btn btn-outline" onclick="cerrarSubcategoriaForm()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,23 @@
+<% const internationalSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${canonicalUrl}#webpage`,
+  url: canonicalUrl,
+  name: 'Pedidos internacionales de Farmasi',
+  description: 'Acceso a productos Farmasi internacionales y al programa Customer mediante la tienda oficial vinculada con Toque de Glamour.',
+  inLanguage: 'es-CR',
+  about: { '@type': 'Brand', name: 'Farmasi' },
+  potentialAction: [
+    {
+      '@type': 'ViewAction',
+      name: 'Visitar la tienda internacional de Farmasi',
+      target: 'https://www.farmasius.com/toquedeglamour'
+    },
+    {
+      '@type': 'RegisterAction',
+      name: 'Registrarse en el programa Customer de Farmasi',
+      target: 'https://www.farmasius.com/toquedeglamour/register/customer'
+    }
+  ]
+}; %>
+<script type="application/ld+json"><%- JSON.stringify(internationalSchema) %></script>

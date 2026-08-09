@@ -1,0 +1,22 @@
+@media (max-width: 760px) {
+  .product-gallery-arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .product-gallery-arrow.is-prev { left: 0.5rem; }
+  .product-gallery-arrow.is-next { right: 0.5rem; }
+
+  .product-thumbs {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+
+  .product-thumbs button {
+    flex: 0 0 68px;
+    scroll-snap-align: start;
+  }
+}

@@ -32,13 +32,18 @@
           <% c.subcategorias.forEach((sub) => { %>
             <div class="subcategory-pill">
               <span><%= sub.nombre %> <small><%= sub._count?.productos || 0 %> productos</small></span>
-              <form method="POST" action="/admin/subcategorias/<%= sub.id %>/eliminar">
-                <% if (sub._count?.productos > 0) { %>
-                  <button type="button" class="is-disabled" title="Tiene productos">&times;</button>
-                <% } else { %>
-                  <button type="submit" title="Eliminar" onclick="return confirm('Eliminar subcategoria?');">&times;</button>
-                <% } %>
-              </form>
+              <div class="subcategory-actions">
+                <button type="button" class="subcategory-edit-btn"
+                  data-id="<%= sub.id %>" data-nombre="<%= sub.nombre %>"
+                  onclick="abrirSubcategoriaEditar(this)">Editar</button>
+                <form method="POST" action="/admin/subcategorias/<%= sub.id %>/eliminar">
+                  <% if (sub._count?.productos > 0) { %>
+                    <button type="button" class="is-disabled" title="Tiene productos">&times;</button>
+                  <% } else { %>
+                    <button type="submit" title="Eliminar" onclick="return confirm('Eliminar subcategoria?');">&times;</button>
+                  <% } %>
+                </form>
+              </div>
             </div>
           <% }) %>
         </div>

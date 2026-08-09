@@ -3,7 +3,6 @@
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 1.1rem;
 }
-
 .category-admin-card {
   display: grid;
   gap: 1rem;
@@ -15,35 +14,29 @@
   box-shadow: var(--shadow-soft);
   padding: 1.05rem;
 }
-
 .category-admin-card header {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 1rem;
   align-items: flex-start;
 }
-
 .category-admin-card .row-actions {
   flex-direction: column;
   align-items: stretch;
 }
-
 .category-admin-card .row-actions .btn {
   min-width: 112px;
 }
-
 .category-admin-card h3 {
   margin: 0.45rem 0 0.25rem;
   color: var(--primary-strong);
   font-family: var(--font-serif);
   font-size: 1.45rem;
 }
-
 .subcategory-stack {
   display: grid;
   gap: 0.5rem;
 }
-
 .subcategory-pill {
   display: flex;
   justify-content: space-between;
@@ -55,7 +48,6 @@
   padding: 0.58rem 0.7rem;
   font-weight: 900;
 }
-
 .subcategory-pill small {
   display: block;
   color: var(--text-muted);
@@ -71,6 +63,28 @@
   background: color-mix(in srgb, var(--primary) 14%, transparent);
   font-size: 1.15rem;
   cursor: pointer;
+}
+
+.subcategory-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 0 0 auto;
+}
+
+.subcategory-actions form {
+  margin: 0;
+}
+
+.subcategory-pill .subcategory-edit-btn {
+  width: auto;
+  min-width: 62px;
+  padding: 0 0.65rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 9px;
+  background: var(--surface-strong);
+  font-size: 0.78rem;
+  font-weight: 900;
 }
 
 .subcategory-pill button.is-disabled {

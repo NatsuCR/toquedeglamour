@@ -66,6 +66,7 @@ router.post('/categorias', admin, CategoriaController.crear);
 router.put('/categorias/:id', admin, CategoriaController.actualizar);
 router.delete('/categorias/:id', admin, CategoriaController.eliminar);
 router.post('/categorias/:id/subcategorias', admin, CategoriaController.crearSubcategoria);
+router.put('/subcategorias/:id', admin, CategoriaController.actualizarSubcategoria);
 router.post('/subcategorias/:id/eliminar', admin, CategoriaController.eliminarSubcategoria);
 
 router.get('/productos', admin, ProductoController.listar);

@@ -32,8 +32,27 @@ function abrirCategoriaEditar(btn) {
   form.nombre.focus();
 }
 
+function subcategoryPanel() {
+  return document.getElementById('subcategoryFormPanel');
+}
+
+function abrirSubcategoriaEditar(btn) {
+  const panel = subcategoryPanel();
+  const form = document.getElementById('subcategoryEditForm');
+  panel.classList.remove('is-hidden');
+  document.body.classList.add('admin-modal-open');
+  form.action = `/admin/subcategorias/${btn.dataset.id}?_method=PUT`;
+  form.nombre.value = btn.dataset.nombre;
+  form.nombre.focus();
+}
+
+function cerrarSubcategoriaForm() {
+  subcategoryPanel().classList.add('is-hidden');
+  document.body.classList.remove('admin-modal-open');
+}
+
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && !categoryPanel().classList.contains('is-hidden')) {
-    cerrarCategoriaForm();
-  }
+  if (event.key !== 'Escape') return;
+  if (!categoryPanel().classList.contains('is-hidden')) cerrarCategoriaForm();
+  if (!subcategoryPanel().classList.contains('is-hidden')) cerrarSubcategoriaForm();
 });

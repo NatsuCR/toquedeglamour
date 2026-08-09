@@ -15,17 +15,24 @@
 <section class="product-detail animate__animated animate__fadeIn">
   <div class="product-detail-media">
     <% if (imagenesProducto.length) { %>
-      <button
-        type="button"
-        class="product-main-image"
-        data-product-main
-        data-lightbox-src="<%= imagenesProducto[0].ruta %>"
-        data-lightbox-alt="<%= producto.nombre %>"
-        aria-label="Ampliar imagen de <%= producto.nombre %>"
-      >
-        <img src="<%= imagenesProducto[0].ruta %>" alt="<%= producto.nombre %>" data-product-main-img>
-        <span>Ampliar</span>
-      </button>
+      <div class="product-gallery-stage" data-product-stage>
+        <button
+          type="button"
+          class="product-main-image"
+          data-product-main
+          data-lightbox-src="<%= imagenesProducto[0].ruta %>"
+          data-lightbox-alt="<%= producto.nombre %>"
+          aria-label="Ampliar imagen de <%= producto.nombre %>"
+        >
+          <img src="<%= imagenesProducto[0].ruta %>" alt="<%= producto.nombre %>" data-product-main-img>
+          <span>Ampliar</span>
+        </button>
+
+        <% if (imagenesProducto.length > 1) { %>
+          <button class="product-gallery-arrow is-prev" type="button" data-product-prev aria-label="Imagen anterior">&#8249;</button>
+          <button class="product-gallery-arrow is-next" type="button" data-product-next aria-label="Imagen siguiente">&#8250;</button>
+        <% } %>
+      </div>
 
       <% if (imagenesProducto.length > 1) { %>
         <div class="product-thumbs" aria-label="Imágenes del producto">

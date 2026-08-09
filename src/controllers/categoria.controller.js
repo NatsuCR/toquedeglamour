@@ -54,6 +54,15 @@ export class CategoriaController {
     }
   }
 
+  static async actualizarSubcategoria(req, res) {
+    try {
+      await CategoriaService.actualizarSubcategoria(req.params.id, req.body);
+      res.redirect('/admin/categorias?success=Subcategoria+actualizada');
+    } catch (error) {
+      res.redirect(`/admin/categorias?error=${encodeURIComponent(error.message)}`);
+    }
+  }
+
   static async eliminarSubcategoria(req, res) {
     try {
       await CategoriaService.eliminarSubcategoria(req.params.id);
