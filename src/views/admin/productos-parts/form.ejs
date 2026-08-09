@@ -54,15 +54,23 @@
         <div id="existingProductImagesGrid" class="product-existing-grid"></div>
       </section>
 
-      <label class="admin-file-field">
-        <span>Imágenes del producto <small id="imgHint" hidden>(opcional al editar)</small></span>
+      <label class="admin-file-field product-upload-field">
+        <span class="product-upload-heading">
+          <span class="product-upload-icon" aria-hidden="true">+</span>
+          <span>
+            <strong>Agregar imágenes</strong>
+            <small id="imgHint" hidden>Opcional al editar</small>
+          </span>
+        </span>
         <input type="file" name="imagenes" id="imgInput" accept="image/jpeg, image/png, image/webp" multiple required>
-        <small>Al crear, la primera será la principal. Al editar, las nuevas se agregan al final.</small>
+        <small>JPG, PNG o WebP. Al crear, la primera será la principal; al editar, se agregarán al final.</small>
       </label>
+      <p id="productImageSelectionStatus" class="product-upload-status" aria-live="polite"></p>
       <div id="newProductImagesPreview" class="product-new-images" aria-live="polite"></div>
 
-      <label class="check-row">
+      <label class="check-row product-feature-toggle">
         <input type="checkbox" name="esNuevo" id="checkNuevo">
+        <span class="product-feature-check" aria-hidden="true"></span>
         <span>Marcar como nuevo <small>Aparece en "Recién llegados" por 30 días.</small></span>
       </label>
 

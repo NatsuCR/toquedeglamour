@@ -1,0 +1,112 @@
+.product-upload-field {
+  padding: 1rem 1.1rem;
+  border-style: solid;
+}
+
+.product-upload-heading {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+}
+
+.product-upload-heading > span:last-child {
+  display: grid;
+  gap: .12rem;
+}
+
+.product-upload-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 8px;
+  color: #fff;
+  background: #7b2446;
+  font-size: 1.45rem;
+}
+
+.product-upload-field input {
+  padding: .55rem;
+  border: 1px dashed var(--glass-border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.product-upload-field input::file-selector-button {
+  min-height: 40px;
+  color: #fff;
+  background: #7b2446;
+  cursor: pointer;
+}
+
+.product-upload-status {
+  min-height: 1.2rem;
+  margin: .55rem 0 0;
+  color: var(--success);
+  font-weight: 800;
+}
+
+.product-new-images:not(:empty) { margin-top: .6rem; }
+.product-new-image-card {
+  display: grid;
+  gap: .35rem;
+  min-width: 0;
+  padding: .5rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.product-new-image-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.product-new-image-card strong {
+  color: var(--primary);
+  font-size: .78rem;
+}
+
+.product-new-image-card span {
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: .75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-feature-toggle {
+  position: relative;
+  width: 100%;
+  min-height: 54px;
+  padding: .7rem .85rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  background: var(--surface-soft);
+  cursor: pointer;
+}
+
+.product-feature-toggle input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.product-feature-check {
+  position: relative;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--primary);
+  border-radius: 7px;
+  background: var(--surface);
+}
+.product-feature-toggle input:checked + .product-feature-check { background: var(--primary); }
+.product-feature-toggle input:checked + .product-feature-check::after {
+  position: absolute;
+  top: 3px;
+  left: 7px;
+  width: 6px;
+  height: 11px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  content: "";
+  transform: rotate(45deg);
+}

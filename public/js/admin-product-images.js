@@ -38,16 +38,28 @@ function renderProductImages(images = []) {
     img.alt = `Imagen ${index + 1} del producto`;
     const copy = document.createElement('div');
     copy.className = 'product-image-copy';
+    const badge = document.createElement('span');
+    badge.className = image.principal ? 'product-image-badge is-main' : 'product-image-badge';
+    badge.textContent = image.principal ? 'Principal' : String(index + 1).padStart(2, '0');
     const title = document.createElement('strong');
-    title.textContent = image.principal ? `Imagen ${index + 1} - Principal` : `Imagen ${index + 1}`;
+    title.textContent = `Imagen ${index + 1}`;
     const label = document.createElement('label');
+    label.className = 'product-remove-toggle';
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.name = 'removeImageIds';
     checkbox.value = image.id;
-    label.append(checkbox, document.createTextNode(' Quitar'));
+    const check = document.createElement('span');
+    check.className = 'product-remove-check';
+    const labelText = document.createElement('span');
+    labelText.textContent = 'Quitar';
+    label.append(checkbox, check, labelText);
+    checkbox.addEventListener('change', () => {
+      card.classList.toggle('is-marked', checkbox.checked);
+      labelText.textContent = checkbox.checked ? 'Marcada para quitar' : 'Quitar';
+    });
     copy.append(title, label);
-    card.append(img, copy);
+    card.append(img, badge, copy);
     grid.append(card);
   });
 }
@@ -56,17 +68,45 @@ function clearProductImages() {
   renderProductImages([]);
   const preview = document.getElementById('newProductImagesPreview');
   if (preview) preview.replaceChildren();
+  updateImageSelectionStatus(0);
+}
+
+let productPreviewUrls = [];
+
+function updateImageSelectionStatus(count) {
+  const status = document.getElementById('productImageSelectionStatus');
+  if (!status) return;
+  status.textContent = count === 1
+    ? '1 imagen lista para agregar'
+    : count > 1 ? `${count} imágenes listas para agregar` : '';
+}
+
+function renderNewImagePreviews(files) {
+  const preview = document.getElementById('newProductImagesPreview');
+  if (!preview) return;
+  productPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
+  productPreviewUrls = [];
+  preview.replaceChildren();
+  files.forEach((file, index) => {
+    const item = document.createElement('article');
+    item.className = 'product-new-image-card';
+    const image = document.createElement('img');
+    const url = URL.createObjectURL(file);
+    productPreviewUrls.push(url);
+    image.src = url;
+    image.alt = `Vista previa de ${file.name}`;
+    const badge = document.createElement('strong');
+    badge.textContent = index === 0 ? 'Primera nueva' : `Nueva ${index + 1}`;
+    const copy = document.createElement('span');
+    copy.textContent = file.name;
+    item.append(image, badge, copy);
+    preview.append(item);
+  });
+  updateImageSelectionStatus(files.length);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('imgInput')?.addEventListener('change', (event) => {
-    const preview = document.getElementById('newProductImagesPreview');
-    if (!preview) return;
-    preview.replaceChildren();
-    Array.from(event.target.files || []).forEach((file, index) => {
-      const item = document.createElement('span');
-      item.textContent = `Nueva ${index + 1}: ${file.name}`;
-      preview.append(item);
-    });
+    renderNewImagePreviews(Array.from(event.target.files || []));
   });
 });

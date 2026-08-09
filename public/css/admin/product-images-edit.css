@@ -1,77 +1,111 @@
 .product-existing-images {
   display: grid;
-  gap: .8rem;
+  gap: 1rem;
   margin-top: 1rem;
-  border: 1px solid var(--line);
+  padding: 1rem;
+  border: 1px solid var(--glass-border);
   border-radius: 8px;
   background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
-  padding: 1rem;
 }
 
-.product-existing-images > div:first-child,
-.product-image-copy {
-  display: grid;
-  gap: .25rem;
-}
+.product-existing-images > div:first-child { display: grid; gap: .2rem; }
+.product-existing-images > div:first-child strong { font-size: 1rem; }
+.product-existing-images > div:first-child small { color: var(--text-muted); }
 
 .product-existing-grid,
 .product-new-images {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(118px, 140px));
-  gap: .75rem;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+  gap: .8rem;
 }
 
 .product-existing-grid {
-  max-height: 310px;
+  max-height: 380px;
   overflow-y: auto;
-  align-items: start;
-  justify-content: start;
-  padding: .15rem .35rem .15rem 0;
+  padding: .15rem .45rem .15rem 0;
   scrollbar-gutter: stable;
 }
 
 .product-existing-card {
+  position: relative;
   overflow: hidden;
-  width: 100%;
-  max-width: 140px;
-  border: 1px solid var(--line);
+  min-width: 0;
+  border: 1px solid var(--glass-border);
   border-radius: 8px;
   background: var(--surface);
+  box-shadow: 0 10px 24px rgba(84, 23, 45, .08);
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.product-existing-card:hover { transform: translateY(-2px); }
+.product-existing-card.is-marked {
+  border-color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 7%, var(--surface));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--danger) 18%, transparent);
 }
 
 .product-existing-card img {
   display: block;
   width: 100%;
-  height: 108px;
-  object-fit: contain;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
   background: var(--surface-strong);
+  transition: opacity .2s ease, filter .2s ease;
 }
 
-.product-image-copy {
-  padding: .55rem;
-  font-size: .82rem;
+.product-existing-card.is-marked img { opacity: .52; filter: grayscale(.5); }
+.product-image-badge {
+  position: absolute;
+  top: .55rem;
+  left: .55rem;
+  padding: .25rem .5rem;
+  border-radius: 999px;
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  font-size: .72rem;
+  font-weight: 900;
+  box-shadow: 0 3px 10px color-mix(in srgb, #000 16%, transparent);
 }
+.product-image-badge.is-main { color: #fff; background: var(--primary-strong); }
+.product-image-copy { display: grid; gap: .55rem; padding: .65rem; font-size: .82rem; }
 
-.product-image-copy label {
+.product-remove-toggle {
   display: flex;
   align-items: center;
-  gap: .45rem;
+  min-height: 38px;
+  gap: .5rem;
+  padding: .42rem .55rem;
+  border: 1px solid color-mix(in srgb, var(--danger) 28%, var(--glass-border));
+  border-radius: 7px;
   color: var(--danger);
+  cursor: pointer;
+  font-weight: 800;
 }
-
-.product-new-images:not(:empty) {
-  margin-top: .75rem;
+.product-remove-toggle input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.product-remove-check {
+  position: relative;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  border: 2px solid color-mix(in srgb, var(--danger) 55%, var(--glass-border));
+  border-radius: 6px;
+  background: var(--surface);
 }
-
-.product-new-images span {
-  overflow-wrap: anywhere;
-  border: 1px dashed var(--line);
-  border-radius: 8px;
-  padding: .65rem;
+.product-remove-toggle input:checked + .product-remove-check { border-color: var(--danger); background: var(--danger); }
+.product-remove-toggle input:checked + .product-remove-check::after {
+  position: absolute;
+  top: 3px;
+  left: 7px;
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  content: "";
+  transform: rotate(45deg);
 }
+.product-remove-toggle:has(input:focus-visible) { outline: 3px solid color-mix(in srgb, var(--primary) 28%, transparent); }
 
 @media (max-width: 520px) {
-  .product-existing-grid {
-    grid-template-columns: repeat(2, minmax(0, 128px));
-  }
+  .product-existing-images { padding: .8rem; }
+  .product-existing-grid, .product-new-images { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
