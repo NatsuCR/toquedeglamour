@@ -45,15 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
     next.disabled = currentIndex === gallery.length - 1;
   };
 
-  const readGallery = (trigger, src, alt) => {
+const readGallery = (trigger, src, alt) => {
     if (!trigger?.matches('[data-product-main]')) return [{ src, alt }];
     const thumbs = Array.from(document.querySelectorAll('[data-product-thumb]'));
-    return thumbs.map((thumb, index) => ({
+    const gallery = thumbs.map((thumb, index) => ({
       src: thumb.dataset.productThumb,
       alt: `${alt} ${index + 1}`
     })).filter((item) => item.src);
+    return gallery.length > 0 ? gallery : [{ src, alt }];
   };
-
+  
   const openLightbox = (src, alt = 'Imagen ampliada', trigger = null) => {
     if (!src) return;
     ensureLightbox();
