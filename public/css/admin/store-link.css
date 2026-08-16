@@ -1,0 +1,16 @@
+.admin-nav .admin-store-link { margin-bottom: 8px; }
+
+.admin-nav .admin-store-link a {
+  border: 1px solid color-mix(in srgb, var(--secondary) 55%, var(--glass-border));
+  color: var(--primary-strong);
+  background: linear-gradient(110deg,
+    color-mix(in srgb, var(--secondary) 16%, var(--surface)), var(--surface));
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--secondary) 12%, transparent);
+}
+
+.admin-nav .admin-store-link a::before {
+  content: "←";
+  margin-right: .5rem;
+  color: var(--secondary);
+  font-weight: 900;
+}

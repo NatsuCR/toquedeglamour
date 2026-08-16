@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const items = selectedItems();
     const subtotal = items.reduce((sum, item) => sum + item.price * item.cantidad, 0);
     const iva = form.dataset.ivaActive === 'true'
-      ? subtotal * (Number(form.dataset.ivaRate || 0) / 100)
+      ? subtotal * Number(form.dataset.ivaRate || 0) / (100 + Number(form.dataset.ivaRate || 0))
       : 0;
     const employee = document.body.dataset.role === 'EMPLEADO';
     form.querySelector('[data-items-json]').value = JSON.stringify(items.map((item) => ({
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     form.querySelector('[data-sale-subtotal]').textContent = money(subtotal);
     form.querySelector('[data-sale-iva]').textContent = money(iva);
     form.querySelector('[data-sale-commission]').textContent = money(employee ? subtotal * 0.1 : 0);
-    form.querySelector('[data-sale-total]').textContent = money(subtotal + iva);
+    form.querySelector('[data-sale-total]').textContent = money(subtotal);
   }
 
   function filterProducts() {

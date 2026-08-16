@@ -10,6 +10,10 @@ const FEATURED_BRANDS = [
   'Dr. C. Tuna'
 ];
 
+const BRAND_SLUG_ALIASES = new Map([
+  ['drape-ross', 'drapes-ross']
+]);
+
 export const brandSlug = (value) => toSlug(String(value || '').replace(/\+/g, ' plus '));
 
 const uniqueBrands = (values) => {
@@ -23,6 +27,10 @@ const uniqueBrands = (values) => {
 };
 
 export class SeoCatalogService {
+  static canonicalBrandSlug(slug) {
+    return BRAND_SLUG_ALIASES.get(slug) || slug;
+  }
+
   static async brands() {
     const [products, collaborations] = await Promise.all([
       prisma.producto.findMany({

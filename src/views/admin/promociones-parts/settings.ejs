@@ -1,0 +1,8 @@
+<form class="admin-form-panel promotion-settings-card" method="POST" action="/admin/promociones">
+  <div class="form-panel-head"><h2>Promociones generales</h2><p>Cada beneficio funciona de forma independiente.</p></div>
+  <label class="check-row"><input type="checkbox" name="bienvenidaActiva" <%= promotions.bienvenidaActiva ? 'checked' : '' %>>
+    <span>Bienvenida: 5% en un producto</span></label>
+  <label class="check-row"><input type="checkbox" name="envioGratisActivo" <%= promotions.envioGratisActivo ? 'checked' : '' %>>
+    <span>Envío gratis en subtotales mayores a ₡35.000</span></label>
+  <button class="btn" type="submit">Guardar promociones</button>
+</form>

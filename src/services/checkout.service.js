@@ -5,7 +5,10 @@ import { OrderMailService } from './order-mail.service.js';
 import { notificarAdminWhatsapp } from './admin-whatsapp.service.js';
 import { FinanceSettingsService } from './finance-settings.service.js';
 import { datosClientePedido, datosDireccionPedido, payloadPedido } from './checkout-payload.service.js';
-import { calculateShipping } from './shipping.service.js';
+import { shippingWithPromotions } from './shipping.service.js';
+import { PromotionSettingsService } from './promotion-settings.service.js';
+import { includedTax } from './tax.service.js';
+import { WelcomeDiscountService } from './welcome-discount.service.js';
 
 const includePedido = {
   cliente: true,
@@ -26,27 +29,34 @@ export class CheckoutService {
     ]);
     return { cliente, ultimaDireccion, codigoPedido, finance };
   }
-  static async procesarCompra(clienteId, carrito, body, archivo) {
+  static async procesarCompra(clienteId, carrito, body, archivo, welcomeProductId = null) {
     const canal = body.canalComprobante === 'WHATSAPP' ? 'WHATSAPP' : 'WEB';
     if (canal === 'WEB' && !archivo) {
       throw new Error('Debes adjuntar el comprobante o enviarlo por WhatsApp.');
     }
     const pedido = await prisma.$transaction(async (tx) => {
-      const cliente = await tx.cliente.findUnique({ where: { id: clienteId } });
-      if (!cliente) throw new Error('Cliente no encontrado.');
+      const storedClient = await tx.cliente.findUnique({ where: { id: clienteId } });
+      if (!storedClient) throw new Error('Cliente no encontrado.');
+      const cliente = await WelcomeDiscountService.clientWithUsage(tx, storedClient);
       const tipoEntrega = body.tipoEntrega === 'DOMICILIO' ? 'DOMICILIO' : 'LOCAL';
       const datosCliente = datosClientePedido(body, cliente);
       const datosDireccion = tipoEntrega === 'DOMICILIO' ? datosDireccionPedido(body) : null;
-      const { items, subtotal, pesoTotalGramos } = await prepararItemsPedido(tx, carrito);
-      const costoEnvio = tipoEntrega === 'DOMICILIO' ? calculateShipping(pesoTotalGramos) : 0;
+      const promotions = await PromotionSettingsService.get(tx);
+      const pricing = await prepararItemsPedido(tx, carrito, cliente, promotions, welcomeProductId);
+      const { items, subtotal, subtotalOriginal, discounts, pesoTotalGramos } = pricing;
+      if (discounts.welcome > 0) await WelcomeDiscountService.consume(tx, clienteId);
+      const shipping = shippingWithPromotions(pesoTotalGramos, subtotal, promotions);
+      const costoEnvio = tipoEntrega === 'DOMICILIO' ? shipping.costoEnvio : 0;
       const finance = await FinanceSettingsService.obtener();
+      const ivaIncluido = includedTax(subtotal, finance.ivaActivo, finance.ivaPorcentaje);
       const codigo = await CodigoPedidoService.generarCodigo(tx, body.codigoPedido);
       await this.actualizarCliente(tx, clienteId, datosCliente, datosDireccion);
       const comprobanteRuta = archivo ? `/uploads/comprobantes/${archivo.filename}` : null;
       return tx.pedido.create({
         data: payloadPedido({
           clienteId, datosCliente, datosDireccion, tipoEntrega, items,
-          subtotal, costoEnvio, pesoTotalGramos, codigo, canal, comprobanteRuta, body, finance
+          subtotal, subtotalOriginal, discounts, ivaIncluido,
+          costoEnvio, pesoTotalGramos, codigo, canal, comprobanteRuta, body, finance
         }),
         include: includePedido
       });

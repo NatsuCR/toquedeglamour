@@ -1,0 +1,9 @@
+.feedback-create-card { position: relative; overflow: hidden; }
+.feedback-create-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+.feedback-search input { border-color: color-mix(in srgb, var(--secondary) 40%, var(--glass-border)) !important; background: color-mix(in srgb, var(--surface-soft) 82%, var(--surface)) !important; }
+.feedback-picker-help { display: flex; gap: .4rem; align-items: center; color: var(--text-muted); }
+.feedback-picker-help i { width: .62rem; height: .62rem; flex: 0 0 auto; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 4px color-mix(in srgb, var(--success) 13%, transparent); }
+.feedback-create-card option.has-feedback { color: #fff; background: #27734c; font-weight: 900; }
+.feedback-create-card select.has-feedback { border-color: var(--success) !important; background: color-mix(in srgb, var(--success) 11%, var(--surface)) !important; box-shadow: 0 0 0 3px color-mix(in srgb, var(--success) 12%, transparent); }
+.feedback-create-card [data-product-search-status] { color: var(--secondary); font-weight: 850; }
+[data-theme="dark"] .feedback-create-card option.has-feedback { color: #10261a; background: #90d5a9; }

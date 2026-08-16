@@ -1,46 +1,21 @@
 <aside class="summary-panel">
   <h2>Resumen</h2>
   <% carrito.forEach((item) => { %>
-    <div class="summary-line">
-      <span><%= item.cantidad %> x <%= item.nombre %></span>
-      <strong><%= formatMoney(item.precio * item.cantidad) %></strong>
-    </div>
+    <div class="summary-line"><span><%= item.cantidad %> x <%= item.nombre %></span>
+      <strong><%= formatMoney(item.precio * item.cantidad) %></strong></div>
   <% }) %>
-
-  <div class="summary-line">
-    <span>Subtotal productos</span>
-    <strong><%= formatMoney(subtotal) %></strong>
-  </div>
-  <div class="summary-line weight-line">
-    <span>Peso total del pedido</span>
-    <strong id="weightAmount"><%= shipping.pesoTexto %></strong>
-  </div>
-  <div class="summary-line">
-    <span>Envio y gestion logistica</span>
-    <strong id="shippingAmount">Gratis</strong>
-  </div>
-  <p class="shipping-note">
-    El costo de envio se calcula segun el peso total del pedido. Los pedidos de hasta
-    2 kg pagan &#8353;4.000. Despues de 2 kg, se cobra &#8353;1.000 adicional por cada kilogramo
-    extra o fraccion.
-  </p>
-  <p id="dispatchSchedule" class="shipping-note dispatch-schedule" hidden>
-    Alistamos los pedidos cada miercoles y los entregamos a Correos de Costa Rica
-    los viernes para iniciar su distribucion.
-  </p>
-  <p class="shipping-note pickup-note" data-local-pickup-notice>
-    Retiro local: dispones de siete días naturales desde el aviso de pedido listo.
-    Pasado ese plazo se marcará como no retirado y no genera devolución automática.
-  </p>
-  <div id="ivaLine" class="summary-line" hidden>
-    <span>IVA</span>
-    <strong id="ivaAmount">₡0</strong>
-  </div>
-  <div class="summary-line summary-total">
-    <span>Total a pagar</span>
-    <span id="totalAmount"><%= formatMoney(subtotal) %></span>
-  </div>
-
+  <div class="summary-line"><span>Subtotal sin descuentos</span><strong><%= formatMoney(subtotalOriginal) %></strong></div>
+  <% if (discounts.product > 0) { %><div class="summary-line discount-line"><span>Promociones de productos</span><strong>-<%= formatMoney(discounts.product) %></strong></div><% } %>
+  <% if (discounts.welcome > 0) { %><div class="summary-line discount-line"><span>Bienvenida 5%</span><strong>-<%= formatMoney(discounts.welcome) %></strong></div><% } %>
+  <div class="summary-line"><span>Subtotal con descuentos</span><strong><%= formatMoney(subtotal) %></strong></div>
+  <div class="summary-line weight-line"><span>Peso total</span><strong id="weightAmount"><%= shipping.pesoTexto %></strong></div>
+  <div class="summary-line"><span>Envío y gestión logística</span><strong id="shippingAmount">Gratis</strong></div>
+  <% if (shipping.motivoGratis) { %><div class="summary-line discount-line"><span>Beneficio de envío</span><strong><%= shipping.motivoGratis %></strong></div><% } %>
+  <p class="shipping-note">Tarifa base: ₡3.000 hasta 2 kg; luego ₡1.000 por kilogramo extra o fracción.</p>
+  <p id="dispatchSchedule" class="shipping-note dispatch-schedule" hidden>Alistamos los pedidos cada miércoles y los entregamos a Correos de Costa Rica los viernes.</p>
+  <p class="shipping-note pickup-note" data-local-pickup-notice>Retiro local: dispones de siete días naturales desde el aviso de pedido listo.</p>
+  <div id="ivaLine" class="summary-line" hidden><span>IVA incluido <%= finance?.ivaPorcentaje || 13 %>%</span><strong id="ivaAmount">₡0</strong></div>
+  <div class="summary-line summary-total"><span>Total a pagar</span><span id="totalAmount"><%= formatMoney(subtotal) %></span></div>
   <button type="submit" class="nav-btn checkout-submit">Confirmar pedido</button>
   <p class="muted">Al confirmar se guarda el pedido para seguimiento y alisto.</p>
 </aside>

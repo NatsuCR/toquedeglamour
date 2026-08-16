@@ -56,9 +56,16 @@ export class AdminOrderService {
         data,
         include: pedidoIncludeCompleto
       });
+      const completadoNuevo = !estaCompletado(actual) && estaCompletado(pedido);
+      if (completadoNuevo && Number(pedido.descuentoBienvenida) > 0) {
+        await tx.cliente.updateMany({
+          where: { id: pedido.clienteId, bienvenidaUsadaEn: null },
+          data: { bienvenidaUsadaEn: pedido.creadoEn }
+        });
+      }
       return {
         pedido,
-        completadoNuevo: !estaCompletado(actual) && estaCompletado(pedido),
+        completadoNuevo,
         canceladoNuevo: !estaCancelado(actual) && estaCancelado(pedido)
       };
     });

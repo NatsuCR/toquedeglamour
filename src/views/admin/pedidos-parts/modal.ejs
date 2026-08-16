@@ -59,9 +59,13 @@
       <section>
         <h3>Pago</h3>
         <p>Metodo: <strong><%= pedido.metodoPago %></strong></p>
-        <p>Subtotal: <%= formatMoney(pedido.subtotal) %></p>
+        <p>Subtotal original: <%= formatMoney(originalSubtotal(pedido)) %></p>
+        <% const discount = orderDiscountTotal(pedido); %>
+        <% if (discount > 0) { %><p>Descuentos: -<%= formatMoney(discount) %></p><% } %>
+        <p>Subtotal final: <%= formatMoney(pedido.subtotal) %></p>
         <p>Peso: <%= formatWeight(pedido.pesoTotalGramos || 0) %></p>
         <p>Envio: <%= formatMoney(pedido.costoEnvio) %></p>
+        <p>IVA incluido: <%= formatMoney(pedido.ivaIncluido) %></p>
         <p>Total: <strong><%= formatMoney(pedido.total) %></strong></p>
       </section>
     </div>

@@ -11,6 +11,7 @@
       <% const stock = Number(p.stock || 0); %>
       <% const consulta = p.tipoVenta === 'CONSULTA'; %>
       <% const lowStock = stock > 0 && stock <= 5; %>
+      <% const cardImages = (p.imagenes || []).map((image) => image.ruta).filter(Boolean); %>
       <a
         href="/producto/<%= p.id %>/<%= p.slug %>"
         class="catalog-product-link <%= index >= 6 ? 'is-catalog-hidden' : '' %>"
@@ -18,13 +19,16 @@
         <article class="catalog-product-card">
           <div class="catalog-image-wrap">
             <% if (p.imagenUrl) { %>
-              <img src="<%= p.imagenUrl %>" alt="<%= p.nombre %>" loading="lazy">
+              <img src="<%= p.imagenUrl %>" alt="<%= p.nombre %>" loading="lazy"
+                data-card-images="<%= encodeURIComponent(JSON.stringify(cardImages)) %>"
+                data-card-interval="7000">
             <% } else { %>
               <div class="catalog-image-empty">Sin imagen</div>
             <% } %>
 
             <div class="catalog-card-badges">
               <% if (p.esNuevo) { %><span>Nuevo</span><% } %>
+              <% if (!consulta && p.promocionActiva) { %><span class="is-promotion">Promoción <%= p.promocionPorcentaje %>%</span><% } %>
               <% if (consulta) { %><span class="is-consult">Por consulta</span><% } %>
               <% if (!consulta && stock <= 0) { %><span class="is-empty">Agotado</span><% } %>
             </div>
@@ -36,7 +40,8 @@
             <span class="catalog-sku">SKU: PRD-<%= String(p.id).padStart(4, '0') %></span>
             <h3><%= p.nombre %></h3>
             <div class="catalog-product-foot">
-              <strong><%= consulta ? 'Precio a consultar' : formatMoney(Number(p.precio || 0)) %></strong>
+              <strong><% if (!consulta && p.promocionActiva) { %><del><%= formatMoney(p.precio) %></del><% } %>
+                <%= consulta ? 'Precio a consultar' : formatMoney(promotionalPrice(p)) %></strong>
               <% if (consulta) { %>
                 <span class="stock-consult">Cita</span>
               <% } else if (stock > 0) { %>

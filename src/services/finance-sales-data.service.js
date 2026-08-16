@@ -39,13 +39,15 @@ export class FinanceSalesDataService {
       result.porFecha[date] ||= emptyFlowRow();
       result.ventasLocal = (result.ventasLocal || 0) + roundMoney(sale.total);
       result.cantidadVentasLocal = (result.cantidadVentasLocal || 0) + 1;
-      result.totalSinIva += roundMoney(sale.subtotal);
+      result.totalSinIva += roundMoney(sale.total) - roundMoney(sale.iva);
       result.totalConIva += roundMoney(sale.total);
       result.ivaEstimado += roundMoney(sale.iva);
       result.comisiones += roundMoney(sale.comision);
-      result.porFecha[date].ingresos += roundMoney(sale.subtotal);
+      result.porFecha[date].ingresos += roundMoney(sale.total) - roundMoney(sale.iva);
       result.porFecha[date].iva += roundMoney(sale.iva);
       result.porFecha[date].comisiones += roundMoney(sale.comision);
+      const netRatio = Number(sale.total) > 0
+        ? (roundMoney(sale.total) - roundMoney(sale.iva)) / roundMoney(sale.total) : 1;
       sale.items.forEach((item) => {
         const cost = roundMoney(item.costoUnitario) * item.cantidad;
         const income = roundMoney(item.precioUnitario) * item.cantidad;
@@ -54,7 +56,8 @@ export class FinanceSalesDataService {
         result.costosProductos += cost;
         result.porFecha[date].costos += cost;
         result.productos[name] = (result.productos[name] || 0) + item.cantidad;
-        result.categorias[category] = (result.categorias[category] || 0) + income - cost;
+        result.categorias[category] = (result.categorias[category] || 0)
+          + roundMoney(income * netRatio) - cost;
       });
     });
     return result;

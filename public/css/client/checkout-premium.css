@@ -52,10 +52,13 @@
   counter-increment: checkout-step;
 }
 
-.checkout-panel,
-.summary-panel {
+.checkout-panel {
   position: relative;
   overflow: hidden;
+}
+
+.summary-panel {
+  overflow-x: hidden;
 }
 
 .checkout-panel::before,

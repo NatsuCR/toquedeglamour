@@ -26,7 +26,10 @@
   <% } else { %>
     <div class="cart-layout">
       <%- include('carrito-parts/items', { carrito }) %>
-      <%- include('carrito-parts/summary', { subtotal, iva, total, finance, shipping }) %>
+      <%- include('carrito-parts/summary', {
+        carrito, subtotal, subtotalOriginal, discounts, welcomeProductId,
+        welcomeAvailable, promotions, iva, total, finance, shipping
+      }) %>
     </div>
   <% } %>
 </section>

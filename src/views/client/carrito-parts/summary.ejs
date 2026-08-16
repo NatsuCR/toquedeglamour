@@ -1,32 +1,30 @@
 <aside class="cart-summary">
-  <div class="cart-summary-head">
-    <span>Resumen</span>
-    <h2>Pedido</h2>
-  </div>
+  <div class="cart-summary-head"><span>Resumen</span><h2>Pedido</h2></div>
+
+  <% if (welcomeAvailable) { %>
+    <form class="welcome-product-picker" method="POST" action="/carrito/descuento-bienvenida">
+      <label>Elegí el producto para tu 5% de bienvenida
+        <select name="productoId"><% carrito.forEach((item) => { %>
+          <option value="<%= item.productoId %>" <%= item.productoId === welcomeProductId ? 'selected' : '' %>><%= item.nombre %></option>
+        <% }) %></select>
+      </label><button type="submit">Aplicar</button>
+    </form>
+  <% } %>
 
   <div class="cart-summary-lines">
-    <p><span>Subtotal productos</span><strong><%= formatMoney(subtotal) %></strong></p>
-    <p><span>Peso total del pedido</span><strong><%= shipping.pesoTexto %></strong></p>
-    <p><span>Envio y gestion logistica</span><strong><%= formatMoney(shipping.costoEnvio) %></strong></p>
-    <p><span>IVA <%= finance?.ivaPorcentaje || 13 %>%</span><strong><%= formatMoney(iva) %></strong></p>
+    <p><span>Subtotal sin descuentos</span><strong><%= formatMoney(subtotalOriginal) %></strong></p>
+    <% if (discounts.product > 0) { %><p class="discount-line"><span>Promociones de productos</span><strong>-<%= formatMoney(discounts.product) %></strong></p><% } %>
+    <% if (discounts.welcome > 0) { %><p class="discount-line"><span>Bienvenida 5%</span><strong>-<%= formatMoney(discounts.welcome) %></strong></p><% } %>
+    <p><span>Subtotal con descuentos</span><strong><%= formatMoney(subtotal) %></strong></p>
+    <p><span>Peso total</span><strong><%= shipping.pesoTexto %></strong></p>
+    <p><span>Envío y gestión logística</span><strong><%= shipping.gratis ? 'Gratis' : formatMoney(shipping.costoEnvio) %></strong></p>
+    <% if (shipping.motivoGratis) { %><p class="discount-line"><span>Beneficio de envío</span><strong><%= shipping.motivoGratis %></strong></p><% } %>
+    <p><span>IVA incluido <%= finance?.ivaPorcentaje || 13 %>%</span><strong><%= formatMoney(iva) %></strong></p>
   </div>
 
-  <div class="cart-total">
-    <span>Total estimado Correos</span>
-    <strong><%= formatMoney(total) %></strong>
-  </div>
-
-  <p class="cart-summary-note">
-    El costo de envio se calcula segun el peso total del pedido. Los pedidos de hasta
-    2 kg pagan &#8353;4.000. Despues de 2 kg, se cobra &#8353;1.000 adicional por cada kilogramo
-    extra o fraccion. Si eliges retiro local en checkout, el envio queda en &#8353;0.
-  </p>
-
-  <p class="cart-dispatch-note">
-    Si eliges Correos de Costa Rica, alistamos los pedidos cada miercoles y los
-    entregamos a Correos de Costa Rica los viernes para iniciar su distribucion.
-  </p>
-
+  <div class="cart-total"><span>Total estimado Correos</span><strong><%= formatMoney(total) %></strong></div>
+  <p class="cart-summary-note">La tarifa base de Correos de Costa Rica es ₡3.000 hasta 2 kg. Después se cobra ₡1.000 por cada kilogramo extra o fracción. El IVA ya está incluido en los precios.</p>
+  <p class="cart-dispatch-note">Alistamos los pedidos cada miércoles y los entregamos a Correos de Costa Rica los viernes.</p>
   <div class="cart-summary-actions">
     <a href="/catalogo" class="nav-btn">Continuar comprando</a>
     <a href="/checkout" class="btn-outline">Proceder al checkout</a>

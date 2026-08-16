@@ -30,7 +30,9 @@
       <%- include('checkout/payment', { codigoPedido }) %>
     </div>
 
-    <%- include('checkout/summary', { carrito, subtotal, shipping, costoEnvioCorreos }) %>
+    <%- include('checkout/summary', {
+      carrito, subtotal, subtotalOriginal, discounts, finance, shipping, costoEnvioCorreos
+    }) %>
   </form>
 </div>
 

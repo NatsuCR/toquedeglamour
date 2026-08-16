@@ -5,7 +5,9 @@ import { prepararResumenCarrito } from '../services/cart-summary.service.js';
 export class CheckoutController {
   static async renderCheckout(req, res) {
     try {
-      const resumen = await prepararResumenCarrito(req.session.carrito || []);
+      const resumen = await prepararResumenCarrito(
+        req.session.carrito || [], res.locals.cliente.id, req.session.welcomeProductId
+      );
       if (resumen.carrito.length === 0) return res.redirect('/carrito');
       req.session.carrito = resumen.carrito;
       const datos = await CheckoutService.prepararCheckout(res.locals.cliente.id);
@@ -15,8 +17,7 @@ export class CheckoutController {
       res.render('client/checkout', {
         user: datos.cliente,
         carrito: resumen.carrito,
-        subtotal: resumen.subtotal,
-        shipping: resumen.shipping,
+        ...resumen,
         error,
         costoEnvioCorreos: resumen.shipping.costoEnvio,
         ...datos
@@ -33,10 +34,12 @@ export class CheckoutController {
         res.locals.cliente.id,
         req.session.carrito,
         req.body,
-        req.file
+        req.file,
+        req.session.welcomeProductId
       );
 
       req.session.carrito = [];
+      delete req.session.welcomeProductId;
       res.render('client/checkout-success', {
         user: pedido.cliente,
         pedido,

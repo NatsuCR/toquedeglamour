@@ -60,6 +60,15 @@
 
 <section class="home-showcase">
   <%- include('partials/slider-section', {
+    titulo: s.promotionTitle,
+    subtitulo: s.promotionSubtitle,
+    icono: '',
+    items: promociones,
+    sliderId: 'sliderPromociones',
+    mostrarBadge: false
+  }) %>
+
+  <%- include('partials/slider-section', {
     titulo: s.topTitle,
     subtitulo: s.topSubtitle,
     icono: '',
@@ -104,6 +113,7 @@
 
 <script src="/js/image-lightbox.js"></script>
 <script src="/js/hero-slider.js?v=20260809-6"></script>
-<script src="/js/client-slider.js?v=20260809-7"></script>
+<script src="/js/client-slider.js?v=20260816-2"></script>
+<script src="/js/product-card-images.js?v=20260816-2"></script>
 
 <%- include('partials/footer') %>

@@ -1,0 +1,11 @@
+@media (min-width: 861px) {
+  .checkout-grid > .summary-panel {
+    position: sticky;
+    top: 90px;
+    align-self: start;
+    max-height: calc(100dvh - 105px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}

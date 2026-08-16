@@ -13,6 +13,8 @@ export const DEFAULT_SITE_SETTINGS = {
   heroPrimaryHref: '/catalogo',
   heroSecondaryLabel: 'Conocer la marca',
   heroSecondaryHref: '/quienes-somos',
+  promotionTitle: 'Productos en promoción',
+  promotionSubtitle: 'Oportunidades especiales seleccionadas para vos.',
   topTitle: 'Más vendidos',
   topSubtitle: 'Los favoritos de nuestras clientas este año.',
   newTitle: 'Recién llegados',

@@ -10,6 +10,10 @@ import { ProductoQueryService } from './producto-query.service.js';
 import { ProductImageService } from './product-image.service.js';
 import { borrarUploads } from './producto-upload.service.js';
 import { missingProductFields } from './product-content.service.js';
+import {
+  faqCreateWithUploads,
+  faqEntriesWithUploads
+} from './product-faq-upload.service.js';
 
 export class ProductoService extends ProductoQueryService {
   static async crear(data, imagenFiles) {
@@ -19,11 +23,13 @@ export class ProductoService extends ProductoQueryService {
     }
     await this.validarSubcategoriaConUploads(data.categoriaId, data.subcategoriaId, imagenFiles);
     const productoData = this.datosConUploads(data, null, imagenFiles);
+    const preguntasFrecuentes = faqCreateWithUploads(data, imagenFiles);
     return prisma.producto.create({
       data: {
         ...productoData,
         slug: await uniqueSlug(prisma.producto, data.nombre),
-        imagenes: imagenesCreate(imagenFiles)
+        imagenes: imagenesCreate(imagenFiles),
+        preguntasFrecuentes
       }
     });
   }
@@ -47,12 +53,14 @@ export class ProductoService extends ProductoQueryService {
       imagenFiles
     );
     const productoData = this.datosConUploads(data, existe, imagenFiles);
+    const faqEntries = faqEntriesWithUploads(data, imagenFiles);
     return ProductImageService.update({
       productId: pid,
       productData: productoData,
       existingImages: existe.imagenes,
       newFiles: imagenFiles,
-      removeImageIds: data.removeImageIds
+      removeImageIds: data.removeImageIds,
+      faqEntries
     });
   }
 

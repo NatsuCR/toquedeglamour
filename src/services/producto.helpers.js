@@ -7,7 +7,9 @@ import { productContent } from './product-content.service.js';
 export const includeProducto = {
   categoria: true,
   subcategoria: true,
-  imagenes: true
+  imagenes: true,
+  resenas: { orderBy: { creadoEn: 'desc' } },
+  preguntasFrecuentes: { orderBy: { creadoEn: 'asc' } }
 };
 
 export const mapProducto = (p) => {
@@ -29,6 +31,9 @@ export function datosProducto(data, existente = null) {
   const tipo = tipoVenta(data);
   const consulta = tipo === 'CONSULTA';
   const marcarNuevo = data.esNuevo === 'on' || data.esNuevo === true;
+  const promocionPorcentaje = consulta ? 0 : porcentajePromocion(data.promocionPorcentaje, existente);
+  const promocionActiva = !consulta && (data.promocionActiva === 'on' || data.promocionActiva === true);
+  if (promocionActiva && promocionPorcentaje < 1) throw new Error('Define un porcentaje para activar la promoción.');
 
   return {
     nombre: data.nombre ? data.nombre.trim() : existente?.nombre,
@@ -45,41 +50,19 @@ export function datosProducto(data, existente = null) {
     tipoVenta: tipo,
     textoAlternativoImg: data.nombre ? data.nombre.trim() : existente?.textoAlternativoImg,
     esNuevo: marcarNuevo,
-    fechaNuevo: marcarNuevo && !existente?.esNuevo ? new Date() : (marcarNuevo ? existente?.fechaNuevo : null)
+    fechaNuevo: marcarNuevo && !existente?.esNuevo ? new Date() : (marcarNuevo ? existente?.fechaNuevo : null),
+    promocionActiva,
+    promocionPorcentaje
   };
 }
-export function filtrosProducto(filtros) {
-  const where = {};
-  if (filtros.q) {
-    const query = String(filtros.q).trim();
-    const sku = query.match(/^PRD-?0*(\d+)$/i);
-    where.OR = [
-      { nombre: { contains: query } },
-      { marca: { contains: query } }
-    ];
-    if (sku) where.OR.push({ id: Number.parseInt(sku[1], 10) });
-  }
-  if (filtros.cat) where.categoria = { slug: filtros.cat };
-  if (filtros.subcat) where.subcategoria = { slug: filtros.subcat };
-  if (filtros.marca) where.marca = filtros.marca;
-  if (filtros.disponible) {
-    where.tipoVenta = 'DIRECTA';
-    where.stock = { gt: 0 };
-  }
-  if (filtros.minPrecio || filtros.maxPrecio) {
-    where.precio = {};
-    if (filtros.minPrecio) where.precio.gte = Number.parseFloat(filtros.minPrecio);
-    if (filtros.maxPrecio) where.precio.lte = Number.parseFloat(filtros.maxPrecio);
-  }
-  return where;
-}
 
-export function ordenProducto(sort) {
-  if (sort === 'asc') return { precio: 'asc' };
-  if (sort === 'desc') return { precio: 'desc' };
-  return { creadoEn: 'desc' };
+function porcentajePromocion(value, existente) {
+  const parsed = value === undefined ? Number(existente?.promocionPorcentaje || 0) : Number.parseInt(value, 10);
+  if (!Number.isInteger(parsed) || parsed < 0 || parsed > 90) {
+    throw new Error('El porcentaje de promoción debe estar entre 0 y 90.');
+  }
+  return parsed;
 }
-
 export function borrarImagenes(imagenes) {
   (imagenes || []).forEach((img) => {
     const relativePath = img.ruta.startsWith('/') ? img.ruta.substring(1) : img.ruta;

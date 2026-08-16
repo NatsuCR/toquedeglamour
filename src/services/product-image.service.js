@@ -1,6 +1,7 @@
 import prisma from '../config/db.js';
 import { borrarImagenes, includeProducto, mapProducto } from './producto.helpers.js';
 import { borrarUploads } from './producto-upload.service.js';
+import { syncProductFaqs } from './product-faq-sync.service.js';
 
 function selectedIds(value, allowedIds) {
   const values = Array.isArray(value) ? value : value ? [value] : [];
@@ -17,7 +18,9 @@ function uploadData(files = []) {
 }
 
 export class ProductImageService {
-  static async update({ productId, productData, existingImages, newFiles = [], removeImageIds }) {
+  static async update({
+    productId, productData, existingImages, newFiles = [], removeImageIds, faqEntries = []
+  }) {
     const allowed = new Set(existingImages.map((image) => image.id));
     const removeIds = selectedIds(removeImageIds, allowed);
     const removed = existingImages.filter((image) => removeIds.includes(image.id));
@@ -26,6 +29,7 @@ export class ProductImageService {
     try {
       const product = await prisma.$transaction(async (tx) => {
         await tx.producto.update({ where: { id: productId }, data: productData });
+        if (faqEntries !== null) await syncProductFaqs(tx, productId, faqEntries);
         if (removeIds.length) {
           await tx.imagenProducto.deleteMany({ where: { productoId: productId, id: { in: removeIds } } });
         }

@@ -1,0 +1,12 @@
+<% const faqs = producto.preguntasFrecuentes || []; %>
+<% if (faqs.length) { %>
+  <section class="product-social-section product-faq" aria-labelledby="faq-title">
+    <header><span>Resolvemos tus dudas</span><h2 id="faq-title">Preguntas frecuentes</h2></header>
+    <div class="product-faq-list">
+      <% faqs.forEach((faq) => { %>
+        <details><summary><%= faq.pregunta %><span aria-hidden="true">+</span></summary>
+          <p><%= faq.respuesta %></p></details>
+      <% }) %>
+    </div>
+  </section>
+<% } %>

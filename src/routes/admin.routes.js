@@ -11,6 +11,8 @@ import { BrandCollaborationController } from '../controllers/brand-collaboration
 import { SalesController } from '../controllers/sales.controller.js';
 import { AnalyticsController } from '../controllers/analytics.controller.js';
 import { InventoryLossController } from '../controllers/inventory-loss.controller.js';
+import { PromotionsController } from '../controllers/promotions.controller.js';
+import adminFeedbackRoutes from './admin-feedback.routes.js';
 import { requireOwnerRole } from '../middlewares/role.middleware.js';
 import {
   requireAdminAuth,
@@ -50,6 +52,9 @@ router.post('/finanzas/iva', admin, FinanceController.actualizarIva);
 router.post('/finanzas/gastos', expenseUpload, FinanceController.crearGasto);
 router.post('/finanzas/gastos/:id/eliminar', admin, FinanceController.eliminarGasto);
 router.get('/finanzas/exportar', admin, FinanceController.exportar);
+router.get('/promociones', admin, PromotionsController.render);
+router.post('/promociones', admin, PromotionsController.update);
+router.use('/promociones', admin, adminFeedbackRoutes);
 
 router.get('/correos', admin, AnnouncementController.render);
 router.post('/correos', admin, AnnouncementController.enviar);

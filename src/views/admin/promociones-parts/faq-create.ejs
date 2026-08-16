@@ -1,0 +1,19 @@
+<form class="admin-form-panel feedback-create-card" method="POST"
+  action="/admin/promociones/preguntas" data-product-picker>
+  <div class="form-panel-head"><h2>Pregunta frecuente</h2><p>Máximo 4 por producto.</p></div>
+  <label class="feedback-search">Buscar producto
+    <input type="search" placeholder="Nombre, marca o SKU" data-product-search autocomplete="off">
+  </label>
+  <small class="feedback-picker-help"><i></i> Los productos coloreados ya tienen preguntas.</small>
+  <label>Producto<select name="productoId" required data-product-select>
+    <% products.forEach((p) => { const count = p.preguntasFrecuentes?.length || 0; %>
+      <option value="<%= p.id %>" data-has-content="<%= count > 0 %>"
+        data-search="<%= `${p.nombre} ${p.marca || ''} PRD-${String(p.id).padStart(4, '0')}` %>"
+        class="<%= count > 0 ? 'has-feedback' : '' %>" <%= count >= 4 ? 'disabled' : '' %>><%= p.nombre %> (<%= count %>/4)</option>
+    <% }) %>
+  </select></label>
+  <small data-product-search-status><%= products.length %> productos disponibles</small>
+  <label>Pregunta<input name="pregunta" maxlength="250" required></label>
+  <label>Respuesta<textarea name="respuesta" maxlength="2000" rows="5" required></textarea></label>
+  <button class="btn" type="submit">Enviar pregunta frecuente</button>
+</form>

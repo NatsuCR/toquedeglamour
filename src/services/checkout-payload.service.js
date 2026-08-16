@@ -33,9 +33,6 @@ export function datosDireccionPedido(body) {
 export function payloadPedido(data) {
   const subtotal = roundMoney(data.subtotal);
   const costoEnvio = roundMoney(data.costoEnvio);
-  const iva = data.finance?.ivaActivo
-    ? roundMoney(subtotal * (Number(data.finance.ivaPorcentaje) / 100))
-    : 0;
   const payload = {
     codigo: data.codigo,
     clienteId: data.clienteId,
@@ -46,9 +43,13 @@ export function payloadPedido(data) {
     celular1Cliente: data.datosCliente.celular1,
     celular2Cliente: data.datosCliente.celular2 || null,
     subtotal,
+    subtotalOriginal: roundMoney(data.subtotalOriginal),
+    descuentoProducto: roundMoney(data.discounts.product),
+    descuentoBienvenida: roundMoney(data.discounts.welcome),
+    ivaIncluido: roundMoney(data.ivaIncluido),
     costoEnvio,
     pesoTotalGramos: Number.parseInt(data.pesoTotalGramos, 10) || 0,
-    total: roundMoney(subtotal + costoEnvio + iva),
+    total: roundMoney(subtotal + costoEnvio),
     estado: 'PENDIENTE_VERIFICACION',
     fase: 'PREPARACION',
     tipoEntrega: data.tipoEntrega,

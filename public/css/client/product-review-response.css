@@ -1,0 +1,35 @@
+.review-comment-icon svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.review-admin-response {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: .7rem;
+  align-items: start;
+  margin: .9rem 0 0 3.4rem;
+  border-left: 3px solid var(--secondary);
+  border-radius: 0 12px 12px 0;
+  padding: .75rem .85rem;
+  background: color-mix(in srgb, var(--secondary) 9%, var(--surface-strong));
+}
+.review-admin-response > span {
+  display: grid;
+  width: 1.9rem;
+  height: 1.9rem;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  font-size: .72rem;
+  font-weight: 950;
+}
+.review-admin-response strong { color: var(--primary-strong); font-size: .84rem; }
+.review-admin-response p { margin-top: .2rem; color: var(--text-main); line-height: 1.5; }
+@media (max-width: 650px) { .review-admin-response { margin-left: 0; } }

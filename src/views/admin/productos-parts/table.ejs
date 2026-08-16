@@ -34,13 +34,17 @@
               tipoProducto: p.tipoProducto || 'GENERAL',
               precio: p.precio || '', costo: p.costo || 0, stock: p.stock,
               pesoGramos: consulta ? '' : (p.pesoGramos || 250), esNuevo: p.esNuevo,
+              promocionActiva: p.promocionActiva, promocionPorcentaje: p.promocionPorcentaje || 0,
               descripcion: p.descripcion || '', modoUso: p.modoUso || '',
               detallesTecnicos: p.detallesTecnicos || '', precauciones: p.precauciones || '',
               incluyePrecauciones: p.incluyePrecauciones !== false,
               incluyeSostenibilidad: p.incluyeSostenibilidad !== false,
               sostenibilidad: p.sostenibilidad || '',
               resultadosComprobados: p.resultadosComprobados || '',
-              imagenes: p.imagenes || []
+              imagenes: p.imagenes || [],
+              preguntasFrecuentes: (p.preguntasFrecuentes || []).map((faq) => ({
+                id: faq.id, pregunta: faq.pregunta, respuesta: faq.respuesta
+              }))
             }; %>
             <button type="button" class="btn btn-outline btn-sm btn-editar"
               data-id="<%= p.id %>" data-nombre="<%= p.nombre %>" data-marca="<%= p.marca || '' %>"

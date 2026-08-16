@@ -1,5 +1,6 @@
 import { formatMoneyCRC as money, roundMoney } from '../utils/money.js';
 import { formatWeight } from './shipping.service.js';
+import { originalSubtotal, orderDiscountTotal } from './order-pricing.service.js';
 
 const paymentLabels = {
   SINPE: 'SINPE Movil',
@@ -72,9 +73,8 @@ function comprobanteTexto(pedido) {
 }
 
 function ivaTexto(pedido) {
-  const base = roundMoney(pedido.subtotal) + roundMoney(pedido.costoEnvio || 0);
-  const iva = Math.max(0, roundMoney(pedido.total) - base);
-  return iva > 0 ? [`IVA: ${money(iva)}`] : [];
+  const iva = roundMoney(pedido.ivaIncluido || 0);
+  return iva > 0 ? [`IVA incluido: ${money(iva)}`] : [];
 }
 
 export function pedidoWhatsappTexto(pedido) {
@@ -87,6 +87,8 @@ export function pedidoWhatsappTexto(pedido) {
     `Productos:\n${productosTexto(pedido)}`,
     '',
     `Metodo de pago: ${paymentLabels[pedido.metodoPago] || pedido.metodoPago}`,
+    `Subtotal original: ${money(originalSubtotal(pedido))}`,
+    `Descuentos: -${money(orderDiscountTotal(pedido))}`,
     `Subtotal: ${money(pedido.subtotal)}`,
     `Peso total: ${formatWeight(pedido.pesoTotalGramos || 0)}`,
     `Envio: ${money(pedido.costoEnvio)}`,

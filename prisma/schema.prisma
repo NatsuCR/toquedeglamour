@@ -43,9 +43,11 @@ model Cliente {
   codigoRecuperacion  String?            @map("codigo_recuperacion")
   recuperacionExpira  DateTime?          @map("recuperacion_expira")
   creadoEn            DateTime           @default(now()) @map("creado_en")
+  bienvenidaUsadaEn   DateTime?          @map("bienvenida_usada_en")
   pedidos             Pedido[]
   direcciones         DireccionCliente[]
   tickets             TicketSoporte[]
+  resenas             ResenaProducto[]
 
   @@map("clientes")
 }
@@ -113,11 +115,15 @@ model Producto {
   actualizadoEn         DateTime              @default(now()) @updatedAt @map("actualizado_en")
   esNuevo               Boolean               @default(false) @map("es_nuevo")
   fechaNuevo            DateTime?             @map("fecha_nuevo")
+  promocionActiva       Boolean               @default(false) @map("promocion_activa")
+  promocionPorcentaje   Int                   @default(0) @map("promocion_porcentaje")
   imagenes              ImagenProducto[]
   itemsPedido           ItemPedido[]
   itemsVentaPresencial  ItemVentaPresencial[]
   vistas                VistaProducto[]
   mermas                MermaInventario[]
+  resenas               ResenaProducto[]
+  preguntasFrecuentes   PreguntaFrecuente[]
 
   @@map("productos")
 }
@@ -164,32 +170,36 @@ enum FasePedido {
 }
 
 model Pedido {
-  id                Int              @id @default(autoincrement())
-  codigo            String?          @unique
-  clienteId         Int              @map("cliente_id")
-  cliente           Cliente          @relation(fields: [clienteId], references: [id])
-  nombreCliente     String?          @map("nombre_cliente")
-  apellidosCliente  String?          @map("apellidos_cliente")
-  correoCliente     String?          @map("correo_cliente")
-  cedulaCliente     String?          @map("cedula_cliente")
-  celular1Cliente   String?          @map("celular_1_cliente")
-  celular2Cliente   String?          @map("celular_2_cliente")
-  subtotal          Decimal          @default(0.00) @db.Decimal(10, 2)
-  costoEnvio        Decimal          @default(0.00) @map("costo_envio") @db.Decimal(10, 2)
-  pesoTotalGramos   Int              @default(0) @map("peso_total_gramos")
-  total             Decimal          @db.Decimal(10, 2)
-  estado            EstadoPedido
-  fase              FasePedido       @default(PREPARACION)
-  tipoEntrega       TipoEntrega      @default(LOCAL) @map("tipo_entrega")
-  metodoPago        MetodoPago       @map("metodo_pago")
-  canalComprobante  CanalComprobante @map("canal_comprobante")
-  motivoCancelacion String?          @map("motivo_cancelacion") @db.Text
-  canceladoEn       DateTime?        @map("cancelado_en")
-  creadoEn          DateTime         @default(now()) @map("creado_en")
-  actualizadoEn     DateTime         @updatedAt @map("actualizado_en")
-  items             ItemPedido[]
-  direccionEnvio    DireccionEnvio?
-  comprobantePago   ComprobantePago?
+  id                  Int              @id @default(autoincrement())
+  codigo              String?          @unique
+  clienteId           Int              @map("cliente_id")
+  cliente             Cliente          @relation(fields: [clienteId], references: [id])
+  nombreCliente       String?          @map("nombre_cliente")
+  apellidosCliente    String?          @map("apellidos_cliente")
+  correoCliente       String?          @map("correo_cliente")
+  cedulaCliente       String?          @map("cedula_cliente")
+  celular1Cliente     String?          @map("celular_1_cliente")
+  celular2Cliente     String?          @map("celular_2_cliente")
+  subtotal            Decimal          @default(0.00) @db.Decimal(10, 2)
+  subtotalOriginal    Decimal          @default(0.00) @map("subtotal_original") @db.Decimal(10, 2)
+  descuentoProducto   Decimal          @default(0.00) @map("descuento_producto") @db.Decimal(10, 2)
+  descuentoBienvenida Decimal          @default(0.00) @map("descuento_bienvenida") @db.Decimal(10, 2)
+  ivaIncluido         Decimal          @default(0.00) @map("iva_incluido") @db.Decimal(10, 2)
+  costoEnvio          Decimal          @default(0.00) @map("costo_envio") @db.Decimal(10, 2)
+  pesoTotalGramos     Int              @default(0) @map("peso_total_gramos")
+  total               Decimal          @db.Decimal(10, 2)
+  estado              EstadoPedido
+  fase                FasePedido       @default(PREPARACION)
+  tipoEntrega         TipoEntrega      @default(LOCAL) @map("tipo_entrega")
+  metodoPago          MetodoPago       @map("metodo_pago")
+  canalComprobante    CanalComprobante @map("canal_comprobante")
+  motivoCancelacion   String?          @map("motivo_cancelacion") @db.Text
+  canceladoEn         DateTime?        @map("cancelado_en")
+  creadoEn            DateTime         @default(now()) @map("creado_en")
+  actualizadoEn       DateTime         @updatedAt @map("actualizado_en")
+  items               ItemPedido[]
+  direccionEnvio      DireccionEnvio?
+  comprobantePago     ComprobantePago?
 
   @@map("pedidos")
 }
@@ -202,10 +212,42 @@ model ItemPedido {
   producto           Producto @relation(fields: [productoId], references: [id])
   cantidad           Int
   precioUnitario     Decimal  @map("precio_unitario") @db.Decimal(10, 2)
+  precioOriginal     Decimal  @default(0.00) @map("precio_original") @db.Decimal(10, 2)
+  descuentoTotal     Decimal  @default(0.00) @map("descuento_total") @db.Decimal(10, 2)
   costoUnitario      Decimal  @default(0.00) @map("costo_unitario") @db.Decimal(10, 2)
   pesoUnitarioGramos Int      @default(0) @map("peso_unitario_gramos")
 
   @@map("items_pedido")
+}
+
+model ResenaProducto {
+  id             Int      @id @default(autoincrement())
+  productoId     Int      @map("producto_id")
+  producto       Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+  clienteId      Int?     @map("cliente_id")
+  cliente        Cliente? @relation(fields: [clienteId], references: [id], onDelete: SetNull)
+  nombre         String
+  comentario     String   @db.Text
+  calificacion   Int
+  creadaPorAdmin Boolean  @default(false) @map("creada_por_admin")
+  respuestaAdmin String?  @map("respuesta_admin") @db.Text
+  respondidaEn   DateTime? @map("respondida_en")
+  creadoEn       DateTime @default(now()) @map("creado_en")
+
+  @@index([productoId, creadoEn])
+  @@map("resenas_producto")
+}
+
+model PreguntaFrecuente {
+  id         Int      @id @default(autoincrement())
+  productoId Int      @map("producto_id")
+  producto   Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+  pregunta   String
+  respuesta  String   @db.Text
+  creadoEn   DateTime @default(now()) @map("creado_en")
+
+  @@index([productoId, creadoEn])
+  @@map("preguntas_frecuentes_producto")
 }
 
 model DireccionEnvio {

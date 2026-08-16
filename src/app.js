@@ -14,6 +14,8 @@ import { formatWeight } from './services/shipping.service.js';
 import { trackSiteVisit } from './middlewares/analytics.middleware.js';
 import { rejectKnownExploitProbe } from './middlewares/security-probe.middleware.js';
 import { SeoController } from './controllers/seo.controller.js';
+import { promotionalPrice } from './services/promotion-pricing.service.js';
+import { originalSubtotal, orderDiscountTotal } from './services/order-pricing.service.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,6 +28,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.locals.formatMoney = formatMoneyCRC;
 app.locals.formatWeight = formatWeight;
+app.locals.promotionalPrice = promotionalPrice;
+app.locals.originalSubtotal = originalSubtotal;
+app.locals.orderDiscountTotal = orderDiscountTotal;
 app.locals.gtmId = process.env.GTM_ID || 'GTM-WD3FHLB3';
 
 app.use(helmet({

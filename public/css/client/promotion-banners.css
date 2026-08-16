@@ -1,0 +1,86 @@
+.promotion-banners {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  overflow: hidden;
+  padding: .62rem max(1rem, calc((100vw - 1180px) / 2));
+  color: #fff8fb;
+  background: linear-gradient(105deg, #54172d, #8a234e 48%, #5e1734);
+  box-shadow: 0 10px 28px rgba(84, 23, 45, .18);
+}
+
+.promotion-banners::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -80% auto -80% -15%;
+  width: 26%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+  transform: skewX(-18deg);
+  animation: promotion-shine 7s ease-in-out infinite;
+}
+
+.promotion-banners__label {
+  display: inline-flex;
+  gap: .45rem;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 99px;
+  padding: .38rem .68rem;
+  font-size: .65rem;
+  font-weight: 950;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  background: rgba(255,255,255,.11);
+}
+
+.promotion-banners__label i {
+  width: .48rem;
+  height: .48rem;
+  border-radius: 50%;
+  background: #ffd488;
+  box-shadow: 0 0 0 0 rgba(255,212,136,.55);
+  animation: promotion-pulse 2s infinite;
+}
+
+.promotion-banners__track { display: flex; gap: .7rem; min-width: 0; }
+.promotion-banners p {
+  flex: 1 1 0;
+  display: flex;
+  gap: .55rem;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  margin: 0;
+  border-left: 1px solid rgba(255,255,255,.25);
+  padding: .16rem .7rem;
+  font-size: clamp(.72rem, 1vw, .86rem);
+  font-weight: 750;
+  line-height: 1.35;
+  text-align: center;
+}
+.promotion-banners b { font-size: 1.05rem; filter: drop-shadow(0 2px 5px rgba(0,0,0,.25)); }
+[data-theme="dark"] .promotion-banners {
+  color: #fff5f9;
+  background: linear-gradient(105deg, #25101a, #581b35 48%, #30101f);
+  box-shadow: 0 12px 34px rgba(0,0,0,.35);
+}
+
+@keyframes promotion-shine { 0%, 58% { left: -25%; } 82%, 100% { left: 125%; } }
+@keyframes promotion-pulse { 70% { box-shadow: 0 0 0 7px rgba(255,212,136,0); } }
+
+@media (max-width: 760px) {
+  .promotion-banners { grid-template-columns: 1fr; gap: .42rem; padding: .62rem .8rem .72rem; }
+  .promotion-banners__label { width: max-content; margin: auto; }
+  .promotion-banners__track { display: grid; }
+  .promotion-banners p { display: none; grid-area: 1 / 1; border: 0; padding: .12rem; }
+  .promotion-banners p.is-active { display: flex; animation: promotion-enter .45s ease both; }
+}
+
+@keyframes promotion-enter { from { opacity: 0; transform: translateY(5px); } }
+@media (prefers-reduced-motion: reduce) {
+  .promotion-banners::after, .promotion-banners__label i, .promotion-banners p { animation: none; }
+}

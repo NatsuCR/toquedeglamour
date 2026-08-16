@@ -1,4 +1,4 @@
-export const BASE_SHIPPING_COST = 4000;
+export const BASE_SHIPPING_COST = 3000;
 export const BASE_WEIGHT_LIMIT_GRAMS = 2000;
 export const EXTRA_KG_COST = 1000;
 
@@ -35,5 +35,17 @@ export function shippingSummary(items = []) {
     pesoTotalGramos,
     pesoTexto: formatWeight(pesoTotalGramos),
     costoEnvio: calculateShipping(pesoTotalGramos)
+  };
+}
+
+export function shippingWithPromotions(weight, subtotal, settings) {
+  const original = calculateShipping(weight);
+  const thresholdFree = settings.envioGratisActivo && Number(subtotal) > settings.envioGratisDesde;
+  const free = thresholdFree;
+  return {
+    costoOriginal: original,
+    costoEnvio: free ? 0 : original,
+    gratis: free,
+    motivoGratis: thresholdFree ? 'Compra mayor a ₡35.000' : null
   };
 }

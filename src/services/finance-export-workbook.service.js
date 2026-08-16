@@ -90,11 +90,9 @@ function styleSummary(sheet) {
     if (type === 'estado') row.getCell('valor').numFmt = 'General';
   });
 }
-
 function addReadme(workbook, data) {
   return addFinanceCover(workbook, data);
 }
-
 export class FinanceExportWorkbookService {
   static async create(data) {
     const workbook = new ExcelJS.Workbook();
@@ -104,7 +102,8 @@ export class FinanceExportWorkbookService {
     const summary = addRows(workbook, 'Resumen', SUMMARY_COLUMNS, summaryRows(data.summary.kpis));
     styleSummary(summary);
     const sales = addRows(workbook, 'Ventas', SALES_COLUMNS, data.sales);
-    moneyColumns(sales, ['subtotalProductos', 'envio', 'baseSinIva', 'iva', 'total', 'costos', 'comision', 'neto']);
+    moneyColumns(sales, ['subtotalProductos', 'subtotalOriginal', 'descuentos', 'descuentoBienvenida',
+      'envio', 'baseSinIva', 'iva', 'total', 'costos', 'comision', 'neto']);
     sales.getColumn('fecha').numFmt = 'dd/mm/yyyy hh:mm';
     const detail = addRows(workbook, 'Detalle productos', DETAIL_COLUMNS, data.detail);
     moneyColumns(detail, ['precioUnitario', 'costoUnitario', 'subtotal', 'iva', 'totalLinea', 'costoTotal']);

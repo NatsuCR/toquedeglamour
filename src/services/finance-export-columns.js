@@ -12,6 +12,8 @@ export const SALES_COLUMNS = [
   ['Receptor / cliente', 'cliente', 28], ['Identificacion', 'identificacion', 16],
   ['Correo', 'correo', 30], ['Medio de pago', 'medioPago', 18],
   ['Subtotal productos', 'subtotalProductos', 18], ['Envio', 'envio', 14],
+  ['Subtotal original', 'subtotalOriginal', 18], ['Descuentos', 'descuentos', 16],
+  ['Descuento bienvenida', 'descuentoBienvenida', 20],
   ['IVA', 'iva', 14], ['Total', 'total', 18],
   ['Costo productos', 'costos', 16], ['Comision empleado', 'comision', 18],
   ['Resultado neto', 'neto', 18], ['Responsable', 'responsable', 30],

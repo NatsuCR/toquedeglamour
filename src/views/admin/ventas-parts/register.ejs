@@ -35,7 +35,7 @@
   <input type="hidden" name="itemsJson" data-items-json>
   <div class="sales-total">
     <p><span>Subtotal</span><strong data-sale-subtotal>CRC 0</strong></p>
-    <p><span>IVA <%= finance.ivaPorcentaje %>%</span><strong data-sale-iva>CRC 0</strong></p>
+    <p><span>IVA incluido <%= finance.ivaPorcentaje %>%</span><strong data-sale-iva>CRC 0</strong></p>
     <p><span>Comision <%= admin.rol === 'EMPLEADO' ? '10%' : '0%' %></span><strong data-sale-commission>CRC 0</strong></p>
     <p class="grand"><span>Total cobrado</span><strong data-sale-total>CRC 0</strong></p>
   </div>

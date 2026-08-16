@@ -18,6 +18,7 @@ function actualizarCamposProducto() {
   form.querySelectorAll('[data-direct-field]').forEach((field) => {
     setFieldState(field, !consultation);
   });
+  setFieldState(form.querySelector('[data-promotion-field]'), !consultation, false);
   setFieldState(form.querySelector('[data-direct-content]'), !consultation, true);
   setFieldState(form.querySelector('[data-cosmetic-field]'), cosmetic, cosmetic);
   setFieldState(form.querySelector('[data-precautions-option]'), !consultation, false);

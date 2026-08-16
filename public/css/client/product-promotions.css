@@ -1,0 +1,18 @@
+.home-card-badges .is-promotion,
+.catalog-card-badges .is-promotion { color: #fff; background: #a92f55; }
+.card-img { transition: opacity 220ms ease; }
+.card-img.is-changing,
+.catalog-image-wrap img.is-changing { opacity: 0.35; }
+.card-price del,
+.catalog-product-foot del,
+.product-detail-price del { margin-right: 0.35rem; color: var(--text-muted); font-size: 0.8em; font-weight: 500; }
+.product-promotion-label {
+  display: inline-block;
+  margin-right: 0.5rem;
+  padding: 0.25rem 0.45rem;
+  border-radius: 999px;
+  color: #fff;
+  background: #a92f55;
+  font-size: 0.75rem;
+  vertical-align: middle;
+}

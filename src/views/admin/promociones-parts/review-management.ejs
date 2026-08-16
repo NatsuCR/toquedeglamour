@@ -1,0 +1,63 @@
+<% const reviews = products.flatMap((product) => (product.resenas || []).map((review) => ({ ...review, product }))); %>
+<section class="feedback-management" id="admin-reviews" data-content-manager>
+  <header class="feedback-management-head">
+    <div><span>Moderación</span><h2>Comentarios publicados</h2>
+      <p>Edit&aacute;, elimin&aacute; contenido inapropiado o respond&eacute; públicamente como Admin.</p></div>
+    <strong><%= reviews.length %> reseñas</strong>
+  </header>
+  <nav class="feedback-content-tabs" aria-label="Origen de comentarios">
+    <button type="button" data-content-tab="client" aria-selected="true">
+      Comentarios de clientes <b><%= reviews.filter((item) => !item.creadaPorAdmin).length %></b>
+    </button>
+    <button type="button" data-content-tab="admin" aria-selected="false">
+      Creados en admin <b><%= reviews.filter((item) => item.creadaPorAdmin).length %></b>
+    </button>
+  </nav>
+  <div class="feedback-management-tools">
+    <label class="feedback-management-search">Filtrar comentarios
+      <input type="search" placeholder="Categoría, producto, cliente o comentario" data-content-search autocomplete="off">
+    </label>
+    <p><strong data-content-result-count>0</strong> visibles</p>
+  </div>
+  <div class="feedback-admin-list" data-content-list>
+    <% reviews.forEach((review) => { %>
+      <% const context = `${review.product.categoria?.nombre || ''} ${review.product.subcategoria?.nombre || ''} ${review.product.nombre}`; %>
+      <article class="feedback-admin-card is-review-card <%= review.respuestaAdmin ? 'has-admin-reply' : '' %>"
+        data-content-card data-tab-value="<%= review.creadaPorAdmin ? 'admin' : 'client' %>"
+        data-search-value="<%= `${context} ${review.nombre} ${review.comentario}` %>">
+        <header><div><%- include('product-context', { product: review.product }) %>
+          <strong><%= review.nombre %></strong></div>
+          <span class="feedback-origin is-<%= review.creadaPorAdmin ? 'admin' : 'client' %>"><%= review.creadaPorAdmin ? 'Creado en admin' : 'Cliente' %></span></header>
+
+        <form class="feedback-edit-form" method="POST"
+          action="/admin/promociones/comentarios/<%= review.id %>?_method=PUT">
+          <label>Nombre visible<input name="nombre" value="<%= review.nombre %>"
+            <%= review.creadaPorAdmin ? '' : 'readonly' %> maxlength="100"></label>
+          <label>Calificación<select name="calificacion">
+            <% [5,4,3,2,1].forEach((star) => { %><option value="<%= star %>" <%= star === review.calificacion ? 'selected' : '' %>><%= star %> estrellas</option><% }) %>
+          </select></label>
+          <label class="field-wide">Comentario<textarea name="comentario" rows="3" maxlength="1500" required><%= review.comentario %></textarea></label>
+          <button class="btn" type="submit">Guardar cambios</button>
+        </form>
+
+        <form class="feedback-reply-form" method="POST"
+          action="/admin/promociones/comentarios/<%= review.id %>/respuesta">
+          <label><span>Responder como <b>Admin</b></span>
+            <textarea name="respuestaAdmin" rows="2" maxlength="1500" required
+              placeholder="Escribí una respuesta pública"><%= review.respuestaAdmin || '' %></textarea></label>
+          <button class="btn btn-outline" type="submit"><%= review.respuestaAdmin ? 'Actualizar respuesta' : 'Responder comentario' %></button>
+        </form>
+
+        <div class="feedback-danger-actions">
+          <% if (review.respuestaAdmin) { %><form method="POST"
+            action="/admin/promociones/comentarios/<%= review.id %>/respuesta?_method=DELETE"
+            onsubmit="return confirm('¿Eliminar la respuesta de Admin?')"><button type="submit">Quitar respuesta</button></form><% } %>
+          <form method="POST" action="/admin/promociones/comentarios/<%= review.id %>?_method=DELETE"
+            onsubmit="return confirm('¿Eliminar permanentemente este comentario?')"><button type="submit">Eliminar comentario</button></form>
+        </div>
+      </article>
+    <% }) %>
+    <% if (!reviews.length) { %><p class="feedback-admin-empty">Todavía no hay comentarios para administrar.</p><% } %>
+  </div>
+  <p class="feedback-filter-empty" data-content-empty hidden>No hay comentarios en esta pestaña que coincidan con la búsqueda.</p>
+</section>

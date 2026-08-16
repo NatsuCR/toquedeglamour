@@ -6,7 +6,8 @@
   const celular1 = pedido.celular1Cliente || user?.celular1 || 'No indicado';
   const celular2 = pedido.celular2Cliente || user?.celular2 || 'No indicado';
   const envio = Number(pedido.costoEnvio || 0);
-  const iva = Math.max(0, Number(pedido.total || 0) - Number(pedido.subtotal || 0) - envio);
+  const iva = Number(pedido.ivaIncluido || 0);
+  const descuentos = orderDiscountTotal(pedido);
   const pagoLabels = { SINPE: 'SINPE Movil', DEPOSITO: 'Transferencia bancaria' };
 %>
 
@@ -49,10 +50,12 @@
 
   <section>
     <span>Totales</span>
-    <p>Subtotal: <%= formatMoney(pedido.subtotal) %></p>
+    <p>Subtotal original: <%= formatMoney(originalSubtotal(pedido)) %></p>
+    <% if (descuentos > 0) { %><p>Descuentos: -<%= formatMoney(descuentos) %></p><% } %>
+    <p>Subtotal final: <%= formatMoney(pedido.subtotal) %></p>
     <p>Peso total: <%= formatWeight(pedido.pesoTotalGramos || 0) %></p>
     <p>Envio: <%= formatMoney(envio) %></p>
-    <p>IVA: <%= formatMoney(iva) %></p>
+    <p>IVA incluido: <%= formatMoney(iva) %></p>
     <p><strong>Total: <%= formatMoney(pedido.total) %></strong></p>
   </section>
 </div>

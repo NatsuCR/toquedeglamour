@@ -1,0 +1,40 @@
+.catalog-filter {
+  isolation: isolate;
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--primary) 18%, var(--line));
+  background:
+    radial-gradient(circle at 100% 0, color-mix(in srgb, var(--secondary) 13%, transparent), transparent 28%),
+    linear-gradient(150deg, color-mix(in srgb, var(--rose-soft) 45%, transparent), transparent 55%),
+    var(--surface);
+  box-shadow: 0 18px 46px rgba(84,23,45,.1);
+}
+.catalog-filter::before { content: ""; position: absolute; z-index: -1; inset: 0 0 auto; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary), var(--rose)); }
+.catalog-filter-head { border-bottom: 1px solid var(--line); padding-bottom: .85rem; }
+.catalog-filter-kicker { display: inline-flex; gap: .4rem; align-items: center; }
+.catalog-filter-kicker i { display: grid; width: 1.5rem; height: 1.5rem; place-items: center; border-radius: 50%; color: #fff; background: linear-gradient(135deg, var(--secondary), #e1b268); font-style: normal; box-shadow: 0 6px 14px color-mix(in srgb, var(--secondary) 28%, transparent); }
+.catalog-filter-head h2 { margin-top: .45rem; font-family: var(--font-serif); font-size: 1.65rem; }
+.catalog-filter-head p { font-size: .86rem; line-height: 1.5; }
+.catalog-field { position: relative; }
+.catalog-field > span, .catalog-field { color: var(--text-main); }
+.catalog-control { border-color: color-mix(in srgb, var(--primary) 15%, var(--line)) !important; border-radius: 12px !important; background: color-mix(in srgb, var(--surface-strong) 94%, var(--rose-soft)) !important; box-shadow: inset 0 1px rgba(255,255,255,.45); transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease; }
+.catalog-control:hover { border-color: color-mix(in srgb, var(--primary) 34%, var(--line)) !important; }
+.catalog-control:focus { outline: 0; border-color: var(--secondary) !important; box-shadow: 0 0 0 3px color-mix(in srgb, var(--secondary) 18%, transparent); transform: translateY(-1px); }
+.catalog-filter-options { display: grid; gap: .6rem; }
+.catalog-filter-option { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .7rem; align-items: center; overflow: hidden; border: 1px solid color-mix(in srgb, var(--primary) 15%, var(--line)); border-radius: 14px; padding: .75rem; color: var(--primary-strong); background: color-mix(in srgb, var(--rose-soft) 55%, var(--surface-strong)); cursor: pointer; transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease; }
+.catalog-filter-option:hover { transform: translateY(-1px); border-color: color-mix(in srgb, var(--secondary) 48%, var(--line)); box-shadow: 0 9px 20px rgba(84,23,45,.08); }
+.catalog-filter-option input { width: 20px; height: 20px; margin: 0; accent-color: var(--primary); }
+.catalog-filter-option strong, .catalog-filter-option small { display: block; }
+.catalog-filter-option strong { font-size: .84rem; }
+.catalog-filter-option small { margin-top: .16rem; color: var(--text-muted); font-size: .7rem; line-height: 1.3; }
+.catalog-filter-option:has(input:checked) { border-color: color-mix(in srgb, var(--primary) 58%, var(--line)); background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 12%, var(--surface-strong)), color-mix(in srgb, var(--secondary) 10%, var(--surface-strong))); box-shadow: inset 3px 0 var(--primary), 0 10px 22px rgba(84,23,45,.09); }
+.catalog-filter-option.is-consult:has(input:checked) { box-shadow: inset 3px 0 var(--secondary), 0 10px 22px rgba(84,23,45,.09); }
+.catalog-filter-option.is-promotion:has(input:checked) { box-shadow: inset 3px 0 var(--secondary), 0 10px 24px color-mix(in srgb, var(--secondary) 18%, transparent); }
+.catalog-filter-actions { border-top: 1px solid var(--line); padding-top: .9rem; }
+.catalog-filter-actions .nav-btn { min-height: 46px; border: 0; background: linear-gradient(135deg, var(--primary), var(--primary-strong)); box-shadow: 0 10px 22px color-mix(in srgb, var(--primary) 22%, transparent); }
+.catalog-filter-actions .btn-outline { min-height: 44px; display: grid; place-items: center; border-color: color-mix(in srgb, var(--primary) 42%, var(--line)); border-radius: 99px; text-decoration: none; font-weight: 900; }
+[data-theme="dark"] .catalog-filter { box-shadow: 0 20px 46px rgba(0,0,0,.3); }
+[data-theme="dark"] .catalog-control { box-shadow: inset 0 1px rgba(255,255,255,.04); }
+@media (max-width: 760px) {
+  .catalog-filter.is-mobile-open { padding: 1rem; border-radius: 18px; }
+  .catalog-filter-head h2 { font-size: 1.5rem; }
+}

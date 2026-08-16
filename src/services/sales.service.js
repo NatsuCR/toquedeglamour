@@ -1,6 +1,7 @@
 import prisma from '../config/db.js';
 import { roundMoney } from '../utils/money.js';
 import { FinanceSettingsService } from './finance-settings.service.js';
+import { includedTax } from './tax.service.js';
 
 const PAYMENT_METHODS = new Set(['EFECTIVO', 'SINPE', 'TARJETA', 'TRANSFERENCIA', 'OTRO']);
 const clean = (value) => String(value || '').trim();
@@ -91,9 +92,7 @@ export class SalesService {
           costoUnitario: roundMoney(product.costo)
         });
       }
-      const iva = settings.ivaActivo
-        ? roundMoney(subtotal * (settings.ivaPorcentaje / 100))
-        : 0;
+      const iva = includedTax(subtotal, settings.ivaActivo, settings.ivaPorcentaje);
       const commission = seller.rol === 'EMPLEADO' ? roundMoney(subtotal * 0.1) : 0;
       return tx.ventaPresencial.create({
         data: {
@@ -105,7 +104,7 @@ export class SalesService {
           metodoPago: PAYMENT_METHODS.has(data.metodoPago) ? data.metodoPago : 'EFECTIVO',
           subtotal,
           iva,
-          total: roundMoney(subtotal + iva),
+          total: roundMoney(subtotal),
           comision: commission,
           notas: clean(data.notas) || null,
           items: { create: saleItems },

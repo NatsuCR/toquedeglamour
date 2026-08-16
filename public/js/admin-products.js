@@ -25,6 +25,8 @@ function abrirProductoCrear() {
   document.getElementById('formTitle').innerText = 'Crear producto';
   form.action = '/admin/productos';
   form.reset();
+  window.resetProductSubmitState?.();
+  window.prepareProductFaqsForCreate?.();
   clearProductImages();
   form.pesoGramos.value = 250;
   document.getElementById('imgInput').required = true;
@@ -47,6 +49,8 @@ function abrirProductoEditar(btn) {
   document.body.classList.add('admin-modal-open');
   document.getElementById('formTitle').innerText = 'Editar producto';
   form.reset();
+  window.resetProductSubmitState?.();
+  window.prepareProductFaqsForEdit?.(product.preguntasFrecuentes || []);
   form.action = `/admin/productos/${product.id}?_method=PUT`;
   form.nombre.value = product.nombre || '';
   form.marca.value = product.marca || '';
@@ -67,6 +71,8 @@ function abrirProductoEditar(btn) {
   form.sostenibilidad.value = product.sostenibilidad || '';
   form.resultadosComprobados.value = product.resultadosComprobados || '';
   document.getElementById('checkNuevo').checked = product.esNuevo === true;
+  form.promocionActiva.checked = product.promocionActiva === true;
+  form.promocionPorcentaje.value = product.promocionPorcentaje || 0;
   renderProductImages(product.imagenes || []);
   document.getElementById('imgInput').required = false;
   document.getElementById('imgHint').hidden = false;

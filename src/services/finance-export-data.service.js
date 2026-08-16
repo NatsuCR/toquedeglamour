@@ -34,10 +34,7 @@ export class FinanceExportDataService {
     ]);
     const sales = [...orders.map(webSale), ...localSales.map(localSale)]
       .sort((a, b) => a.fecha - b.fecha);
-    const webDetails = orders.flatMap((order) => details({
-      ...order,
-      iva: Math.max(0, order.total - order.subtotal - order.costoEnvio)
-    }, 'TIENDA WEB'));
+    const webDetails = orders.flatMap((order) => details({ ...order, iva: order.ivaIncluido }, 'TIENDA WEB'));
     const localDetails = localSales.flatMap((sale) => details(sale, 'VENTA PRESENCIAL'));
     const losses = inventoryLosses.map((loss) => ({
       fecha: loss.creadoEn,

@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const position = mobileQuery.matches ? track.scrollLeft : offset;
         if (position >= max - 1) moveToStart();
         else move('next');
-      }, 5000);
+      }, 15000);
     };
 
     next?.addEventListener('click', () => { stopAutoplay(); move('next', next); });

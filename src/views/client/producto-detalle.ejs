@@ -61,7 +61,11 @@
     <h1><%= producto.nombre %></h1>
 
     <div class="product-detail-price">
-      <%= consulta ? 'Precio a consultar' : formatMoney(Number(producto.precio || 0)) %>
+      <% if (!consulta && producto.promocionActiva) { %>
+        <span class="product-promotion-label">Promoción <%= producto.promocionPorcentaje %>%</span>
+        <del><%= formatMoney(producto.precio) %></del>
+      <% } %>
+      <%= consulta ? 'Precio a consultar' : formatMoney(promotionalPrice(producto)) %>
     </div>
 
     <%- include('producto-parts/content', { producto, consulta }) %>
@@ -88,6 +92,9 @@
     </div>
   </article>
 </section>
+
+<%- include('producto-parts/faq', { producto }) %>
+<%- include('producto-parts/reviews', { producto, user, reviewSuccess, reviewError }) %>
 
 <script src="/js/image-lightbox.js"></script>
 <script src="/js/product-gallery.js"></script>

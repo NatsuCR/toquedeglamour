@@ -11,7 +11,9 @@
     filtros.minPrecio,
     filtros.maxPrecio,
     filtros.sort,
-    filtros.disponible
+    filtros.disponible,
+    filtros.consulta,
+    filtros.promocion
   ].filter(Boolean).length;
   const categoriaActual = categorias.find((c) => c.slug === filtros.cat);
   const subcategoriaActual = categorias
@@ -55,7 +57,7 @@
       aria-expanded="false"
       aria-controls="catalogFilter"
       data-catalog-filter-toggle>
-      <span>Filtros</span>
+      <span>Aplicar filtros</span>
       <% if (filtrosActivos) { %><strong><%= filtrosActivos %></strong><% } %>
     </button>
 
@@ -77,5 +79,7 @@
 
 <script src="/js/catalog-load-more.js"></script>
 <script src="/js/catalog-mobile-filter.js"></script>
+<script src="/js/catalog-filter-options.js?v=20260816-2"></script>
+<script src="/js/product-card-images.js?v=20260816-2"></script>
 
 <%- include('partials/footer') %>

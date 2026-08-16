@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const start = () => {
     window.clearInterval(timer);
     if (autoplayStopped || slides.length < 2) return;
-    timer = window.setInterval(() => update(index + 1), 5000);
+    timer = window.setInterval(() => update(index + 1), 10000);
   };
 
   const stopAutoplay = () => {

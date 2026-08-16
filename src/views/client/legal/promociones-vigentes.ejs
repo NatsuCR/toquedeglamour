@@ -1,0 +1,15 @@
+<section class="legal-promotions">
+  <h2>Promociones vigentes</h2>
+  <% if (promotions?.bienvenidaActiva) { %>
+    <h3>Descuento de bienvenida</h3>
+    <p>Al registrarse, el cliente recibe 5% de descuento en un producto de venta directa a elección. Se usa una única vez por cuenta y queda consumido al confirmar el primer pedido que lo aplica; no vuelve a habilitarse en compras posteriores. No aplica a productos o servicios por consulta.</p>
+  <% } %>
+  <% if (promotions?.envioGratisActivo) { %>
+    <h3>Envío gratis desde ₡35.000</h3>
+    <p>Los pedidos a domicilio cuyo subtotal con descuentos sea mayor a ₡35.000 no pagan envío.</p>
+  <% } %>
+  <% if (!promotions?.bienvenidaActiva && !promotions?.envioGratisActivo) { %>
+    <p>No hay promociones generales activas en este momento.</p>
+  <% } %>
+  <p>Las promociones descritas aplican únicamente a venta directa y no a consultas, que corresponden a una operación separada. Los anuncios visibles reflejan las promociones activas y los descuentos aplicados se muestran antes de confirmar el pedido.</p>
+</section>

@@ -40,7 +40,11 @@
         <label class="field-full" data-direct-field>Stock<input id="stockInput" type="number" name="stock" class="form-control" min="0" required></label>
       </div>
 
+      <%- include('promotion-fields') %>
+
       <%- include('content-fields') %>
+
+      <%- include('faq-fields') %>
 
       <div id="consultaNotice" class="product-consult-notice" hidden>
         Este producto se mostrará sin precio y guiará al cliente a solicitar una consulta.
@@ -76,11 +80,13 @@
       <label class="check-row product-feature-toggle">
         <input type="checkbox" name="esNuevo" id="checkNuevo">
         <span class="product-feature-check" aria-hidden="true"></span>
-        <span>Marcar como nuevo <small>Aparece en "Recién llegados" por 30 días.</small></span>
+        <span>Marcar como nuevo <small>Aparece en "Recién llegados" hasta que lo desmarques.</small></span>
       </label>
 
+      <div class="product-form-error" data-product-form-error role="alert" hidden></div>
+
       <div class="form-actions">
-        <button type="submit" class="btn">Guardar producto</button>
+        <button type="submit" class="btn" data-product-submit>Guardar producto</button>
         <button type="button" class="btn btn-outline" onclick="cerrarProductoForm()">Cancelar</button>
       </div>
     </form>

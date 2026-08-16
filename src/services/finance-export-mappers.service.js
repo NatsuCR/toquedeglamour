@@ -1,5 +1,6 @@
 import { dateRange } from './finance-expenses.service.js';
 import { roundMoney } from '../utils/money.js';
+import { originalSubtotal, orderDiscountTotal } from './order-pricing.service.js';
 
 export function dateWhere(query) {
   const { from, to } = dateRange(query);
@@ -12,7 +13,7 @@ export function dateWhere(query) {
 
 export function webSale(order) {
   const shipping = roundMoney(order.costoEnvio);
-  const tax = Math.max(0, roundMoney(order.total) - roundMoney(order.subtotal) - shipping);
+  const tax = roundMoney(order.ivaIncluido || 0);
   const costs = order.items.reduce((sum, item) => sum + roundMoney(item.costoUnitario) * item.cantidad, 0);
   const base = roundMoney(order.total) - tax;
   return {
@@ -24,6 +25,9 @@ export function webSale(order) {
     identificacion: order.cedulaCliente || '', correo: order.correoCliente || '',
     condicion: 'Contado', medioPago: order.metodoPago, moneda: 'CRC',
     subtotalProductos: roundMoney(order.subtotal), envio: shipping,
+    subtotalOriginal: originalSubtotal(order),
+    descuentos: orderDiscountTotal(order),
+    descuentoBienvenida: roundMoney(order.descuentoBienvenida),
     baseSinIva: base, iva: tax, total: roundMoney(order.total),
     costos: costs, comision: 0, neto: base - costs,
     notas: order.motivoCancelacion || '',
@@ -42,15 +46,18 @@ export function localSale(sale) {
     identificacion: sale.clienteCedula || '', correo: '', condicion: 'Contado',
     medioPago: sale.metodoPago, moneda: 'CRC',
     subtotalProductos: roundMoney(sale.subtotal), envio: 0,
-    baseSinIva: roundMoney(sale.subtotal), iva: roundMoney(sale.iva),
+    subtotalOriginal: roundMoney(sale.subtotal), descuentos: 0,
+    descuentoBienvenida: 0,
+    baseSinIva: roundMoney(sale.total) - roundMoney(sale.iva), iva: roundMoney(sale.iva),
     total: roundMoney(sale.total), costos: costs, comision: roundMoney(sale.comision),
-    neto: roundMoney(sale.subtotal) - costs - roundMoney(sale.comision),
+    neto: roundMoney(sale.total) - roundMoney(sale.iva) - costs - roundMoney(sale.comision),
     notas: sale.notas || '', comprobantes: proofs
   };
 }
 
 export function details(sale, source) {
-  const rate = sale.subtotal > 0 ? roundMoney(sale.iva || 0) / roundMoney(sale.subtotal) : 0;
+  const base = roundMoney(sale.subtotal) - roundMoney(sale.iva || 0);
+  const rate = base > 0 ? roundMoney(sale.iva || 0) / base : 0;
   return sale.items.map((item, index) => {
     const subtotal = roundMoney(item.precioUnitario) * item.cantidad;
     const product = item.producto || {};
@@ -65,8 +72,8 @@ export function details(sale, source) {
       precioUnitario: roundMoney(item.precioUnitario),
       costoUnitario: roundMoney(item.costoUnitario),
       subtotal,
-      tarifaIva: rate, iva: roundMoney(subtotal * rate),
-      totalLinea: subtotal + roundMoney(subtotal * rate),
+      tarifaIva: rate, iva: roundMoney(subtotal * rate / (1 + rate)),
+      totalLinea: subtotal,
       costoTotal: roundMoney(item.costoUnitario) * item.cantidad
     };
   });

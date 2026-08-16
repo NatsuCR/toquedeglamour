@@ -33,8 +33,9 @@ export function sumOrders(orders) {
     const date = order.creadoEn.toISOString().split('T')[0];
     result.porFecha[date] ||= emptyFlowRow();
     const total = roundMoney(order.total);
-    const base = roundMoney(order.subtotal) + roundMoney(order.costoEnvio || 0);
-    const tax = Math.max(0, total - base);
+    const tax = roundMoney(order.ivaIncluido || 0);
+    const productRatio = Number(order.subtotal) > 0
+      ? (roundMoney(order.subtotal) - tax) / roundMoney(order.subtotal) : 1;
     result.totalConIva += total;
     result.totalSinIva += total - tax;
     result.ivaEstimado += tax;
@@ -48,7 +49,8 @@ export function sumOrders(orders) {
       const product = item.producto?.nombre || `Producto #${item.productoId}`;
       const category = item.producto?.categoria?.nombre || 'Sin categoría';
       result.productos[product] = (result.productos[product] || 0) + item.cantidad;
-      result.categorias[category] = (result.categorias[category] || 0) + sale - cost;
+      result.categorias[category] = (result.categorias[category] || 0)
+        + roundMoney(sale * productRatio) - cost;
     });
   });
   return result;

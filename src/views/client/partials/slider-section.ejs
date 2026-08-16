@@ -25,16 +25,20 @@
           <% const consulta = p.tipoVenta === 'CONSULTA'; %>
           <% const stock = Number(p.stock || 0); %>
           <% const lowStock = stock > 0 && stock <= 5; %>
+          <% const cardImages = (p.imagenes || []).map((image) => image.ruta).filter(Boolean); %>
           <div class="slider-item">
             <a href="/producto/<%= p.id %>/<%= p.slug %>" style="text-decoration:none; color:inherit; display:block; position:relative; height:100%;">
               <div class="home-card-badges">
-                <% if (mostrarBadge && index < 3) { %><span>Nuevo</span><% } %>
+                <% if (mostrarBadge && p.esNuevo) { %><span>Nuevo</span><% } %>
+                <% if (!consulta && p.promocionActiva) { %><span class="is-promotion">Promoción <%= p.promocionPorcentaje %>%</span><% } %>
                 <% if (consulta) { %><span class="is-consult">Por consulta</span><% } %>
                 <% if (!consulta && stock <= 0) { %><span class="is-empty">Agotado</span><% } %>
               </div>
               <article class="glass-card card-hover-effect">
                 <% if (p.imagenUrl) { %>
-                  <img src="<%= p.imagenUrl %>" alt="<%= p.nombre %>" class="card-img" loading="lazy">
+                  <img src="<%= p.imagenUrl %>" alt="<%= p.nombre %>" class="card-img" loading="lazy"
+                    data-card-images="<%= encodeURIComponent(JSON.stringify(cardImages)) %>"
+                    data-card-interval="5000">
                 <% } else { %>
                   <div class="card-img" style="display:flex; align-items:center; justify-content:center;">Sin imagen</div>
                 <% } %>
@@ -43,7 +47,8 @@
                 <span class="home-card-sku">SKU: PRD-<%= String(p.id).padStart(4, '0') %></span>
                 <h3 class="card-title"><%= p.nombre %></h3>
                 <div class="home-card-foot">
-                  <p class="card-price"><%= consulta ? 'Precio a consultar' : formatMoney(p.precio) %></p>
+                  <p class="card-price"><% if (!consulta && p.promocionActiva) { %><del><%= formatMoney(p.precio) %></del><% } %>
+                    <%= consulta ? 'Precio a consultar' : formatMoney(promotionalPrice(p)) %></p>
                   <% if (consulta) { %>
                     <span class="stock-consult">Cita</span>
                   <% } else if (stock > 0) { %>

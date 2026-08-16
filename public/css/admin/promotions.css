@@ -1,0 +1,29 @@
+.promotions-admin-page { display: grid; gap: 1.25rem; }
+.promotions-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.promotions-admin-grid .admin-form-panel { align-content: start; background: var(--surface); }
+.promotions-admin-grid label:not(.check-row) { display: grid; gap: 0.4rem; }
+.promotions-admin-grid input,
+.promotions-admin-grid select,
+.promotions-admin-grid textarea {
+  width: 100%;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 0.75rem;
+  color: var(--text-light);
+  background: var(--surface);
+}
+.promotion-settings-card .check-row { padding: 0.8rem; border: 1px solid var(--glass-border); border-radius: 10px; }
+.product-promotion-fields {
+  display: grid;
+  grid-template-columns: 1fr minmax(180px, 0.4fr);
+  gap: 1rem;
+  margin: 1rem 0;
+}
+@media (max-width: 1000px) {
+  .promotions-admin-grid { grid-template-columns: 1fr; }
+  .product-promotion-fields { grid-template-columns: 1fr; }
+}

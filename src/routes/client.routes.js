@@ -11,6 +11,7 @@ import { LegalController } from '../controllers/legal.controller.js';
 import { BrandCollaborationController } from '../controllers/brand-collaboration.controller.js';
 import { AnalyticsController } from '../controllers/analytics.controller.js';
 import { SeoController } from '../controllers/seo.controller.js';
+import { ProductFeedbackController } from '../controllers/product-feedback.controller.js';
 import {
   requireClientAuth,
   redirectIfClientAuthenticated,
@@ -51,6 +52,7 @@ router.get('/carrito', CartController.renderCarrito);
 router.post('/carrito/agregar', CartController.agregarItem);
 router.post('/carrito/actualizar', CartController.actualizarItem);
 router.post('/carrito/eliminar', CartController.eliminarItem);
+router.post('/carrito/descuento-bienvenida', CartController.seleccionarBienvenida);
 
 router.get('/checkout', clienteVerificado, CheckoutController.renderCheckout);
 router.post(
@@ -88,5 +90,6 @@ router.post('/verificar', ClientAuthController.processVerificar);
 router.get('/logout', clienteActivo, ClientAuthController.logout);
 router.get('/producto/:id', ClientController.renderProductoDetalle);
 router.get('/producto/:id/:slug', ClientController.renderProductoDetalle);
+router.post('/producto/:id/comentarios', clienteActivo, ProductFeedbackController.clientReview);
 
 export default router;

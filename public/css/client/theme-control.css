@@ -1,6 +1,8 @@
 .theme-control {
   position: relative;
   display: block;
+  width: 126px;
+  max-width: 100%;
 }
 
 .theme-control .theme-select {

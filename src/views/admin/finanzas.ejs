@@ -50,11 +50,11 @@
       <div class="finance-card-head">
         <span>Impuestos</span>
         <h2>IVA</h2>
-        <p>Activalo cuando quieras que los pedidos nuevos incluyan el porcentaje configurado.</p>
+        <p>Activalo para calcular cuánto del precio final incluido corresponde a Hacienda.</p>
       </div>
       <label class="finance-switch">
         <input type="checkbox" name="ivaActivo" <%= settings.ivaActivo ? 'checked' : '' %>>
-        <span>Aplicar IVA en checkout y estadisticas</span>
+        <span>Desglosar IVA incluido en comprobantes y estadísticas</span>
       </label>
       <label class="finance-field">Porcentaje
         <input class="form-control" type="number" name="ivaPorcentaje" min="0" max="100" step="0.01" value="<%= settings.ivaPorcentaje %>">

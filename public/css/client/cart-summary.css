@@ -70,6 +70,13 @@
   width: 100%;
 }
 
+.discount-line strong { color: var(--accent); }
+.welcome-product-picker { display: grid; gap: 0.55rem; padding: 0.8rem; border: 1px solid var(--secondary); border-radius: var(--radius-card); }
+.welcome-product-picker label { display: grid; gap: 0.35rem; font-weight: 800; }
+.welcome-product-picker select { width: 100%; padding: 0.65rem; border: 1px solid var(--line); border-radius: 8px; color: var(--text-main); background: var(--surface); }
+.welcome-product-picker button { border: 0; border-radius: 8px; padding: 0.65rem; color: #fff; background: var(--primary); cursor: pointer; }
+[data-theme="dark"] .welcome-product-picker button { color: #321a25; }
+
 @media (max-width: 860px) {
   .cart-summary {
     position: static;

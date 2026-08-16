@@ -1,0 +1,22 @@
+<form class="admin-form-panel feedback-create-card" method="POST"
+  action="/admin/promociones/comentarios" data-product-picker>
+  <div class="form-panel-head"><h2>Comentar producto</h2><p>Public&aacute; una reseña personalizada.</p></div>
+  <label class="feedback-search">Buscar producto
+    <input type="search" placeholder="Nombre, marca o SKU" data-product-search autocomplete="off">
+  </label>
+  <small class="feedback-picker-help"><i></i> Los productos coloreados ya tienen comentarios.</small>
+  <label>Producto<select name="productoId" required data-product-select>
+    <% products.forEach((p) => { const count = p.resenas?.length || 0; %>
+      <option value="<%= p.id %>" data-has-content="<%= count > 0 %>"
+        data-search="<%= `${p.nombre} ${p.marca || ''} PRD-${String(p.id).padStart(4, '0')}` %>"
+        class="<%= count > 0 ? 'has-feedback' : '' %>"><%= p.nombre %> · <%= count %> reseña<%= count === 1 ? '' : 's' %></option>
+    <% }) %>
+  </select></label>
+  <small data-product-search-status><%= products.length %> productos disponibles</small>
+  <label>Nombre visible<input name="nombre" maxlength="100" required></label>
+  <label>Calificación<select name="calificacion" required>
+    <% [5,4,3,2,1].forEach((star) => { %><option value="<%= star %>"><%= star %> estrellas</option><% }) %>
+  </select></label>
+  <label>Comentario<textarea name="comentario" maxlength="1500" rows="5" required></textarea></label>
+  <button class="btn" type="submit">Comentar producto</button>
+</form>

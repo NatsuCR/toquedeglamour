@@ -1,0 +1,16 @@
+<% const promo = typeof promotions !== 'undefined' ? promotions : {}; %>
+<% if (promo.bienvenidaActiva || promo.envioGratisActivo) { %>
+  <aside class="promotion-banners" aria-label="Promociones vigentes" data-promotion-banners>
+    <span class="promotion-banners__label"><i></i> Beneficios activos</span>
+    <div class="promotion-banners__track">
+      <% let firstPromotion = true; %>
+      <% if (promo.bienvenidaActiva) { %>
+        <p class="<%= firstPromotion ? 'is-active' : '' %>"><b aria-hidden="true">✨</b><span>Registrate gratis y obtené un 5% de descuento en el producto que quieras</span></p>
+        <% firstPromotion = false; %>
+      <% } %>
+      <% if (promo.envioGratisActivo) { %>
+        <p class="<%= firstPromotion ? 'is-active' : '' %>"><b aria-hidden="true">🚚</b><span>Envío gratis en compras mayores a ₡35.000</span></p>
+      <% } %>
+    </div>
+  </aside>
+<% } %>

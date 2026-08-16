@@ -1,0 +1,8 @@
+<div class="feedback-product-context">
+  <span><%= product.categoria?.nombre || 'Sin categoría' %></span>
+  <i aria-hidden="true">›</i>
+  <span><%= product.subcategoria?.nombre || 'Sin subcategoría' %></span>
+  <i aria-hidden="true">›</i>
+  <strong><%= product.nombre %></strong>
+  <small>SKU: PRD-<%= String(product.id).padStart(4, '0') %></small>
+</div>

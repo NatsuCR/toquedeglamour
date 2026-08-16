@@ -1,0 +1,51 @@
+<%
+  const reviews = producto.resenas || [];
+  const average = reviews.length
+    ? reviews.reduce((sum, review) => sum + review.calificacion, 0) / reviews.length : 0;
+%>
+<section class="product-social-section product-reviews" id="comentarios" aria-labelledby="reviews-title">
+  <header class="reviews-hero">
+    <div><span class="reviews-kicker"><i aria-hidden="true">✦</i> Experiencias reales</span>
+      <h2 id="reviews-title">Comentarios y reseñas</h2>
+      <p>Opiniones compartidas por nuestra comunidad.</p>
+    </div>
+    <div class="reviews-score" aria-label="Calificación promedio">
+      <strong><%= average ? average.toFixed(1) : '—' %></strong>
+      <span class="review-stars" aria-label="Promedio <%= average.toFixed(1) %> de 5"><%= '★'.repeat(Math.round(average)) %><%= '☆'.repeat(5 - Math.round(average)) %></span>
+      <small><%= reviews.length %> comentario<%= reviews.length === 1 ? '' : 's' %></small>
+    </div>
+  </header>
+
+  <% if (reviewSuccess) { %><div class="review-feedback is-success"><b>✓</b><span><strong>¡Gracias por compartir!</strong> Tu comentario fue publicado.</span></div><% } %>
+  <% if (reviewError) { %><div class="review-feedback is-error"><%= reviewError %></div><% } %>
+
+  <% if (user) { %>
+    <form class="review-form" method="POST" action="/producto/<%= producto.id %>/comentarios">
+      <fieldset><legend>Tu calificación</legend><div class="star-choice">
+        <% [5,4,3,2,1].forEach((star) => { %>
+          <input id="star-<%= star %>" type="radio" name="calificacion" value="<%= star %>" <%= star === 5 ? 'required' : '' %>>
+          <label for="star-<%= star %>" title="<%= star %> estrellas">★</label>
+        <% }) %>
+      </div></fieldset>
+      <label>Tu comentario<textarea name="comentario" rows="4" minlength="3" maxlength="1500" required></textarea></label>
+      <button class="nav-btn" type="submit">Publicar comentario</button>
+    </form>
+  <% } else { %>
+    <div class="review-login"><span class="review-comment-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5.5h14v9H9l-4 3v-12Z"/><path d="M8 9h8M8 12h5"/></svg></span><div><strong>Tu experiencia tambi&eacute;n cuenta</strong>
+      <p>Ayud&aacute; a otras personas compartiendo tu calificaci&oacute;n y comentario.</p></div>
+      <a href="/login">Inici&aacute; sesi&oacute;n</a></div>
+  <% } %>
+
+  <div class="review-list">
+    <% reviews.forEach((review) => { const initials = review.nombre.split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase(); %><article>
+      <div class="review-author"><span class="review-avatar" aria-hidden="true"><%= initials %></span>
+        <div><strong><%= review.nombre %></strong><time><%= new Intl.DateTimeFormat('es-CR').format(review.creadoEn) %></time></div>
+        <span class="review-rating"><span class="review-stars" aria-label="<%= review.calificacion %> de 5 estrellas"><%= '★'.repeat(review.calificacion) %><%= '☆'.repeat(5-review.calificacion) %></span><small><%= review.calificacion %>.0</small></span>
+      </div>
+      <p class="review-copy">“<%= review.comentario %>”</p>
+      <% if (review.respuestaAdmin) { %><div class="review-admin-response"><span aria-hidden="true">A</span>
+        <div><strong>Respuesta de Admin</strong><p><%= review.respuestaAdmin %></p></div></div><% } %>
+    </article><% }) %>
+    <% if (!reviews.length) { %><div class="review-empty"><span aria-hidden="true">✦</span><strong>A&uacute;n no hay rese&ntilde;as</strong><p>S&eacute; la primera persona en compartir una experiencia con este producto.</p></div><% } %>
+  </div>
+</section>

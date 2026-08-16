@@ -35,7 +35,7 @@ function updateDelivery() {
   const isHome = $('input[name="tipoEntrega"]:checked')?.value === 'DOMICILIO';
   const address = $('#addressFields');
   state.envio = isHome ? roundMoney($('#checkoutApp').dataset.shipping) : 0;
-  const iva = state.ivaActivo ? roundMoney(state.subtotal * (state.ivaRate / 100)) : 0;
+  const iva = state.ivaActivo ? roundMoney(state.subtotal * state.ivaRate / (100 + state.ivaRate)) : 0;
   address.hidden = !isHome;
   setRequired(address, isHome);
   $('#shippingAmount').textContent = isHome ? money(state.envio) : 'Gratis';
@@ -43,7 +43,7 @@ function updateDelivery() {
   if (schedule) schedule.hidden = !isHome;
   $('#ivaLine').hidden = !state.ivaActivo;
   $('#ivaAmount').textContent = money(iva);
-  $('#totalAmount').textContent = money(state.subtotal + state.envio + iva);
+  $('#totalAmount').textContent = money(state.subtotal + state.envio);
 }
 
 function updatePayment() {

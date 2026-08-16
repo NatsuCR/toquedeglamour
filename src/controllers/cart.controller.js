@@ -2,6 +2,7 @@ import { ProductoService } from '../services/producto.service.js';
 import { FinanceSettingsService } from '../services/finance-settings.service.js';
 import { prepararResumenCarrito } from '../services/cart-summary.service.js';
 import { roundMoney } from '../utils/money.js';
+import { includedTax } from '../services/tax.service.js';
 
 const numeroPositivo = (value) => {
   const parsed = Number.parseInt(value, 10);
@@ -10,10 +11,12 @@ const numeroPositivo = (value) => {
 
 export class CartController {
   static async renderCarrito(req, res) {
-    const resumen = await prepararResumenCarrito(req.session.carrito || []);
+    const resumen = await prepararResumenCarrito(
+      req.session.carrito || [], res.locals.cliente?.id, req.session.welcomeProductId
+    );
     req.session.carrito = resumen.carrito;
     const finance = await FinanceSettingsService.obtener();
-    const iva = finance.ivaActivo ? roundMoney(resumen.subtotal * (finance.ivaPorcentaje / 100)) : 0;
+    const iva = includedTax(resumen.subtotal, finance.ivaActivo, finance.ivaPorcentaje);
     res.render('client/carrito', {
       user: res.locals.cliente,
       carrito: resumen.carrito,
@@ -21,8 +24,16 @@ export class CartController {
       finance,
       iva,
       shipping: resumen.shipping,
-      total: roundMoney(resumen.subtotal + resumen.shipping.costoEnvio + iva)
+      total: roundMoney(resumen.subtotal + resumen.shipping.costoEnvio),
+      ...resumen
     });
+  }
+
+  static seleccionarBienvenida(req, res) {
+    const selected = numeroPositivo(req.body.productoId);
+    const inCart = (req.session.carrito || []).some((item) => item.productoId === selected);
+    req.session.welcomeProductId = inCart ? selected : null;
+    req.session.save(() => res.redirect('/carrito'));
   }
 
   static async agregarItem(req, res) {

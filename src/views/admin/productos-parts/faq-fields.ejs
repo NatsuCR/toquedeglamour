@@ -1,0 +1,32 @@
+<section class="product-create-faqs" data-product-create-faqs hidden>
+  <input type="hidden" name="faqEditorPresent" value="1">
+  <header class="product-create-faqs-head">
+    <div>
+      <span>Información adicional · opcional</span>
+      <h3>Preguntas frecuentes del producto</h3>
+      <p>Al guardarlas, el producto quedará marcado con color en el selector de “Promociones”.</p>
+    </div>
+    <strong class="product-faq-counter"><span data-faq-count>0</span>/4</strong>
+  </header>
+
+  <div class="product-create-faq-list" data-faq-list></div>
+  <button class="btn btn-outline product-add-faq" type="button" data-add-faq>
+    + Agregar otra pregunta
+  </button>
+
+  <template data-faq-template>
+    <article class="product-create-faq-item">
+      <header>
+        <strong data-faq-title>Pregunta frecuente</strong>
+        <button type="button" data-remove-faq aria-label="Quitar pregunta frecuente">Quitar</button>
+      </header>
+      <label>Pregunta
+        <input type="hidden" name="faqId[]" data-faq-id>
+        <input class="form-control" name="faqPregunta[]" maxlength="250" placeholder="Ej. ¿Cómo debo conservar este producto?">
+      </label>
+      <label>Respuesta
+        <textarea class="form-control" name="faqRespuesta[]" maxlength="2000" rows="3" placeholder="Escribí una respuesta clara para tus clientes."></textarea>
+      </label>
+    </article>
+  </template>
+</section>

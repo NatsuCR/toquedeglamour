@@ -1,0 +1,69 @@
+<%
+  const faqs = products.flatMap((product) =>
+    (product.preguntasFrecuentes || []).map((faq) => ({ ...faq, product })));
+  const faqCategories = [...new Map(faqs.map(({ product }) => [
+    String(product.categoriaId), product.categoria?.nombre || 'Sin categoría'
+  ])).entries()];
+  const faqSubcategories = [...new Map(faqs.map(({ product }) => {
+    const value = String(product.subcategoriaId || 'none');
+    return [`${product.categoriaId}:${value}`, {
+      value,
+      category: String(product.categoriaId),
+      name: product.subcategoria?.nombre || 'Sin subcategoría'
+    }];
+  })).values()];
+  const faqProducts = [...new Map(faqs.map(({ product }) => [product.id, product])).values()];
+%>
+<section class="feedback-management" id="admin-faqs" data-content-manager>
+  <header class="feedback-management-head">
+    <div><span>Contenido útil</span><h2>Preguntas frecuentes publicadas</h2>
+      <p>Actualiz&aacute; preguntas y respuestas o elimin&aacute; las que ya no correspondan.</p></div>
+    <strong><%= faqs.length %> preguntas</strong>
+  </header>
+  <nav class="feedback-content-tabs is-category-tabs" aria-label="Categorías de preguntas">
+    <button type="button" data-content-tab="all" aria-selected="true">Todas <b><%= faqs.length %></b></button>
+    <% faqCategories.forEach(([id, name]) => { %>
+      <button type="button" data-content-tab="<%= id %>" aria-selected="false"><%= name %>
+        <b><%= faqs.filter(({ product }) => String(product.categoriaId) === id).length %></b></button>
+    <% }) %>
+  </nav>
+  <div class="feedback-management-tools is-faq-tools">
+    <label class="feedback-management-search">Filtrar preguntas
+      <input type="search" placeholder="Categoría, producto, pregunta o respuesta" data-content-search autocomplete="off">
+    </label>
+    <label>Subcategoría<select data-card-filter="subcategory">
+      <option value="">Todas</option>
+      <% faqSubcategories.forEach((item) => { %><option value="<%= item.value %>"
+        data-category="<%= item.category %>"><%= item.name %></option><% }) %>
+    </select></label>
+    <label>Producto<select data-card-filter="product">
+      <option value="">Todos</option>
+      <% faqProducts.forEach((product) => { %><option value="<%= product.id %>"
+        data-category="<%= product.categoriaId %>" data-subcategory="<%= product.subcategoriaId || 'none' %>"><%= product.nombre %></option><% }) %>
+    </select></label>
+    <p><strong data-content-result-count>0</strong> visibles</p>
+  </div>
+  <div class="feedback-admin-list is-faq-list" data-content-list>
+    <% faqs.forEach((faq) => { %>
+      <article class="feedback-admin-card" data-content-card
+        data-tab-value="<%= faq.product.categoriaId %>"
+        data-subcategory="<%= faq.product.subcategoriaId || 'none' %>" data-product="<%= faq.product.id %>"
+        data-search-value="<%= `${faq.product.categoria?.nombre || ''} ${faq.product.subcategoria?.nombre || ''} ${faq.product.nombre} ${faq.pregunta} ${faq.respuesta}` %>">
+        <header><div><%- include('product-context', { product: faq.product }) %>
+          <strong>Pregunta #<%= faq.id %></strong></div><span class="feedback-origin is-faq">FAQ</span></header>
+        <form class="feedback-edit-form" method="POST"
+          action="/admin/promociones/preguntas/<%= faq.id %>?_method=PUT">
+          <label class="field-wide">Pregunta<input name="pregunta" value="<%= faq.pregunta %>" maxlength="250" required></label>
+          <label class="field-wide">Respuesta<textarea name="respuesta" rows="3" maxlength="2000" required><%= faq.respuesta %></textarea></label>
+          <button class="btn" type="submit">Guardar pregunta</button>
+        </form>
+        <div class="feedback-danger-actions">
+          <form method="POST" action="/admin/promociones/preguntas/<%= faq.id %>?_method=DELETE"
+            onsubmit="return confirm('¿Eliminar permanentemente esta pregunta frecuente?')"><button type="submit">Eliminar pregunta</button></form>
+        </div>
+      </article>
+    <% }) %>
+    <% if (!faqs.length) { %><p class="feedback-admin-empty">Todavía no hay preguntas frecuentes para administrar.</p><% } %>
+  </div>
+  <p class="feedback-filter-empty" data-content-empty hidden>No hay preguntas que coincidan con la búsqueda.</p>
+</section>

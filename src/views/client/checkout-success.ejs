@@ -50,6 +50,13 @@
           </li>
         <% }) %>
       </ul>
+      <div class="success-totals">
+        <p>Subtotal original: <strong><%= formatMoney(originalSubtotal(pedido)) %></strong></p>
+        <% const totalDiscount = orderDiscountTotal(pedido); %>
+        <% if (totalDiscount > 0) { %><p>Descuentos: <strong>-<%= formatMoney(totalDiscount) %></strong></p><% } %>
+        <p>Envío: <strong><%= Number(pedido.costoEnvio) ? formatMoney(pedido.costoEnvio) : 'Gratis' %></strong></p>
+        <p>IVA incluido: <strong><%= formatMoney(pedido.ivaIncluido) %></strong></p>
+      </div>
     </div>
 
     <div class="success-actions">

@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+
+<section class="promotions-admin-page">
+  <header class="admin-page-hero">
+    <div><span>Beneficios</span><h1>Promociones y contenido social</h1>
+      <p>Activa campañas, comentarios iniciales y preguntas frecuentes por producto.</p></div>
+  </header>
+
+  <% if (flash) { %><div class="admin-alert is-<%= flash.type %>"><%= flash.message %></div><% } %>
+
+  <div class="promotions-admin-grid">
+    <%- include('promociones-parts/settings', { promotions }) %>
+    <%- include('promociones-parts/review-create', { products }) %>
+    <%- include('promociones-parts/faq-create', { products }) %>
+  </div>
+
+  <%- include('promociones-parts/review-management', { products }) %>
+  <%- include('promociones-parts/faq-management', { products }) %>
+</section>
+
+<script src="/js/admin-feedback.js?v=20260816-2" defer></script>
+<script src="/js/admin-feedback-management.js?v=20260816-1" defer></script>
+<%- include('partials/footer') %>

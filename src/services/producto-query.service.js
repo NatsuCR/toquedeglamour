@@ -1,11 +1,10 @@
 import prisma from '../config/db.js';
 import {
-  filtrosProducto,
   includeProducto,
   mapProducto,
-  mapProductos,
-  ordenProducto
+  mapProductos
 } from './producto.helpers.js';
+import { filtrosProducto, ordenProducto } from './product-filter.service.js';
 
 export class ProductoQueryService {
   static async obtenerTodos() {
@@ -22,12 +21,23 @@ export class ProductoQueryService {
     return mapProductos(productos);
   }
 
-  static async obtenerNuevos(limit = 6) {
-    const hace30Dias = new Date();
-    hace30Dias.setDate(hace30Dias.getDate() - 30);
+  static async obtenerNuevos() {
     const productos = await prisma.producto.findMany({
-      where: { esNuevo: true, fechaNuevo: { gte: hace30Dias } },
-      take: limit, include: includeProducto, orderBy: { fechaNuevo: 'desc' }
+      where: { esNuevo: true },
+      include: includeProducto, orderBy: { fechaNuevo: 'desc' }
+    });
+    return mapProductos(productos);
+  }
+
+  static async obtenerPromociones() {
+    const productos = await prisma.producto.findMany({
+      where: {
+        tipoVenta: 'DIRECTA',
+        promocionActiva: true,
+        promocionPorcentaje: { gt: 0 }
+      },
+      include: includeProducto,
+      orderBy: { creadoEn: 'desc' }
     });
     return mapProductos(productos);
   }

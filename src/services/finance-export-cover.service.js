@@ -51,7 +51,7 @@ export function addFinanceCover(workbook, data) {
   mergeLabel(sheet, 5, 'Contenido', 'Resumen, ventas, detalle de productos, gastos adicionales y mermas de inventario.');
   mergeLabel(sheet, 6, 'Uso', 'Control interno para revisar ingresos, costos, IVA, comisiones y perdidas.');
   mergeLabel(sheet, 7, 'Nota fiscal', 'Auxiliar contable. La facturacion electronica oficial se emite en el sistema autorizado por Hacienda.');
-  mergeLabel(sheet, 8, 'Comisiones', 'Empleados: 10% del subtotal sin IVA en ventas presenciales. Administrador: 0%.');
+  mergeLabel(sheet, 8, 'Comisiones', 'Empleados: 10% del precio final en ventas presenciales. Administrador: 0%.');
   mergeLabel(sheet, 9, 'Cancelaciones', 'Pedidos cancelados se conservan para auditoria y no suman en indicadores financieros.');
   styleRange(sheet, 1, 9);
   sheet.views = [{ showGridLines: false }];

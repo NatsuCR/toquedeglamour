@@ -13,7 +13,8 @@
       <div class="cart-item-info">
         <span>Producto</span>
         <h2><a href="/producto/<%= item.productoId %>"><%= item.nombre %></a></h2>
-        <p><%= formatMoney(item.precio) %> por unidad</p>
+        <p><% if (item.precioOriginal > item.precio) { %><del><%= formatMoney(item.precioOriginal) %></del> <% } %>
+          <%= formatMoney(item.precio) %> por unidad</p>
         <small class="cart-item-weight">Peso: <%= item.pesoGramos || 250 %> g por unidad</small>
       </div>
 

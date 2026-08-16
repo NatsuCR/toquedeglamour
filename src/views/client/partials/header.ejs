@@ -26,7 +26,7 @@
       if (theme === 'dark' || theme === 'light') document.documentElement.setAttribute('data-theme', theme);
     })();
   </script>
-  <link rel="stylesheet" href="/css/public.css?v=20260809-2">
+  <link rel="stylesheet" href="/css/public.css?v=20260816-1">
   <style>
     html:not([data-theme="dark"]) {
       --primary: <%= visual.primaryColor || '#7b2446' %>;
@@ -37,6 +37,7 @@
   </style>
   <script src="/js/theme.js" defer></script>
   <script src="/js/public-nav.js" defer></script>
+  <script src="/js/promotion-banners.js" defer></script>
   <script src="/js/catalog-menu-flyout.js" defer></script>
   <script src="/js/site-analytics.js" defer></script>
 
@@ -55,4 +56,5 @@
   <nav class="public-nav animate__animated animate__fadeInDown">
     <%- include('navbar', { visual }) %>
   </nav>
+  <%- include('promotion-banners') %>
   <main class="public-main">

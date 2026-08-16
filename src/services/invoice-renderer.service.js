@@ -3,12 +3,13 @@ import path from 'path';
 import { clienteNombre, invoiceBrand as brand, labelEntrega, labelPago, moneyPdf } from './invoice-format.service.js';
 import { roundMoney } from '../utils/money.js';
 import { formatWeight } from './shipping.service.js';
+import { InvoiceTotalsRenderer } from './invoice-totals-renderer.service.js';
 export class InvoiceRenderer {
   static render(doc, pedido) {
     this.header(doc, pedido);
     this.infoCards(doc, pedido);
     this.itemsTable(doc, pedido);
-    this.totals(doc, pedido);
+    InvoiceTotalsRenderer.render(doc, pedido);
     this.footer(doc);
   }
   static header(doc, pedido) {
@@ -88,27 +89,6 @@ export class InvoiceRenderer {
     });
     doc.moveTo(44, y).lineTo(552, y).strokeColor(brand.line).stroke();
     doc.y = y + 18;
-  }
-
-  static totals(doc, pedido) {
-    const x = 352;
-    const y = doc.y;
-    const subtotal = Number(pedido.subtotal || pedido.total) - Number(pedido.costoEnvio || 0);
-    const iva = Math.max(0, roundMoney(pedido.total) - roundMoney(pedido.subtotal) - roundMoney(pedido.costoEnvio || 0));
-    doc.roundedRect(x, y, 200, iva > 0 ? 112 : 92, 8).fillAndStroke(brand.rose, brand.line);
-    this.totalLine(doc, x, y + 14, 'Subtotal', moneyPdf(subtotal));
-    this.totalLine(doc, x, y + 34, 'Envio', moneyPdf(pedido.costoEnvio || 0));
-    if (iva > 0) this.totalLine(doc, x, y + 54, 'IVA', moneyPdf(iva));
-    const lineY = iva > 0 ? y + 78 : y + 58;
-    doc.moveTo(x + 14, lineY).lineTo(x + 186, lineY).strokeColor(brand.line).stroke();
-    doc.fillColor(brand.wineDark).font('Helvetica-Bold').fontSize(12);
-    doc.text('Total', x + 14, lineY + 10, { width: 70 });
-    doc.text(moneyPdf(pedido.total), x + 92, lineY + 10, { width: 94, align: 'right' });
-  }
-
-  static totalLine(doc, x, y, label, value) {
-    doc.fillColor(brand.muted).font('Helvetica').fontSize(9.5).text(label, x + 14, y, { width: 70 });
-    doc.fillColor(brand.ink).font('Helvetica-Bold').text(value, x + 92, y, { width: 94, align: 'right' });
   }
 
   static footer(doc) {
