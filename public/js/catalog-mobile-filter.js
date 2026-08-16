@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     panel.classList.toggle('is-mobile-open', open);
     toggle.classList.toggle('is-active', open);
     toggle.setAttribute('aria-expanded', String(open));
-    toggle.querySelector('span').textContent = open ? 'Cerrar filtros' : 'Aplicar filtros';
+    toggle.querySelector('span').textContent = open ? 'Cerrar filtros' : 'Filtros';
   };
 
   toggle.addEventListener('click', () => {

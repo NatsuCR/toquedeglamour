@@ -1,4 +1,5 @@
 .catalog-mobile-search,
+.catalog-mobile-apply,
 .catalog-filter-toggle {
   display: none;
 }
@@ -48,6 +49,22 @@
     color: #fff;
     background: var(--primary);
     font-weight: 900;
+  }
+
+  .catalog-mobile-apply {
+    min-height: 46px;
+    display: block;
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+    font-weight: 900;
+    box-shadow: 0 10px 22px color-mix(in srgb, var(--primary) 22%, transparent);
+  }
+
+  .catalog-filter-actions .nav-btn {
+    display: none;
   }
 
   .catalog-mobile-search button {

@@ -51,13 +51,16 @@
         <button type="submit">Buscar</button>
       </div>
     </form>
+    <button class="catalog-mobile-apply" type="submit" form="catalogFilterForm">
+      Aplicar filtros
+    </button>
     <button
       class="catalog-filter-toggle"
       type="button"
       aria-expanded="false"
       aria-controls="catalogFilter"
       data-catalog-filter-toggle>
-      <span>Aplicar filtros</span>
+      <span>Filtros</span>
       <% if (filtrosActivos) { %><strong><%= filtrosActivos %></strong><% } %>
     </button>
 
@@ -78,7 +81,7 @@
 </section>
 
 <script src="/js/catalog-load-more.js"></script>
-<script src="/js/catalog-mobile-filter.js"></script>
+<script src="/js/catalog-mobile-filter.js?v=20260816-2"></script>
 <script src="/js/catalog-filter-options.js?v=20260816-2"></script>
 <script src="/js/product-card-images.js?v=20260816-2"></script>
 
