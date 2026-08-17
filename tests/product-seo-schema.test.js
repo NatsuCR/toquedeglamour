@@ -58,3 +58,17 @@ test('muestra únicamente nombre, comentario y estrellas en cada reseña', async
   assert.match(html, /4 de 5 estrellas/);
   assert.doesNotMatch(html, /Fuente:|fuente oficial|2\/7\/2026|10\/8\/2026/i);
 });
+
+test('ofrece cargar todos cuando existen más de cinco comentarios', async () => {
+  const producto = productData();
+  producto.resenas = Array.from({ length: 6 }, (_, index) => ({
+    nombre: `Cliente ${index + 1}`, comentario: `Comentario ${index + 1}`,
+    calificacion: 5, creadaPorAdmin: false, creadoEn: new Date('2026-08-10')
+  }));
+  const html = await ejs.renderFile(
+    path.resolve('src/views/client/producto-parts/reviews.ejs'),
+    { producto, user: null, reviewSuccess: false, reviewError: null }
+  );
+  assert.equal((html.match(/data-review-card/g) || []).length, 6);
+  assert.match(html, /Cargar todos los comentarios/);
+});

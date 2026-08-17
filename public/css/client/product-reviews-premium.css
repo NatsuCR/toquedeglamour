@@ -48,6 +48,10 @@
 .review-rating small { color: var(--text-muted); font-weight: 900; }
 .review-comment-label { display: block; margin-top: .38rem; color: var(--primary-strong); font-size: .82rem; font-weight: 900; }
 .review-copy { margin: .08rem 0 0; color: var(--text-main); line-height: 1.45; }
+.review-load-all { width: min(100%, 420px); display: block; margin: 1rem auto 0; border: 1px solid color-mix(in srgb, var(--primary) 42%, var(--line)); border-radius: 99px; padding: .75rem 1rem; color: #fff; background: linear-gradient(135deg, var(--primary), var(--primary-strong)); font-weight: 900; cursor: pointer; box-shadow: 0 10px 24px color-mix(in srgb, var(--primary) 20%, transparent); }
+.review-load-all:hover { transform: translateY(-1px); box-shadow: 0 14px 28px color-mix(in srgb, var(--primary) 26%, transparent); }
+.review-load-all:focus-visible { outline: 3px solid color-mix(in srgb, var(--secondary) 45%, transparent); outline-offset: 3px; }
+.review-load-all[hidden] { display: none; }
 .review-empty { display: grid; justify-items: center; border: 1px dashed color-mix(in srgb, var(--secondary) 52%, var(--line)); border-radius: 16px; padding: 1.5rem; text-align: center; background: color-mix(in srgb, var(--secondary) 6%, var(--surface-strong)); }
 .review-empty > span { color: var(--secondary); font-size: 1.65rem; }
 .review-empty strong { margin-top: .25rem; color: var(--primary-strong); }

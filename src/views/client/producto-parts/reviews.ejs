@@ -36,8 +36,8 @@
       <a href="/login">Inici&aacute; sesi&oacute;n</a></div>
   <% } %>
 
-  <div class="review-list">
-    <% reviews.forEach((review) => { const initials = review.nombre.split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase(); %><article>
+  <div class="review-list" data-review-list>
+    <% reviews.forEach((review) => { const initials = review.nombre.split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase(); %><article data-review-card>
       <div class="review-author"><span class="review-avatar" aria-hidden="true"><%= initials %></span>
         <div class="review-author-copy"><strong><%= review.nombre %></strong>
           <span class="review-comment-label">Comentario:</span>
@@ -50,4 +50,6 @@
     </article><% }) %>
     <% if (!reviews.length) { %><div class="review-empty"><span aria-hidden="true">✦</span><strong>A&uacute;n no hay rese&ntilde;as</strong><p>S&eacute; la primera persona en compartir una experiencia con este producto.</p></div><% } %>
   </div>
+  <% if (reviews.length > 5) { %><button class="review-load-all" type="button"
+    data-review-load-all aria-expanded="false" hidden>Cargar todos los comentarios</button><% } %>
 </section>
