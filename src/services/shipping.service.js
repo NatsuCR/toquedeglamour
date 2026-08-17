@@ -1,3 +1,5 @@
+import { formatMoneyCRC } from '../utils/money.js';
+
 export const BASE_SHIPPING_COST = 3000;
 export const BASE_WEIGHT_LIMIT_GRAMS = 2000;
 export const EXTRA_KG_COST = 1000;
@@ -46,6 +48,7 @@ export function shippingWithPromotions(weight, subtotal, settings) {
     costoOriginal: original,
     costoEnvio: free ? 0 : original,
     gratis: free,
-    motivoGratis: thresholdFree ? 'Compra mayor a ₡35.000' : null
+    motivoGratis: thresholdFree
+      ? `Compra mayor a ${formatMoneyCRC(settings.envioGratisDesde)}` : null
   };
 }

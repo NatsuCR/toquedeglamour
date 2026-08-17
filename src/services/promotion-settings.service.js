@@ -1,4 +1,5 @@
 import prisma from '../config/db.js';
+import { FREE_SHIPPING_THRESHOLD } from '../config/promotion-policy.constants.js';
 
 const KEYS = {
   bienvenidaActiva: 'promocion_bienvenida_activa',
@@ -9,7 +10,7 @@ const DEFAULTS = {
   bienvenidaActiva: true,
   envioGratisActivo: true,
   bienvenidaPorcentaje: 5,
-  envioGratisDesde: 35000
+  envioGratisDesde: FREE_SHIPPING_THRESHOLD
 };
 
 const enabled = (value) => value === undefined || ['true', '1', 'on'].includes(String(value));

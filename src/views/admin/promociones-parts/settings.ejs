@@ -3,6 +3,6 @@
   <label class="check-row"><input type="checkbox" name="bienvenidaActiva" <%= promotions.bienvenidaActiva ? 'checked' : '' %>>
     <span>Bienvenida: 5% en un producto</span></label>
   <label class="check-row"><input type="checkbox" name="envioGratisActivo" <%= promotions.envioGratisActivo ? 'checked' : '' %>>
-    <span>Envío gratis en subtotales mayores a ₡35.000</span></label>
+    <span>Envío gratis en subtotales mayores a <%= formatMoney(promotions.envioGratisDesde) %></span></label>
   <button class="btn" type="submit">Guardar promociones</button>
 </form>

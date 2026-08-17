@@ -5,8 +5,8 @@
     <p>Al registrarse, el cliente recibe 5% de descuento en un producto de venta directa a elección. Se usa una única vez por cuenta y queda consumido al confirmar el primer pedido que lo aplica; no vuelve a habilitarse en compras posteriores. No aplica a productos o servicios por consulta.</p>
   <% } %>
   <% if (promotions?.envioGratisActivo) { %>
-    <h3>Envío gratis desde ₡35.000</h3>
-    <p>Los pedidos a domicilio cuyo subtotal con descuentos sea mayor a ₡35.000 no pagan envío.</p>
+    <h3>Envío gratis desde <%= formatMoney(promotions.envioGratisDesde) %></h3>
+    <p>Los pedidos a domicilio cuyo subtotal con descuentos sea mayor a <%= formatMoney(promotions.envioGratisDesde) %> no pagan envío.</p>
   <% } %>
   <% if (!promotions?.bienvenidaActiva && !promotions?.envioGratisActivo) { %>
     <p>No hay promociones generales activas en este momento.</p>

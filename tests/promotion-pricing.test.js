@@ -3,10 +3,11 @@ import assert from 'node:assert/strict';
 import { calculatePromotions } from '../src/services/promotion-pricing.service.js';
 import { calculateShipping, shippingWithPromotions } from '../src/services/shipping.service.js';
 import { includedTax } from '../src/services/tax.service.js';
+import { FREE_SHIPPING_THRESHOLD } from '../src/config/promotion-policy.constants.js';
 
 const settings = {
   bienvenidaActiva: true, bienvenidaPorcentaje: 5,
-  envioGratisActivo: true, envioGratisDesde: 35000
+  envioGratisActivo: true, envioGratisDesde: FREE_SHIPPING_THRESHOLD
 };
 
 const product = (id, price, promotion = 0) => ({
@@ -39,8 +40,10 @@ test('bienvenida se usa en el producto elegido y desaparece si ya fue usada', ()
 test('envío base es 3000 y se vuelve gratis al superar el umbral', () => {
   assert.equal(calculateShipping(2000), 3000);
   assert.equal(calculateShipping(2001), 4000);
-  assert.equal(shippingWithPromotions(1000, 35000, settings).costoEnvio, 3000);
-  assert.equal(shippingWithPromotions(1000, 35005, settings).costoEnvio, 0);
+  assert.equal(shippingWithPromotions(1000, 40000, settings).costoEnvio, 3000);
+  assert.equal(shippingWithPromotions(1000, 40001, settings).costoEnvio, 0);
+  assert.equal(shippingWithPromotions(1000, 40001, settings).motivoGratis,
+    'Compra mayor a ₡40 000');
 });
 
 test('IVA incluido no aumenta el precio final', () => {
