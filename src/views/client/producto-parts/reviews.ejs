@@ -39,11 +39,12 @@
   <div class="review-list">
     <% reviews.forEach((review) => { const initials = review.nombre.split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase(); %><article>
       <div class="review-author"><span class="review-avatar" aria-hidden="true"><%= initials %></span>
-        <div><strong><%= review.nombre %></strong></div>
+        <div class="review-author-copy"><strong><%= review.nombre %></strong>
+          <span class="review-comment-label">Comentario:</span>
+          <p class="review-copy">“<%= review.comentario %>”</p>
+        </div>
         <span class="review-rating"><span class="review-stars" aria-label="<%= review.calificacion %> de 5 estrellas"><%= '★'.repeat(review.calificacion) %><%= '☆'.repeat(5-review.calificacion) %></span><small><%= review.calificacion %>.0</small></span>
       </div>
-      <strong class="review-comment-label">Comentario:</strong>
-      <p class="review-copy">“<%= review.comentario %>”</p>
       <% if (review.respuestaAdmin) { %><div class="review-admin-response"><span aria-hidden="true">A</span>
         <div><strong>Respuesta de Admin</strong><p><%= review.respuestaAdmin %></p></div></div><% } %>
     </article><% }) %>
