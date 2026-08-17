@@ -6,6 +6,7 @@ import ejs from 'ejs';
 const product = {
   id: 9,
   nombre: 'Producto de prueba',
+  marca: 'Nutriplus',
   categoriaId: 2,
   subcategoriaId: 5,
   categoria: { nombre: 'Cosméticos' },
@@ -31,8 +32,18 @@ test('separa comentarios por cliente y administrador con contexto del producto',
   assert.match(html, /Cosméticos/);
   assert.match(html, /Labios/);
   assert.match(html, /PRD-0009/);
-  assert.match(html, /Fuente oficial: Nutriplus/);
-  assert.match(html, /name="fuenteUrl"/);
+  assert.match(html, /Creado en admin/);
+  assert.doesNotMatch(html, /name="fuenteUrl"/);
+});
+
+test('el formulario admin no solicita procedencia de comentarios', async () => {
+  const html = await ejs.renderFile(
+    path.resolve('src/views/admin/promociones-parts/review-create.ejs'),
+    { products: [product] }
+  );
+  assert.match(html, /Comentar producto/);
+  assert.doesNotMatch(html, /Procedencia del comentario/);
+  assert.doesNotMatch(html, /fuenteOficial|fuenteUrl|fechaOriginal/);
 });
 
 test('organiza preguntas por categoría, subcategoría y producto', async () => {

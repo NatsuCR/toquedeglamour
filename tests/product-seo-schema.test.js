@@ -16,8 +16,7 @@ function productData() {
       { nombre: 'Cliente Local', comentario: 'Muy buen producto', calificacion: 5,
         creadaPorAdmin: false, creadoEn: new Date('2026-08-10') },
       { nombre: 'María', comentario: 'Me gustó mucho', calificacion: 4,
-        creadaPorAdmin: true, fuenteOficial: true, fuenteNombre: 'Nutriplus',
-        fuenteUrl: 'https://example.com/nutriplus', fechaOriginal: new Date('2026-07-02') }
+        creadaPorAdmin: true, creadoEn: new Date('2026-07-02') }
     ]
   };
 }
@@ -30,19 +29,32 @@ async function renderSchema(producto = productData()) {
   return JSON.parse(html.match(/<script[^>]*>(.*)<\/script>/s)[1]);
 }
 
-test('publica FAQ y reseñas con fuente oficial en JSON-LD', async () => {
+test('publica FAQ y reseñas en JSON-LD', async () => {
   const schema = await renderSchema();
   const product = schema['@graph'].find((item) => item['@type'] === 'Product');
   const faq = schema['@graph'].find((item) => item['@type'] === 'FAQPage');
   assert.equal(faq.mainEntity[0].acceptedAnswer.text, 'Una vez al día.');
   assert.equal(product.review.length, 2);
-  assert.equal(product.review[1].publisher.name, 'Nutriplus');
-  assert.equal(product.review[1].url, 'https://example.com/nutriplus');
+  assert.equal(product.review[1].author.name, 'María');
+  assert.equal(product.review[1].publisher, undefined);
+  assert.equal(product.review[1].datePublished, undefined);
 });
 
-test('calcula AggregateRating únicamente con clientes locales', async () => {
+test('calcula AggregateRating con los comentarios visibles', async () => {
   const schema = await renderSchema();
   const product = schema['@graph'].find((item) => item['@type'] === 'Product');
-  assert.equal(product.aggregateRating.ratingValue, 5);
-  assert.equal(product.aggregateRating.reviewCount, 1);
+  assert.equal(product.aggregateRating.ratingValue, 4.5);
+  assert.equal(product.aggregateRating.reviewCount, 2);
+});
+
+test('muestra únicamente nombre, comentario y estrellas en cada reseña', async () => {
+  const html = await ejs.renderFile(
+    path.resolve('src/views/client/producto-parts/reviews.ejs'),
+    { producto: productData(), user: null, reviewSuccess: false, reviewError: null }
+  );
+  assert.match(html, /María/);
+  assert.match(html, /Comentario:/);
+  assert.match(html, /Me gustó mucho/);
+  assert.match(html, /4 de 5 estrellas/);
+  assert.doesNotMatch(html, /Fuente:|fuente oficial|2\/7\/2026|10\/8\/2026/i);
 });

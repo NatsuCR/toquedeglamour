@@ -1,6 +1,6 @@
 import prisma from '../config/db.js';
 import {
-  feedbackId, feedbackRating, feedbackText, officialReviewSource, validComment, validFaq
+  feedbackId, feedbackRating, feedbackText, validComment, validFaq
 } from './product-feedback.validation.js';
 
 export class ProductFeedbackService {
@@ -23,12 +23,10 @@ export class ProductFeedbackService {
     const nombre = feedbackText(data.nombre);
     const comentario = validComment(data.comentario);
     if (nombre.length < 2) throw new Error('Escribe el nombre que se mostrará.');
-    const source = officialReviewSource(data);
     return prisma.resenaProducto.create({
       data: {
         productoId: feedbackId(data.productoId), nombre, comentario,
-        calificacion: feedbackRating(data.calificacion), creadaPorAdmin: true,
-        ...source
+        calificacion: feedbackRating(data.calificacion), creadaPorAdmin: true
       }
     });
   }

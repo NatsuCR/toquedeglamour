@@ -20,7 +20,6 @@
 .feedback-edit-form { display: grid; grid-template-columns: minmax(0, 1fr) 150px; gap: .65rem; }
 .feedback-edit-form label, .feedback-reply-form label { display: grid; gap: .3rem; color: var(--text-muted); font-size: .78rem; font-weight: 850; }
 .feedback-edit-form .field-wide { grid-column: 1 / -1; }
-.feedback-edit-form .review-source-fields { grid-column: 1 / -1; }
 .feedback-edit-form input, .feedback-edit-form select, .feedback-edit-form textarea, .feedback-reply-form textarea { width: 100%; border: 1px solid var(--glass-border); border-radius: 10px; padding: .65rem; color: var(--text-light); background: var(--surface-soft); }
 .feedback-edit-form input[readonly] { opacity: .72; cursor: not-allowed; }
 .feedback-edit-form .btn { grid-column: 1 / -1; }

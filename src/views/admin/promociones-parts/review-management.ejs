@@ -27,8 +27,8 @@
         data-search-value="<%= `${context} ${review.nombre} ${review.comentario}` %>">
         <header><div><%- include('product-context', { product: review.product }) %>
           <strong><%= review.nombre %></strong></div>
-          <span class="feedback-origin is-<%= review.fuenteOficial ? 'official' : (review.creadaPorAdmin ? 'admin' : 'client') %>"><%=
-            review.fuenteOficial ? `Fuente oficial: ${review.fuenteNombre}` : (review.creadaPorAdmin ? 'Editorial del sitio' : 'Cliente')
+          <span class="feedback-origin is-<%= review.creadaPorAdmin ? 'admin' : 'client' %>"><%=
+            review.creadaPorAdmin ? 'Creado en admin' : 'Cliente'
           %></span></header>
 
         <form class="feedback-edit-form" method="POST"
@@ -39,7 +39,6 @@
             <% [5,4,3,2,1].forEach((star) => { %><option value="<%= star %>" <%= star === review.calificacion ? 'selected' : '' %>><%= star %> estrellas</option><% }) %>
           </select></label>
           <label class="field-wide">Comentario<textarea name="comentario" rows="3" maxlength="1500" required><%= review.comentario %></textarea></label>
-          <% if (review.creadaPorAdmin) { %><%- include('review-source-fields', { review }) %><% } %>
           <button class="btn" type="submit">Guardar cambios</button>
         </form>
 

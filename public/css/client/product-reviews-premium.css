@@ -46,13 +46,8 @@
 .review-author time { margin-top: .15rem; }
 .review-rating { display: grid; justify-items: end; border-radius: 12px; padding: .4rem .55rem; background: color-mix(in srgb, var(--secondary) 10%, var(--surface-strong)); }
 .review-rating small { color: var(--text-muted); font-weight: 900; }
-.review-copy { margin: .85rem 0 0 3.4rem; color: var(--text-main); line-height: 1.55; }
-.review-list article.is-official-review { border-color: color-mix(in srgb, var(--secondary) 48%, var(--line)); box-shadow: inset 3px 0 color-mix(in srgb, var(--secondary) 72%, transparent), 0 10px 26px rgba(84,23,45,.06); }
-.review-source { display: flex !important; flex-wrap: wrap; justify-content: flex-start !important; gap: .45rem !important; margin: .75rem 0 0 3.4rem; }
-.review-source span, .review-source a, .review-source strong { border-radius: 99px; padding: .3rem .55rem; font-size: .72rem; font-weight: 900; }
-.review-source span { color: #3b2708; background: linear-gradient(135deg, #f0c875, #fff0bd); }
-.review-source a, .review-source strong { color: var(--primary-strong); background: var(--surface-soft); }
-.review-source a { text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.review-comment-label { display: block; margin: .85rem 0 0 3.4rem; color: var(--primary-strong); font-size: .82rem; }
+.review-copy { margin: .18rem 0 0 3.4rem; color: var(--text-main); line-height: 1.55; }
 .review-empty { display: grid; justify-items: center; border: 1px dashed color-mix(in srgb, var(--secondary) 52%, var(--line)); border-radius: 16px; padding: 1.5rem; text-align: center; background: color-mix(in srgb, var(--secondary) 6%, var(--surface-strong)); }
 .review-empty > span { color: var(--secondary); font-size: 1.65rem; }
 .review-empty strong { margin-top: .25rem; color: var(--primary-strong); }
@@ -71,6 +66,6 @@
   .review-login a { grid-column: 1 / -1; text-align: center; }
   .review-author { grid-template-columns: auto minmax(0, 1fr) !important; }
   .review-rating { grid-column: 1 / -1; width: 100%; display: flex; justify-content: space-between; }
+  .review-comment-label { margin-left: 0; }
   .review-copy { margin-left: 0; }
-  .review-source { margin-left: 0; }
 }

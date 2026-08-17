@@ -16,33 +16,23 @@
     brand: producto.marca ? { '@type': 'Brand', name: producto.marca } : undefined
   };
   const reviews = producto.resenas || [];
-  const clientReviews = reviews.filter((review) => !review.creadaPorAdmin);
   const structuredReviews = reviews.map((review) => {
-    const published = review.fechaOriginal || review.creadoEn;
-    const item = {
+    return {
       '@type': 'Review',
       reviewBody: review.comentario,
       reviewRating: {
         '@type': 'Rating', ratingValue: review.calificacion, bestRating: 5, worstRating: 1
       },
-      author: review.creadaPorAdmin && !review.fuenteOficial
-        ? { '@type': 'Organization', name: 'Toque de Glamour' }
-        : { '@type': 'Person', name: review.nombre },
-      datePublished: published ? new Date(published).toISOString().slice(0, 10) : undefined
+      author: { '@type': 'Person', name: review.nombre }
     };
-    if (review.fuenteOficial) {
-      item.publisher = { '@type': 'Organization', name: review.fuenteNombre };
-      item.url = review.fuenteUrl || undefined;
-    }
-    return item;
   });
   if (structuredReviews.length) product.review = structuredReviews;
-  if (clientReviews.length) {
-    const rating = clientReviews.reduce((sum, review) => sum + review.calificacion, 0)
-      / clientReviews.length;
+  if (reviews.length) {
+    const rating = reviews.reduce((sum, review) => sum + review.calificacion, 0)
+      / reviews.length;
     product.aggregateRating = {
       '@type': 'AggregateRating', ratingValue: Number(rating.toFixed(2)),
-      reviewCount: clientReviews.length, bestRating: 5, worstRating: 1
+      reviewCount: reviews.length, bestRating: 5, worstRating: 1
     };
   }
   if (producto.tipoVenta === 'DIRECTA') {
