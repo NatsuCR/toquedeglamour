@@ -1,7 +1,9 @@
 <%
   const reviews = producto.resenas || [];
-  const average = reviews.length
-    ? reviews.reduce((sum, review) => sum + review.calificacion, 0) / reviews.length : 0;
+  const clientReviews = reviews.filter((review) => !review.creadaPorAdmin);
+  const officialReviews = reviews.filter((review) => review.fuenteOficial);
+  const average = clientReviews.length
+    ? clientReviews.reduce((sum, review) => sum + review.calificacion, 0) / clientReviews.length : 0;
 %>
 <section class="product-social-section product-reviews" id="comentarios" aria-labelledby="reviews-title">
   <header class="reviews-hero">
@@ -9,10 +11,10 @@
       <h2 id="reviews-title">Comentarios y reseñas</h2>
       <p>Opiniones compartidas por nuestra comunidad.</p>
     </div>
-    <div class="reviews-score" aria-label="Calificación promedio">
+    <div class="reviews-score" aria-label="Calificación promedio de clientes de Toque de Glamour">
       <strong><%= average ? average.toFixed(1) : '—' %></strong>
       <span class="review-stars" aria-label="Promedio <%= average.toFixed(1) %> de 5"><%= '★'.repeat(Math.round(average)) %><%= '☆'.repeat(5 - Math.round(average)) %></span>
-      <small><%= reviews.length %> comentario<%= reviews.length === 1 ? '' : 's' %></small>
+      <small><%= clientReviews.length %> de clientes<%= officialReviews.length ? ` · ${officialReviews.length} oficiales` : '' %></small>
     </div>
   </header>
 
@@ -37,11 +39,16 @@
   <% } %>
 
   <div class="review-list">
-    <% reviews.forEach((review) => { const initials = review.nombre.split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase(); %><article>
+    <% reviews.forEach((review) => { const initials = review.nombre.split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase(); const published = review.fechaOriginal || review.creadoEn; %><article class="<%= review.fuenteOficial ? 'is-official-review' : '' %>">
       <div class="review-author"><span class="review-avatar" aria-hidden="true"><%= initials %></span>
-        <div><strong><%= review.nombre %></strong><time><%= new Intl.DateTimeFormat('es-CR').format(review.creadoEn) %></time></div>
+        <div><strong><%= review.nombre %></strong><time datetime="<%= new Date(published).toISOString() %>"><%= new Intl.DateTimeFormat('es-CR').format(published) %></time></div>
         <span class="review-rating"><span class="review-stars" aria-label="<%= review.calificacion %> de 5 estrellas"><%= '★'.repeat(review.calificacion) %><%= '☆'.repeat(5-review.calificacion) %></span><small><%= review.calificacion %>.0</small></span>
       </div>
+      <% if (review.fuenteOficial) { %><div class="review-source">
+        <span>Reseña de fuente oficial</span>
+        <% if (review.fuenteUrl) { %><a href="<%= review.fuenteUrl %>" target="_blank" rel="noopener noreferrer nofollow">Fuente: <%= review.fuenteNombre %></a>
+        <% } else { %><strong>Fuente: <%= review.fuenteNombre %></strong><% } %>
+      </div><% } %>
       <p class="review-copy">“<%= review.comentario %>”</p>
       <% if (review.respuestaAdmin) { %><div class="review-admin-response"><span aria-hidden="true">A</span>
         <div><strong>Respuesta de Admin</strong><p><%= review.respuestaAdmin %></p></div></div><% } %>

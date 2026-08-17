@@ -15,6 +15,36 @@
     category,
     brand: producto.marca ? { '@type': 'Brand', name: producto.marca } : undefined
   };
+  const reviews = producto.resenas || [];
+  const clientReviews = reviews.filter((review) => !review.creadaPorAdmin);
+  const structuredReviews = reviews.map((review) => {
+    const published = review.fechaOriginal || review.creadoEn;
+    const item = {
+      '@type': 'Review',
+      reviewBody: review.comentario,
+      reviewRating: {
+        '@type': 'Rating', ratingValue: review.calificacion, bestRating: 5, worstRating: 1
+      },
+      author: review.creadaPorAdmin && !review.fuenteOficial
+        ? { '@type': 'Organization', name: 'Toque de Glamour' }
+        : { '@type': 'Person', name: review.nombre },
+      datePublished: published ? new Date(published).toISOString().slice(0, 10) : undefined
+    };
+    if (review.fuenteOficial) {
+      item.publisher = { '@type': 'Organization', name: review.fuenteNombre };
+      item.url = review.fuenteUrl || undefined;
+    }
+    return item;
+  });
+  if (structuredReviews.length) product.review = structuredReviews;
+  if (clientReviews.length) {
+    const rating = clientReviews.reduce((sum, review) => sum + review.calificacion, 0)
+      / clientReviews.length;
+    product.aggregateRating = {
+      '@type': 'AggregateRating', ratingValue: Number(rating.toFixed(2)),
+      reviewCount: clientReviews.length, bestRating: 5, worstRating: 1
+    };
+  }
   if (producto.tipoVenta === 'DIRECTA') {
     product.offers = {
       '@type': 'Offer',
@@ -37,9 +67,18 @@
   ].filter(Boolean).map(([name, item], index) => ({
     '@type': 'ListItem', position: index + 1, name, item
   }));
+  const graph = [product, { '@type': 'BreadcrumbList', itemListElement: crumbs }];
+  const faqs = producto.preguntasFrecuentes || [];
+  if (faqs.length) graph.push({
+    '@type': 'FAQPage', '@id': `${canonicalUrl}#faq`,
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question', name: faq.pregunta,
+      acceptedAnswer: { '@type': 'Answer', text: faq.respuesta }
+    }))
+  });
   const schema = {
     '@context': 'https://schema.org',
-    '@graph': [product, { '@type': 'BreadcrumbList', itemListElement: crumbs }]
+    '@graph': graph
   };
 %>
 <script type="application/ld+json"><%- JSON.stringify(schema).replace(/</g, '\\u003c') %></script>

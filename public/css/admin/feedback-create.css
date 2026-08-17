@@ -7,3 +7,10 @@
 .feedback-create-card select.has-feedback { border-color: var(--success) !important; background: color-mix(in srgb, var(--success) 11%, var(--surface)) !important; box-shadow: 0 0 0 3px color-mix(in srgb, var(--success) 12%, transparent); }
 .feedback-create-card [data-product-search-status] { color: var(--secondary); font-weight: 850; }
 [data-theme="dark"] .feedback-create-card option.has-feedback { color: #10261a; background: #90d5a9; }
+.review-source-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; border: 1px solid color-mix(in srgb, var(--secondary) 38%, var(--glass-border)); border-radius: 14px; padding: .85rem; background: color-mix(in srgb, var(--secondary) 6%, var(--surface)); }
+.review-source-fields legend { padding: 0 .35rem; color: var(--primary-strong); font-weight: 900; }
+.review-source-fields .field-wide { grid-column: 1 / -1; }
+.review-source-fields small { color: var(--text-muted); line-height: 1.4; }
+.review-source-fields .check-row { display: flex; flex-direction: row; align-items: center; gap: .55rem; }
+.review-source-fields .check-row input { width: 1.1rem; height: 1.1rem; flex: 0 0 auto; }
+@media (max-width: 620px) { .review-source-fields { grid-template-columns: 1fr; } .review-source-fields .field-wide { grid-column: auto; } }

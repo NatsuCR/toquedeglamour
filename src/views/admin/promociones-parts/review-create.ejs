@@ -18,5 +18,6 @@
     <% [5,4,3,2,1].forEach((star) => { %><option value="<%= star %>"><%= star %> estrellas</option><% }) %>
   </select></label>
   <label>Comentario<textarea name="comentario" maxlength="1500" rows="5" required></textarea></label>
+  <%- include('review-source-fields') %>
   <button class="btn" type="submit">Comentar producto</button>
 </form>

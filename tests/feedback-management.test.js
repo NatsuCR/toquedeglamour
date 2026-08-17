@@ -12,7 +12,9 @@ const product = {
   subcategoria: { nombre: 'Labios' },
   resenas: [
     { id: 1, nombre: 'Cliente', comentario: 'Excelente producto', calificacion: 5, creadaPorAdmin: false },
-    { id: 2, nombre: 'Inicial', comentario: 'Reseña inicial', calificacion: 4, creadaPorAdmin: true }
+    { id: 2, nombre: 'Ana', comentario: 'Reseña inicial', calificacion: 4,
+      creadaPorAdmin: true, fuenteOficial: true, fuenteNombre: 'Nutriplus',
+      fuenteUrl: 'https://example.com/producto', fechaOriginal: new Date('2026-08-01') }
   ],
   preguntasFrecuentes: [
     { id: 3, pregunta: '¿Cómo se usa?', respuesta: 'Se utiliza diariamente.' }
@@ -29,6 +31,8 @@ test('separa comentarios por cliente y administrador con contexto del producto',
   assert.match(html, /Cosméticos/);
   assert.match(html, /Labios/);
   assert.match(html, /PRD-0009/);
+  assert.match(html, /Fuente oficial: Nutriplus/);
+  assert.match(html, /name="fuenteUrl"/);
 });
 
 test('organiza preguntas por categoría, subcategoría y producto', async () => {

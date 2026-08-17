@@ -1,0 +1,25 @@
+<%
+  const item = typeof review === 'undefined' ? null : review;
+  const official = Boolean(item?.fuenteOficial);
+  const originalDate = item?.fechaOriginal
+    ? new Date(item.fechaOriginal).toISOString().slice(0, 10) : '';
+%>
+<fieldset class="review-source-fields">
+  <legend>Procedencia del comentario</legend>
+  <label class="check-row field-wide">
+    <input type="checkbox" name="fuenteOficial" <%= official ? 'checked' : '' %>>
+    <span>Reseña importada de una página oficial</span>
+  </label>
+  <label>Fuente oficial
+    <input name="fuenteNombre" maxlength="100" value="<%= item?.fuenteNombre || (item ? '' : 'Nutriplus') %>"
+      placeholder="Ej. Nutriplus">
+  </label>
+  <label>Fecha original
+    <input type="date" name="fechaOriginal" value="<%= originalDate %>">
+  </label>
+  <label class="field-wide">Enlace de origen (opcional)
+    <input type="url" name="fuenteUrl" maxlength="500" value="<%= item?.fuenteUrl || '' %>"
+      placeholder="https://sitio-oficial.com/producto/...">
+  </label>
+  <small class="field-wide">Marcala solo cuando copiés fielmente una reseña real de la fuente indicada.</small>
+</fieldset>

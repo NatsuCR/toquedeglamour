@@ -1,6 +1,6 @@
 import prisma from '../config/db.js';
 import {
-  feedbackId, feedbackRating, feedbackText, validComment, validFaq
+  feedbackId, feedbackRating, feedbackText, officialReviewSource, validComment, validFaq
 } from './product-feedback.validation.js';
 
 export class ProductFeedbackAdminService {
@@ -10,12 +10,14 @@ export class ProductFeedbackAdminService {
     if (!review) throw new Error('Comentario no encontrado.');
     const nombre = review.creadaPorAdmin ? feedbackText(data.nombre) : review.nombre;
     if (review.creadaPorAdmin && nombre.length < 2) throw new Error('Escribe el nombre visible.');
+    const source = review.creadaPorAdmin ? officialReviewSource(data) : {};
     return prisma.resenaProducto.update({
       where: { id },
       data: {
         nombre,
         comentario: validComment(data.comentario),
-        calificacion: feedbackRating(data.calificacion)
+        calificacion: feedbackRating(data.calificacion),
+        ...source
       }
     });
   }

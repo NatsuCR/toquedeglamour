@@ -230,6 +230,10 @@ model ResenaProducto {
   comentario     String   @db.Text
   calificacion   Int
   creadaPorAdmin Boolean  @default(false) @map("creada_por_admin")
+  fuenteOficial  Boolean  @default(false) @map("fuente_oficial")
+  fuenteNombre   String?  @map("fuente_nombre")
+  fuenteUrl      String?  @map("fuente_url") @db.VarChar(500)
+  fechaOriginal  DateTime? @map("fecha_original")
   respuestaAdmin String?  @map("respuesta_admin") @db.Text
   respondidaEn   DateTime? @map("respondida_en")
   creadoEn       DateTime @default(now()) @map("creado_en")
